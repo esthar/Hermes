@@ -1,0 +1,2844 @@
+
+Hermes.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000154  00800100  00000f58  00000fec  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00000f58  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          000000ca  00800254  00800254  00001140  2**0
+                  ALLOC
+  3 .stab         00002448  00000000  00000000  00001140  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000932  00000000  00000000  00003588  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      0000002f  00000000  00000000  00003eba  2**0
+                  CONTENTS, READONLY
+  6 .debug_aranges 00000108  00000000  00000000  00003ee9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_info   0000114a  00000000  00000000  00003ff1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_abbrev 000005cf  00000000  00000000  0000513b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_line   00000788  00000000  00000000  0000570a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_frame  00000314  00000000  00000000  00005e94  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_str    000002e8  00000000  00000000  000061a8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_loc    000011de  00000000  00000000  00006490  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_ranges 00000220  00000000  00000000  0000766e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+	USARTWriteChar(0x0d);
+
+}
+
+void RadioSetPower(char p)		// Change power (0-4 where 4 corresponds to 1W)
+{		
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+		
+	USARTPrint("+++");				// Enter command mode
+   4:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   8:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+	USARTPrint("ATPL");				// Sends PL command
+   c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  10:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+	USARTWriteChar(p+48);		//Sends ASCII number parameter
+  14:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  18:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+	USARTWriteChar(0x0d);		// Return
+  1c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  20:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+	USARTPrint("ATWR");				// Write to non-volatile memory
+  24:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+	USARTWriteChar(0x0d);		// Return
+  2c:	0c 94 53 00 	jmp	0xa6	; 0xa6 <__vector_11>
+	USARTPrint("ATCN");				// Exit command mode
+  30:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  34:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+	USARTWriteChar(0x0d);		// Return
+  38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+}
+  40:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  48:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  4c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  54:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  5c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  60:	0c 94 79 04 	jmp	0x8f2	; 0x8f2 <__vector_24>
+  64:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_copy_data>:
+  74:	12 e0       	ldi	r17, 0x02	; 2
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	e8 e5       	ldi	r30, 0x58	; 88
+  7c:	ff e0       	ldi	r31, 0x0F	; 15
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	a4 35       	cpi	r26, 0x54	; 84
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
+
+0000008a <__do_clear_bss>:
+  8a:	23 e0       	ldi	r18, 0x03	; 3
+  8c:	a4 e5       	ldi	r26, 0x54	; 84
+  8e:	b2 e0       	ldi	r27, 0x02	; 2
+  90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
+
+00000092 <.do_clear_bss_loop>:
+  92:	1d 92       	st	X+, r1
+
+00000094 <.do_clear_bss_start>:
+  94:	ae 31       	cpi	r26, 0x1E	; 30
+  96:	b2 07       	cpc	r27, r18
+  98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
+  9a:	0e 94 db 02 	call	0x5b6	; 0x5b6 <main>
+  9e:	0c 94 aa 07 	jmp	0xf54	; 0xf54 <_exit>
+
+000000a2 <__bad_interrupt>:
+  a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000a6 <__vector_11>:
+	
+	while (i<10)
+	{
+		digits[i] = number/tens;
+		number = number%tens;
+		tens /= 10;
+  a6:	1f 92       	push	r1
+		number *= -1;
+		str[j]='-';
+		j++;
+	}
+	
+	while (i<10)
+  a8:	0f 92       	push	r0
+  aa:	0f b6       	in	r0, 0x3f	; 63
+  ac:	0f 92       	push	r0
+		i++;
+	}
+
+	for (i=0;i<10;i++)
+	{
+		if (digits[i]!=0)
+  ae:	11 24       	eor	r1, r1
+  b0:	2f 93       	push	r18
+  b2:	3f 93       	push	r19
+  b4:	4f 93       	push	r20
+  b6:	5f 93       	push	r21
+		number = number%tens;
+		tens /= 10;
+		i++;
+	}
+
+	for (i=0;i<10;i++)
+  b8:	6f 93       	push	r22
+	{
+		if (digits[i]!=0)
+  ba:	7f 93       	push	r23
+  bc:	8f 93       	push	r24
+  be:	9f 93       	push	r25
+		number = number%tens;
+		tens /= 10;
+		i++;
+	}
+
+	for (i=0;i<10;i++)
+  c0:	af 93       	push	r26
+  c2:	bf 93       	push	r27
+  c4:	ef 93       	push	r30
+  c6:	ff 93       	push	r31
+		{
+			break;
+		}
+	}
+	
+	if (i!=10)
+  c8:	60 91 54 02 	lds	r22, 0x0254
+	{
+		for (;i<10;i++,j++)
+  cc:	70 91 55 02 	lds	r23, 0x0255
+  d0:	80 91 56 02 	lds	r24, 0x0256
+		i++;
+	}
+
+	for (i=0;i<10;i++)
+	{
+		if (digits[i]!=0)
+  d4:	90 91 57 02 	lds	r25, 0x0257
+	}
+	
+	return Hermes_State;
+}
+
+void numberToASCII(char *str, unsigned long number)	//Prints the value of a variable number into a a string of ASCII characters (My own version of the printf function)
+  d8:	2d ec       	ldi	r18, 0xCD	; 205
+  da:	3c ec       	ldi	r19, 0xCC	; 204
+  dc:	4c ec       	ldi	r20, 0xCC	; 204
+  de:	5d e3       	ldi	r21, 0x3D	; 61
+	
+	if (i!=10)
+	{
+		for (;i<10;i++,j++)
+		{
+			str[j] = digits[i] + '0';
+  e0:	0e 94 52 05 	call	0xaa4	; 0xaa4 <__addsf3>
+  e4:	46 2f       	mov	r20, r22
+  e6:	57 2f       	mov	r21, r23
+  e8:	68 2f       	mov	r22, r24
+  ea:	79 2f       	mov	r23, r25
+  ec:	40 93 54 02 	sts	0x0254, r20
+  f0:	50 93 55 02 	sts	0x0255, r21
+  f4:	60 93 56 02 	sts	0x0256, r22
+		}
+	}
+	
+	if (i!=10)
+	{
+		for (;i<10;i++,j++)
+  f8:	70 93 57 02 	sts	0x0257, r23
+  fc:	ff 91       	pop	r31
+	}
+	
+	return Hermes_State;
+}
+
+void numberToASCII(char *str, unsigned long number)	//Prints the value of a variable number into a a string of ASCII characters (My own version of the printf function)
+  fe:	ef 91       	pop	r30
+ 100:	bf 91       	pop	r27
+ 102:	af 91       	pop	r26
+ 104:	9f 91       	pop	r25
+ 106:	8f 91       	pop	r24
+ 108:	7f 91       	pop	r23
+ 10a:	6f 91       	pop	r22
+ 10c:	5f 91       	pop	r21
+			str[j] = digits[i] + '0';
+		}
+	}
+	else
+	{
+		str[j]='0';
+ 10e:	4f 91       	pop	r20
+ 110:	3f 91       	pop	r19
+ 112:	2f 91       	pop	r18
+ 114:	0f 90       	pop	r0
+ 116:	0f be       	out	0x3f, r0	; 63
+		str++;
+ 118:	0f 90       	pop	r0
+ 11a:	1f 90       	pop	r1
+ 11c:	18 95       	reti
+
+0000011e <ioInit>:
+	}
+	
+	str[j]=0;
+ 11e:	84 b1       	in	r24, 0x04	; 4
+ 120:	83 60       	ori	r24, 0x03	; 3
+ 122:	84 b9       	out	0x04, r24	; 4
+ 124:	8a b1       	in	r24, 0x0a	; 10
+	
+}
+ 126:	80 66       	ori	r24, 0x60	; 96
+ 128:	8a b9       	out	0x0a, r24	; 10
+ 12a:	28 9a       	sbi	0x05, 0	; 5
+ 12c:	08 95       	ret
+
+0000012e <analogInit>:
+ 12e:	ec e7       	ldi	r30, 0x7C	; 124
+ 130:	f0 e0       	ldi	r31, 0x00	; 0
+ 132:	80 81       	ld	r24, Z
+ 134:	80 64       	ori	r24, 0x40	; 64
+ 136:	80 83       	st	Z, r24
+ 138:	ea e7       	ldi	r30, 0x7A	; 122
+ 13a:	f0 e0       	ldi	r31, 0x00	; 0
+ 13c:	80 81       	ld	r24, Z
+ 13e:	87 60       	ori	r24, 0x07	; 7
+ 140:	80 83       	st	Z, r24
+ 142:	80 81       	ld	r24, Z
+ 144:	80 68       	ori	r24, 0x80	; 128
+ 146:	80 83       	st	Z, r24
+ 148:	80 81       	ld	r24, Z
+ 14a:	80 64       	ori	r24, 0x40	; 64
+ 14c:	80 83       	st	Z, r24
+ 14e:	08 95       	ret
+
+00000150 <timerInit>:
+ 150:	e1 e8       	ldi	r30, 0x81	; 129
+ 152:	f0 e0       	ldi	r31, 0x00	; 0
+ 154:	80 81       	ld	r24, Z
+	ADCSRA |= (1<<ADSC);				//Start a conversion to initialize the ADC	
+}
+
+void timerInit(void)
+{
+	TCCR1B |= 1<<WGM12;					//Set timer to overflow once it reaches OCR1A
+ 156:	88 60       	ori	r24, 0x08	; 8
+ 158:	80 83       	st	Z, r24
+	TCCR1B |= (1<<CS12) | (1<<CS10);	//Set clock to be prescaled to F_CPU/1024
+ 15a:	80 81       	ld	r24, Z
+ 15c:	85 60       	ori	r24, 0x05	; 5
+ 15e:	80 83       	st	Z, r24
+	OCR1AH = 1800>>8;					//Set top of the counter to 1800 (This gives as an overflow every tenth of a second)
+ 160:	87 e0       	ldi	r24, 0x07	; 7
+ 162:	80 93 89 00 	sts	0x0089, r24
+	OCR1AL = 1800 & 0xFF;
+ 166:	88 e0       	ldi	r24, 0x08	; 8
+ 168:	80 93 88 00 	sts	0x0088, r24
+	TIMSK1 |= 1<<OCIE1A;				//Enable the timer overflow interrupt
+ 16c:	ef e6       	ldi	r30, 0x6F	; 111
+ 16e:	f0 e0       	ldi	r31, 0x00	; 0
+ 170:	80 81       	ld	r24, Z
+ 172:	82 60       	ori	r24, 0x02	; 2
+ 174:	80 83       	st	Z, r24
+ 176:	08 95       	ret
+
+00000178 <battery_voltRead>:
+	char ADClow = 0;
+	char ADChigh = 0;
+	unsigned int result;
+	float voltage = 0;
+	
+	ADCSRA |= 1<<ADSC;		//Do a single conversion.
+ 178:	ea e7       	ldi	r30, 0x7A	; 122
+ 17a:	f0 e0       	ldi	r31, 0x00	; 0
+ 17c:	80 81       	ld	r24, Z
+ 17e:	80 64       	ori	r24, 0x40	; 64
+ 180:	80 83       	st	Z, r24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 182:	8c ec       	ldi	r24, 0xCC	; 204
+ 184:	91 e0       	ldi	r25, 0x01	; 1
+ 186:	01 97       	sbiw	r24, 0x01	; 1
+ 188:	f1 f7       	brne	.-4      	; 0x186 <battery_voltRead+0xe>
+ 18a:	00 c0       	rjmp	.+0      	; 0x18c <battery_voltRead+0x14>
+ 18c:	00 00       	nop
+	_delay_us(100);
+	
+	ADClow = ADCL;
+ 18e:	20 91 78 00 	lds	r18, 0x0078
+	ADChigh = ADCH;
+ 192:	30 91 79 00 	lds	r19, 0x0079
+	
+	result = (ADChigh<<8 | ADClow);
+ 196:	93 2f       	mov	r25, r19
+ 198:	80 e0       	ldi	r24, 0x00	; 0
+ 19a:	bc 01       	movw	r22, r24
+ 19c:	62 2b       	or	r22, r18
+	voltage = (float)result*(ADCREF/1023.0)*1.7046; //The last number is for the voltage divider. Let's hope that the temperature coeff for the resistors is indeed the same and their ratio stays the same!
+ 19e:	80 e0       	ldi	r24, 0x00	; 0
+ 1a0:	90 e0       	ldi	r25, 0x00	; 0
+ 1a2:	0e 94 53 06 	call	0xca6	; 0xca6 <__floatunsisf>
+ 1a6:	2a e0       	ldi	r18, 0x0A	; 10
+ 1a8:	30 e7       	ldi	r19, 0x70	; 112
+ 1aa:	41 ea       	ldi	r20, 0xA1	; 161
+ 1ac:	5b e3       	ldi	r21, 0x3B	; 59
+ 1ae:	0e 94 09 07 	call	0xe12	; 0xe12 <__mulsf3>
+ 1b2:	25 e5       	ldi	r18, 0x55	; 85
+ 1b4:	30 e3       	ldi	r19, 0x30	; 48
+ 1b6:	4a ed       	ldi	r20, 0xDA	; 218
+ 1b8:	5f e3       	ldi	r21, 0x3F	; 63
+ 1ba:	0e 94 09 07 	call	0xe12	; 0xe12 <__mulsf3>
+	
+	return voltage;
+}
+ 1be:	08 95       	ret
+
+000001c0 <RadioAnswerCMD>:
+
+char RadioAnswerCMD(char Radio_RX, char Hermes_State)
+{
+ 1c0:	cf 93       	push	r28
+ 1c2:	c6 2f       	mov	r28, r22
+	if (Radio_RX == 'C')	//If last char received was a 'C', confirm emergency cut-down through radio
+ 1c4:	83 34       	cpi	r24, 0x43	; 67
+ 1c6:	a9 f5       	brne	.+106    	; 0x232 <RadioAnswerCMD+0x72>
+	{
+		USARTPrint("Are you sure?(Type Y)\r\n");
+ 1c8:	80 e0       	ldi	r24, 0x00	; 0
+ 1ca:	91 e0       	ldi	r25, 0x01	; 1
+ 1cc:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+		
+		for (unsigned int i=1000; i!=0; i--)	//Wait until next character is received or bail out
+		{
+			if ((UCSR0A & (1<<RXC0))) break;
+ 1d0:	80 91 c0 00 	lds	r24, 0x00C0
+ 1d4:	88 23       	and	r24, r24
+ 1d6:	0c f0       	brlt	.+2      	; 0x1da <RadioAnswerCMD+0x1a>
+ 1d8:	3c c0       	rjmp	.+120    	; 0x252 <RadioAnswerCMD+0x92>
+ 1da:	0c c0       	rjmp	.+24     	; 0x1f4 <RadioAnswerCMD+0x34>
+ 1dc:	90 81       	ld	r25, Z
+ 1de:	99 23       	and	r25, r25
+ 1e0:	4c f0       	brlt	.+18     	; 0x1f4 <RadioAnswerCMD+0x34>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1e2:	8f ef       	ldi	r24, 0xFF	; 255
+ 1e4:	93 eb       	ldi	r25, 0xB3	; 179
+ 1e6:	01 97       	sbiw	r24, 0x01	; 1
+ 1e8:	f1 f7       	brne	.-4      	; 0x1e6 <RadioAnswerCMD+0x26>
+ 1ea:	00 c0       	rjmp	.+0      	; 0x1ec <RadioAnswerCMD+0x2c>
+ 1ec:	00 00       	nop
+ 1ee:	21 50       	subi	r18, 0x01	; 1
+ 1f0:	31 09       	sbc	r19, r1
+{
+	if (Radio_RX == 'C')	//If last char received was a 'C', confirm emergency cut-down through radio
+	{
+		USARTPrint("Are you sure?(Type Y)\r\n");
+		
+		for (unsigned int i=1000; i!=0; i--)	//Wait until next character is received or bail out
+ 1f2:	a1 f7       	brne	.-24     	; 0x1dc <RadioAnswerCMD+0x1c>
+		{
+			if ((UCSR0A & (1<<RXC0))) break;
+			_delay_ms(10);
+		}
+		
+		Radio_RX = UDR0;
+ 1f4:	80 91 c6 00 	lds	r24, 0x00C6
+		
+		if ( Radio_RX == 'Y')
+ 1f8:	89 35       	cpi	r24, 0x59	; 89
+ 1fa:	b1 f5       	brne	.+108    	; 0x268 <RadioAnswerCMD+0xa8>
+		{
+			USARTPrint("Last Chance?(Type D)\r\n");
+ 1fc:	88 e1       	ldi	r24, 0x18	; 24
+ 1fe:	91 e0       	ldi	r25, 0x01	; 1
+ 200:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+			
+			for (unsigned int i=1000; i!=0; i--)	//Wait until next character is received or bail out
+			{
+				if ((UCSR0A & (1<<RXC0))) break;
+ 204:	80 91 c0 00 	lds	r24, 0x00C0
+ 208:	88 23       	and	r24, r24
+ 20a:	c4 f4       	brge	.+48     	; 0x23c <RadioAnswerCMD+0x7c>
+ 20c:	0c c0       	rjmp	.+24     	; 0x226 <RadioAnswerCMD+0x66>
+ 20e:	80 81       	ld	r24, Z
+ 210:	88 23       	and	r24, r24
+ 212:	4c f0       	brlt	.+18     	; 0x226 <RadioAnswerCMD+0x66>
+ 214:	8f ef       	ldi	r24, 0xFF	; 255
+ 216:	93 eb       	ldi	r25, 0xB3	; 179
+ 218:	01 97       	sbiw	r24, 0x01	; 1
+ 21a:	f1 f7       	brne	.-4      	; 0x218 <RadioAnswerCMD+0x58>
+ 21c:	00 c0       	rjmp	.+0      	; 0x21e <RadioAnswerCMD+0x5e>
+ 21e:	00 00       	nop
+ 220:	21 50       	subi	r18, 0x01	; 1
+ 222:	31 09       	sbc	r19, r1
+		
+		if ( Radio_RX == 'Y')
+		{
+			USARTPrint("Last Chance?(Type D)\r\n");
+			
+			for (unsigned int i=1000; i!=0; i--)	//Wait until next character is received or bail out
+ 224:	a1 f7       	brne	.-24     	; 0x20e <RadioAnswerCMD+0x4e>
+			{
+				if ((UCSR0A & (1<<RXC0))) break;
+				_delay_ms(10);
+			}
+			
+			Radio_RX = UDR0;
+ 226:	80 91 c6 00 	lds	r24, 0x00C6
+			
+			if (Radio_RX == 'D')
+ 22a:	84 34       	cpi	r24, 0x44	; 68
+ 22c:	e9 f4       	brne	.+58     	; 0x268 <RadioAnswerCMD+0xa8>
+			{
+				Hermes_State |= 1<<2;
+ 22e:	c4 60       	ori	r28, 0x04	; 4
+ 230:	1b c0       	rjmp	.+54     	; 0x268 <RadioAnswerCMD+0xa8>
+			}
+		}
+	}
+	else
+	{
+		USARTPrint("Hello!\r\n");	//Send Hello if HMS + any char but capital C was received
+ 232:	8f e2       	ldi	r24, 0x2F	; 47
+ 234:	91 e0       	ldi	r25, 0x01	; 1
+ 236:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+ 23a:	16 c0       	rjmp	.+44     	; 0x268 <RadioAnswerCMD+0xa8>
+ 23c:	8f ef       	ldi	r24, 0xFF	; 255
+ 23e:	93 eb       	ldi	r25, 0xB3	; 179
+ 240:	01 97       	sbiw	r24, 0x01	; 1
+ 242:	f1 f7       	brne	.-4      	; 0x240 <RadioAnswerCMD+0x80>
+ 244:	00 c0       	rjmp	.+0      	; 0x246 <RadioAnswerCMD+0x86>
+ 246:	00 00       	nop
+ 248:	27 ee       	ldi	r18, 0xE7	; 231
+ 24a:	33 e0       	ldi	r19, 0x03	; 3
+		{
+			USARTPrint("Last Chance?(Type D)\r\n");
+			
+			for (unsigned int i=1000; i!=0; i--)	//Wait until next character is received or bail out
+			{
+				if ((UCSR0A & (1<<RXC0))) break;
+ 24c:	e0 ec       	ldi	r30, 0xC0	; 192
+ 24e:	f0 e0       	ldi	r31, 0x00	; 0
+ 250:	de cf       	rjmp	.-68     	; 0x20e <RadioAnswerCMD+0x4e>
+ 252:	8f ef       	ldi	r24, 0xFF	; 255
+ 254:	93 eb       	ldi	r25, 0xB3	; 179
+ 256:	01 97       	sbiw	r24, 0x01	; 1
+ 258:	f1 f7       	brne	.-4      	; 0x256 <RadioAnswerCMD+0x96>
+ 25a:	00 c0       	rjmp	.+0      	; 0x25c <RadioAnswerCMD+0x9c>
+ 25c:	00 00       	nop
+ 25e:	27 ee       	ldi	r18, 0xE7	; 231
+ 260:	33 e0       	ldi	r19, 0x03	; 3
+	{
+		USARTPrint("Are you sure?(Type Y)\r\n");
+		
+		for (unsigned int i=1000; i!=0; i--)	//Wait until next character is received or bail out
+		{
+			if ((UCSR0A & (1<<RXC0))) break;
+ 262:	e0 ec       	ldi	r30, 0xC0	; 192
+ 264:	f0 e0       	ldi	r31, 0x00	; 0
+ 266:	ba cf       	rjmp	.-140    	; 0x1dc <RadioAnswerCMD+0x1c>
+	{
+		USARTPrint("Hello!\r\n");	//Send Hello if HMS + any char but capital C was received
+	}
+	
+	return Hermes_State;
+}
+ 268:	8c 2f       	mov	r24, r28
+ 26a:	cf 91       	pop	r28
+ 26c:	08 95       	ret
+
+0000026e <RadioCheckRX>:
+
+char RadioCheckRX(char Radio_RX)
+{
+ 26e:	1f 93       	push	r17
+ 270:	cf 93       	push	r28
+ 272:	df 93       	push	r29
+ 274:	18 2f       	mov	r17, r24
+ 276:	c8 ee       	ldi	r28, 0xE8	; 232
+ 278:	d3 e0       	ldi	r29, 0x03	; 3
+	char data = 0;	
+	
+	for (unsigned int i=1000; i!=0; i--)
+	{
+		data=USARTReadChar();
+ 27a:	0e 94 11 05 	call	0xa22	; 0xa22 <USARTReadChar>
+		if (data == 'H')
+ 27e:	88 34       	cpi	r24, 0x48	; 72
+ 280:	e1 f4       	brne	.+56     	; 0x2ba <RadioCheckRX+0x4c>
+		{
+			USARTWriteChar(data);
+ 282:	0e 94 26 05 	call	0xa4c	; 0xa4c <USARTWriteChar>
+			data = USARTReadChar();
+ 286:	0e 94 11 05 	call	0xa22	; 0xa22 <USARTReadChar>
+			if (data == 'M')
+ 28a:	8d 34       	cpi	r24, 0x4D	; 77
+ 28c:	b1 f4       	brne	.+44     	; 0x2ba <RadioCheckRX+0x4c>
+			{
+				USARTWriteChar(data);
+ 28e:	0e 94 26 05 	call	0xa4c	; 0xa4c <USARTWriteChar>
+				data = USARTReadChar();
+ 292:	0e 94 11 05 	call	0xa22	; 0xa22 <USARTReadChar>
+				if (data == 'S' )
+ 296:	83 35       	cpi	r24, 0x53	; 83
+ 298:	81 f4       	brne	.+32     	; 0x2ba <RadioCheckRX+0x4c>
+				{
+					USARTWriteChar(data);
+ 29a:	0e 94 26 05 	call	0xa4c	; 0xa4c <USARTWriteChar>
+					Radio_RX = USARTReadChar();
+ 29e:	0e 94 11 05 	call	0xa22	; 0xa22 <USARTReadChar>
+ 2a2:	18 2f       	mov	r17, r24
+					USARTPrint("CMD:");
+ 2a4:	88 e3       	ldi	r24, 0x38	; 56
+ 2a6:	91 e0       	ldi	r25, 0x01	; 1
+ 2a8:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+					USARTWriteChar(Radio_RX);
+ 2ac:	81 2f       	mov	r24, r17
+ 2ae:	0e 94 26 05 	call	0xa4c	; 0xa4c <USARTWriteChar>
+					USARTPrint("\r\n");
+ 2b2:	88 e4       	ldi	r24, 0x48	; 72
+ 2b4:	92 e0       	ldi	r25, 0x02	; 2
+ 2b6:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+ 2ba:	8f ef       	ldi	r24, 0xFF	; 255
+ 2bc:	93 eb       	ldi	r25, 0xB3	; 179
+ 2be:	01 97       	sbiw	r24, 0x01	; 1
+ 2c0:	f1 f7       	brne	.-4      	; 0x2be <RadioCheckRX+0x50>
+ 2c2:	00 c0       	rjmp	.+0      	; 0x2c4 <RadioCheckRX+0x56>
+ 2c4:	00 00       	nop
+ 2c6:	21 97       	sbiw	r28, 0x01	; 1
+
+char RadioCheckRX(char Radio_RX)
+{
+	char data = 0;	
+	
+	for (unsigned int i=1000; i!=0; i--)
+ 2c8:	c1 f6       	brne	.-80     	; 0x27a <RadioCheckRX+0xc>
+		
+		_delay_ms(10);
+	}
+	
+	return Radio_RX;
+}
+ 2ca:	81 2f       	mov	r24, r17
+ 2cc:	df 91       	pop	r29
+ 2ce:	cf 91       	pop	r28
+ 2d0:	1f 91       	pop	r17
+ 2d2:	08 95       	ret
+
+000002d4 <TWIGetState>:
+
+char TWIGetState(char Hermes_State)
+{
+ 2d4:	cf 93       	push	r28
+ 2d6:	c8 2f       	mov	r28, r24
+	if (TWI_Busy == 0)
+ 2d8:	80 91 78 02 	lds	r24, 0x0278
+ 2dc:	81 11       	cpse	r24, r1
+ 2de:	10 c0       	rjmp	.+32     	; 0x300 <TWIGetState+0x2c>
+	{
+		if (TWI_Status)		//Check if last TWI operation was successful
+ 2e0:	80 91 1d 03 	lds	r24, 0x031D
+ 2e4:	88 23       	and	r24, r24
+ 2e6:	21 f0       	breq	.+8      	; 0x2f0 <TWIGetState+0x1c>
+		{
+			Hermes_State |= 1<<0;
+ 2e8:	c1 60       	ori	r28, 0x01	; 1
+			TWI_Status = 0;
+ 2ea:	10 92 1d 03 	sts	0x031D, r1
+ 2ee:	08 c0       	rjmp	.+16     	; 0x300 <TWIGetState+0x2c>
+		}
+		else
+		{
+			Hermes_State &= ~(1<<0);
+ 2f0:	ce 7f       	andi	r28, 0xFE	; 254
+			TWI_Status = 0;
+ 2f2:	10 92 1d 03 	sts	0x031D, r1
+			TWCR =   (1<<TWSTO)|(1<<TWINT);   //Recover from error by releasing SDA and SCL pins and thus enabling other devices to use the bus
+ 2f6:	80 e9       	ldi	r24, 0x90	; 144
+ 2f8:	80 93 bc 00 	sts	0x00BC, r24
+			TWIInit();
+ 2fc:	0e 94 69 04 	call	0x8d2	; 0x8d2 <TWIInit>
+		}
+	}
+	
+	return Hermes_State;
+}
+ 300:	8c 2f       	mov	r24, r28
+ 302:	cf 91       	pop	r28
+ 304:	08 95       	ret
+
+00000306 <floatToASCII>:
+Same as above but for float numbers
+Up to 3 decimal place
+Be careful with numbers larger than 100000
+*/
+void floatToASCII(char *str, float number)
+{
+ 306:	2f 92       	push	r2
+ 308:	3f 92       	push	r3
+ 30a:	4f 92       	push	r4
+ 30c:	5f 92       	push	r5
+ 30e:	6f 92       	push	r6
+ 310:	7f 92       	push	r7
+ 312:	8f 92       	push	r8
+ 314:	9f 92       	push	r9
+ 316:	af 92       	push	r10
+ 318:	bf 92       	push	r11
+ 31a:	cf 92       	push	r12
+ 31c:	df 92       	push	r13
+ 31e:	ef 92       	push	r14
+ 320:	ff 92       	push	r15
+ 322:	0f 93       	push	r16
+ 324:	1f 93       	push	r17
+ 326:	cf 93       	push	r28
+ 328:	df 93       	push	r29
+ 32a:	cd b7       	in	r28, 0x3d	; 61
+ 32c:	de b7       	in	r29, 0x3e	; 62
+ 32e:	60 97       	sbiw	r28, 0x10	; 16
+ 330:	0f b6       	in	r0, 0x3f	; 63
+ 332:	f8 94       	cli
+ 334:	de bf       	out	0x3e, r29	; 62
+ 336:	0f be       	out	0x3f, r0	; 63
+ 338:	cd bf       	out	0x3d, r28	; 61
+ 33a:	5c 01       	movw	r10, r24
+ 33c:	6a 01       	movw	r12, r20
+ 33e:	7b 01       	movw	r14, r22
+	float rational = 0;
+	unsigned char digits[13];
+	unsigned char i = 0;
+	unsigned char j = 0;
+	
+	if (number < 0.0)
+ 340:	20 e0       	ldi	r18, 0x00	; 0
+ 342:	30 e0       	ldi	r19, 0x00	; 0
+ 344:	a9 01       	movw	r20, r18
+ 346:	c7 01       	movw	r24, r14
+ 348:	b6 01       	movw	r22, r12
+ 34a:	0e 94 b6 05 	call	0xb6c	; 0xb6c <__cmpsf2>
+ 34e:	88 23       	and	r24, r24
+ 350:	54 f4       	brge	.+20     	; 0x366 <floatToASCII+0x60>
+	{
+		number *= -1.0;
+ 352:	f7 fa       	bst	r15, 7
+ 354:	f0 94       	com	r15
+ 356:	f7 f8       	bld	r15, 7
+ 358:	f0 94       	com	r15
+		str[j]='-';
+ 35a:	8d e2       	ldi	r24, 0x2D	; 45
+ 35c:	f5 01       	movw	r30, r10
+ 35e:	80 83       	st	Z, r24
+		j++;
+ 360:	33 24       	eor	r3, r3
+ 362:	33 94       	inc	r3
+ 364:	01 c0       	rjmp	.+2      	; 0x368 <floatToASCII+0x62>
+{
+	float tens = 1000000000;
+	float rational = 0;
+	unsigned char digits[13];
+	unsigned char i = 0;
+	unsigned char j = 0;
+ 366:	31 2c       	mov	r3, r1
+		number *= -1.0;
+		str[j]='-';
+		j++;
+	}
+	
+	rational = number - (long)number;
+ 368:	c7 01       	movw	r24, r14
+ 36a:	b6 01       	movw	r22, r12
+ 36c:	0e 94 22 06 	call	0xc44	; 0xc44 <__fixsfsi>
+ 370:	0e 94 55 06 	call	0xcaa	; 0xcaa <__floatsisf>
+ 374:	9b 01       	movw	r18, r22
+ 376:	ac 01       	movw	r20, r24
+ 378:	c7 01       	movw	r24, r14
+ 37a:	b6 01       	movw	r22, r12
+ 37c:	0e 94 51 05 	call	0xaa2	; 0xaa2 <__subsf3>
+ 380:	6e 87       	std	Y+14, r22	; 0x0e
+ 382:	7f 87       	std	Y+15, r23	; 0x0f
+ 384:	88 8b       	std	Y+16, r24	; 0x10
+ 386:	29 2e       	mov	r2, r25
+ 388:	8e 01       	movw	r16, r28
+ 38a:	0f 5f       	subi	r16, 0xFF	; 255
+ 38c:	1f 4f       	sbci	r17, 0xFF	; 255
+/*
+Same as above but for float numbers
+Up to 3 decimal place
+Be careful with numbers larger than 100000
+*/
+void floatToASCII(char *str, float number)
+ 38e:	4e 01       	movw	r8, r28
+ 390:	fb e0       	ldi	r31, 0x0B	; 11
+ 392:	8f 0e       	add	r8, r31
+ 394:	91 1c       	adc	r9, r1
+{
+	float tens = 1000000000;
+ 396:	0f 2e       	mov	r0, r31
+ 398:	f8 e2       	ldi	r31, 0x28	; 40
+ 39a:	4f 2e       	mov	r4, r31
+ 39c:	f0 2d       	mov	r31, r0
+ 39e:	0f 2e       	mov	r0, r31
+ 3a0:	fb e6       	ldi	r31, 0x6B	; 107
+ 3a2:	5f 2e       	mov	r5, r31
+ 3a4:	f0 2d       	mov	r31, r0
+ 3a6:	0f 2e       	mov	r0, r31
+ 3a8:	fe e6       	ldi	r31, 0x6E	; 110
+ 3aa:	6f 2e       	mov	r6, r31
+ 3ac:	f0 2d       	mov	r31, r0
+ 3ae:	0f 2e       	mov	r0, r31
+ 3b0:	fe e4       	ldi	r31, 0x4E	; 78
+ 3b2:	7f 2e       	mov	r7, r31
+ 3b4:	f0 2d       	mov	r31, r0
+	
+	rational = number - (long)number;
+	
+	while (i<10)
+	{
+		digits[i] = number/tens;
+ 3b6:	24 2d       	mov	r18, r4
+ 3b8:	35 2d       	mov	r19, r5
+ 3ba:	46 2d       	mov	r20, r6
+ 3bc:	57 2d       	mov	r21, r7
+ 3be:	c7 01       	movw	r24, r14
+ 3c0:	b6 01       	movw	r22, r12
+ 3c2:	0e 94 ba 05 	call	0xb74	; 0xb74 <__divsf3>
+ 3c6:	0e 94 27 06 	call	0xc4e	; 0xc4e <__fixunssfsi>
+ 3ca:	f8 01       	movw	r30, r16
+ 3cc:	61 93       	st	Z+, r22
+ 3ce:	8f 01       	movw	r16, r30
+		number = (long)number%(long)tens;
+ 3d0:	c7 01       	movw	r24, r14
+ 3d2:	b6 01       	movw	r22, r12
+ 3d4:	0e 94 22 06 	call	0xc44	; 0xc44 <__fixsfsi>
+ 3d8:	6b 01       	movw	r12, r22
+ 3da:	7c 01       	movw	r14, r24
+ 3dc:	64 2d       	mov	r22, r4
+ 3de:	75 2d       	mov	r23, r5
+ 3e0:	86 2d       	mov	r24, r6
+ 3e2:	97 2d       	mov	r25, r7
+ 3e4:	0e 94 22 06 	call	0xc44	; 0xc44 <__fixsfsi>
+ 3e8:	9b 01       	movw	r18, r22
+ 3ea:	ac 01       	movw	r20, r24
+ 3ec:	c7 01       	movw	r24, r14
+ 3ee:	b6 01       	movw	r22, r12
+ 3f0:	0e 94 8e 07 	call	0xf1c	; 0xf1c <__divmodsi4>
+ 3f4:	0e 94 55 06 	call	0xcaa	; 0xcaa <__floatsisf>
+ 3f8:	c6 2e       	mov	r12, r22
+ 3fa:	d7 2e       	mov	r13, r23
+ 3fc:	e8 2e       	mov	r14, r24
+ 3fe:	f9 2e       	mov	r15, r25
+		tens /= 10;
+ 400:	20 e0       	ldi	r18, 0x00	; 0
+ 402:	30 e0       	ldi	r19, 0x00	; 0
+ 404:	40 e2       	ldi	r20, 0x20	; 32
+ 406:	51 e4       	ldi	r21, 0x41	; 65
+ 408:	64 2d       	mov	r22, r4
+ 40a:	75 2d       	mov	r23, r5
+ 40c:	86 2d       	mov	r24, r6
+ 40e:	97 2d       	mov	r25, r7
+ 410:	0e 94 ba 05 	call	0xb74	; 0xb74 <__divsf3>
+ 414:	46 2e       	mov	r4, r22
+ 416:	57 2e       	mov	r5, r23
+ 418:	68 2e       	mov	r6, r24
+ 41a:	79 2e       	mov	r7, r25
+		j++;
+	}
+	
+	rational = number - (long)number;
+	
+	while (i<10)
+ 41c:	08 15       	cp	r16, r8
+ 41e:	19 05       	cpc	r17, r9
+ 420:	51 f6       	brne	.-108    	; 0x3b6 <floatToASCII+0xb0>
+		i++;
+	}
+
+	for (i=0;i<10;i++)
+	{
+		if (digits[i]!=0)
+ 422:	89 81       	ldd	r24, Y+1	; 0x01
+ 424:	81 11       	cpse	r24, r1
+ 426:	10 c0       	rjmp	.+32     	; 0x448 <floatToASCII+0x142>
+ 428:	fe 01       	movw	r30, r28
+ 42a:	32 96       	adiw	r30, 0x02	; 2
+		number = (long)number%(long)tens;
+		tens /= 10;
+		i++;
+	}
+
+	for (i=0;i<10;i++)
+ 42c:	91 e0       	ldi	r25, 0x01	; 1
+	{
+		if (digits[i]!=0)
+ 42e:	81 91       	ld	r24, Z+
+ 430:	81 11       	cpse	r24, r1
+ 432:	04 c0       	rjmp	.+8      	; 0x43c <floatToASCII+0x136>
+		number = (long)number%(long)tens;
+		tens /= 10;
+		i++;
+	}
+
+	for (i=0;i<10;i++)
+ 434:	9f 5f       	subi	r25, 0xFF	; 255
+ 436:	9a 30       	cpi	r25, 0x0A	; 10
+ 438:	d1 f7       	brne	.-12     	; 0x42e <floatToASCII+0x128>
+ 43a:	23 c0       	rjmp	.+70     	; 0x482 <floatToASCII+0x17c>
+		{
+			break;
+		}
+	}
+	
+	if (i!=10)
+ 43c:	9a 30       	cpi	r25, 0x0A	; 10
+ 43e:	09 f1       	breq	.+66     	; 0x482 <floatToASCII+0x17c>
+	{
+		for (;i<10;i++,j++)
+ 440:	9a 30       	cpi	r25, 0x0A	; 10
+ 442:	38 f5       	brcc	.+78     	; 0x492 <floatToASCII+0x18c>
+ 444:	89 2f       	mov	r24, r25
+ 446:	02 c0       	rjmp	.+4      	; 0x44c <floatToASCII+0x146>
+		i++;
+	}
+
+	for (i=0;i<10;i++)
+	{
+		if (digits[i]!=0)
+ 448:	90 e0       	ldi	r25, 0x00	; 0
+ 44a:	80 e0       	ldi	r24, 0x00	; 0
+/*
+Same as above but for float numbers
+Up to 3 decimal place
+Be careful with numbers larger than 100000
+*/
+void floatToASCII(char *str, float number)
+ 44c:	33 2d       	mov	r19, r3
+ 44e:	39 1b       	sub	r19, r25
+ 450:	23 2f       	mov	r18, r19
+ 452:	28 0f       	add	r18, r24
+	
+	if (i!=10)
+	{
+		for (;i<10;i++,j++)
+		{
+			str[j] = digits[i] + '0';
+ 454:	f5 01       	movw	r30, r10
+ 456:	e2 0f       	add	r30, r18
+ 458:	f1 1d       	adc	r31, r1
+ 45a:	a1 e0       	ldi	r26, 0x01	; 1
+ 45c:	b0 e0       	ldi	r27, 0x00	; 0
+ 45e:	ac 0f       	add	r26, r28
+ 460:	bd 1f       	adc	r27, r29
+ 462:	a8 0f       	add	r26, r24
+ 464:	b1 1d       	adc	r27, r1
+ 466:	2c 91       	ld	r18, X
+ 468:	20 5d       	subi	r18, 0xD0	; 208
+ 46a:	20 83       	st	Z, r18
+		}
+	}
+	
+	if (i!=10)
+	{
+		for (;i<10;i++,j++)
+ 46c:	8f 5f       	subi	r24, 0xFF	; 255
+ 46e:	8a 30       	cpi	r24, 0x0A	; 10
+ 470:	79 f7       	brne	.-34     	; 0x450 <floatToASCII+0x14a>
+/*
+Same as above but for float numbers
+Up to 3 decimal place
+Be careful with numbers larger than 100000
+*/
+void floatToASCII(char *str, float number)
+ 472:	83 2d       	mov	r24, r3
+ 474:	89 1b       	sub	r24, r25
+ 476:	0f 2e       	mov	r0, r31
+ 478:	fa e0       	ldi	r31, 0x0A	; 10
+ 47a:	3f 2e       	mov	r3, r31
+ 47c:	f0 2d       	mov	r31, r0
+ 47e:	38 0e       	add	r3, r24
+ 480:	08 c0       	rjmp	.+16     	; 0x492 <floatToASCII+0x18c>
+			str[j] = digits[i] + '0';
+		}
+	}
+	else
+	{
+		str[j]='0';
+ 482:	f5 01       	movw	r30, r10
+ 484:	e3 0d       	add	r30, r3
+ 486:	f1 1d       	adc	r31, r1
+ 488:	80 e3       	ldi	r24, 0x30	; 48
+ 48a:	80 83       	st	Z, r24
+		str++;
+ 48c:	ff ef       	ldi	r31, 0xFF	; 255
+ 48e:	af 1a       	sub	r10, r31
+ 490:	bf 0a       	sbc	r11, r31
+	}
+	//////////// Up to here the result was the same as the function above but below we also take care of digits to the right of the decimal point
+	
+	str[j] = '.';
+ 492:	83 2c       	mov	r8, r3
+ 494:	91 2c       	mov	r9, r1
+ 496:	f5 01       	movw	r30, r10
+ 498:	e8 0d       	add	r30, r8
+ 49a:	f9 1d       	adc	r31, r9
+ 49c:	8e e2       	ldi	r24, 0x2E	; 46
+ 49e:	80 83       	st	Z, r24
+	str++;
+ 4a0:	85 01       	movw	r16, r10
+ 4a2:	0f 5f       	subi	r16, 0xFF	; 255
+ 4a4:	1f 4f       	sbci	r17, 0xFF	; 255
+ 4a6:	7e 01       	movw	r14, r28
+ 4a8:	8b e0       	ldi	r24, 0x0B	; 11
+ 4aa:	e8 0e       	add	r14, r24
+ 4ac:	f1 1c       	adc	r15, r1
+/*
+Same as above but for float numbers
+Up to 3 decimal place
+Be careful with numbers larger than 100000
+*/
+void floatToASCII(char *str, float number)
+ 4ae:	cc 24       	eor	r12, r12
+ 4b0:	c3 94       	inc	r12
+ 4b2:	d1 2c       	mov	r13, r1
+ 4b4:	cc 0e       	add	r12, r28
+ 4b6:	dd 1e       	adc	r13, r29
+ 4b8:	ed e0       	ldi	r30, 0x0D	; 13
+ 4ba:	ce 0e       	add	r12, r30
+ 4bc:	d1 1c       	adc	r13, r1
+	i=10;
+	
+	while (i<13)
+	{
+		tens = 10;
+		rational *= tens;
+ 4be:	20 e0       	ldi	r18, 0x00	; 0
+ 4c0:	30 e0       	ldi	r19, 0x00	; 0
+ 4c2:	40 e2       	ldi	r20, 0x20	; 32
+ 4c4:	51 e4       	ldi	r21, 0x41	; 65
+ 4c6:	be 85       	ldd	r27, Y+14	; 0x0e
+ 4c8:	af 85       	ldd	r26, Y+15	; 0x0f
+ 4ca:	f8 89       	ldd	r31, Y+16	; 0x10
+ 4cc:	6b 2f       	mov	r22, r27
+ 4ce:	7a 2f       	mov	r23, r26
+ 4d0:	8f 2f       	mov	r24, r31
+ 4d2:	92 2d       	mov	r25, r2
+ 4d4:	0e 94 09 07 	call	0xe12	; 0xe12 <__mulsf3>
+ 4d8:	46 2e       	mov	r4, r22
+ 4da:	57 2e       	mov	r5, r23
+ 4dc:	68 2e       	mov	r6, r24
+ 4de:	79 2e       	mov	r7, r25
+		digits[i] = rational;
+ 4e0:	0e 94 27 06 	call	0xc4e	; 0xc4e <__fixunssfsi>
+ 4e4:	f7 01       	movw	r30, r14
+ 4e6:	61 93       	st	Z+, r22
+ 4e8:	7f 01       	movw	r14, r30
+		rational -= digits[i];
+ 4ea:	70 e0       	ldi	r23, 0x00	; 0
+ 4ec:	80 e0       	ldi	r24, 0x00	; 0
+ 4ee:	90 e0       	ldi	r25, 0x00	; 0
+ 4f0:	0e 94 55 06 	call	0xcaa	; 0xcaa <__floatsisf>
+ 4f4:	9b 01       	movw	r18, r22
+ 4f6:	ac 01       	movw	r20, r24
+ 4f8:	64 2d       	mov	r22, r4
+ 4fa:	75 2d       	mov	r23, r5
+ 4fc:	86 2d       	mov	r24, r6
+ 4fe:	97 2d       	mov	r25, r7
+ 500:	0e 94 51 05 	call	0xaa2	; 0xaa2 <__subsf3>
+ 504:	6e 87       	std	Y+14, r22	; 0x0e
+ 506:	7f 87       	std	Y+15, r23	; 0x0f
+ 508:	88 8b       	std	Y+16, r24	; 0x10
+ 50a:	29 2e       	mov	r2, r25
+	str[j] = '.';
+	str++;
+	
+	i=10;
+	
+	while (i<13)
+ 50c:	ec 14       	cp	r14, r12
+ 50e:	fd 04       	cpc	r15, r13
+ 510:	b1 f6       	brne	.-84     	; 0x4be <floatToASCII+0x1b8>
+		i++;
+	}
+
+	for (i=12;i>9;i--)
+	{
+		if (digits[i]!=0)
+ 512:	8d 85       	ldd	r24, Y+13	; 0x0d
+ 514:	81 11       	cpse	r24, r1
+ 516:	2e c0       	rjmp	.+92     	; 0x574 <floatToASCII+0x26e>
+ 518:	8c 85       	ldd	r24, Y+12	; 0x0c
+ 51a:	81 11       	cpse	r24, r1
+ 51c:	05 c0       	rjmp	.+10     	; 0x528 <floatToASCII+0x222>
+ 51e:	8b 85       	ldd	r24, Y+11	; 0x0b
+ 520:	88 23       	and	r24, r24
+ 522:	21 f0       	breq	.+8      	; 0x52c <floatToASCII+0x226>
+ 524:	2a e0       	ldi	r18, 0x0A	; 10
+ 526:	27 c0       	rjmp	.+78     	; 0x576 <floatToASCII+0x270>
+		rational -= digits[i];
+		tens *= 10;
+		i++;
+	}
+
+	for (i=12;i>9;i--)
+ 528:	2b e0       	ldi	r18, 0x0B	; 11
+ 52a:	25 c0       	rjmp	.+74     	; 0x576 <floatToASCII+0x270>
+			str[j] = digits[k] + '0';
+		}
+	}
+	else
+	{
+		str[j]='0';
+ 52c:	f8 01       	movw	r30, r16
+ 52e:	e8 0d       	add	r30, r8
+ 530:	f9 1d       	adc	r31, r9
+ 532:	80 e3       	ldi	r24, 0x30	; 48
+ 534:	80 83       	st	Z, r24
+		str++;
+ 536:	85 01       	movw	r16, r10
+ 538:	0e 5f       	subi	r16, 0xFE	; 254
+ 53a:	1f 4f       	sbci	r17, 0xFF	; 255
+ 53c:	16 c0       	rjmp	.+44     	; 0x56a <floatToASCII+0x264>
+		}
+	}
+	
+	if (i!=9)
+	{
+		for (unsigned char k=10; k<(i+1); k++,j++)
+ 53e:	8a e0       	ldi	r24, 0x0A	; 10
+ 540:	90 e0       	ldi	r25, 0x00	; 0
+ 542:	4a e0       	ldi	r20, 0x0A	; 10
+		{
+			str[j] = digits[k] + '0';
+ 544:	f8 01       	movw	r30, r16
+ 546:	e3 0d       	add	r30, r3
+ 548:	f1 1d       	adc	r31, r1
+ 54a:	a1 e0       	ldi	r26, 0x01	; 1
+ 54c:	b0 e0       	ldi	r27, 0x00	; 0
+ 54e:	ac 0f       	add	r26, r28
+ 550:	bd 1f       	adc	r27, r29
+ 552:	a8 0f       	add	r26, r24
+ 554:	b9 1f       	adc	r27, r25
+ 556:	8c 91       	ld	r24, X
+ 558:	80 5d       	subi	r24, 0xD0	; 208
+ 55a:	80 83       	st	Z, r24
+		}
+	}
+	
+	if (i!=9)
+	{
+		for (unsigned char k=10; k<(i+1); k++,j++)
+ 55c:	4f 5f       	subi	r20, 0xFF	; 255
+ 55e:	33 94       	inc	r3
+ 560:	84 2f       	mov	r24, r20
+ 562:	90 e0       	ldi	r25, 0x00	; 0
+ 564:	82 17       	cp	r24, r18
+ 566:	93 07       	cpc	r25, r19
+ 568:	6c f3       	brlt	.-38     	; 0x544 <floatToASCII+0x23e>
+	{
+		str[j]='0';
+		str++;
+	}
+	
+	str[j]=0;
+ 56a:	f8 01       	movw	r30, r16
+ 56c:	e3 0d       	add	r30, r3
+ 56e:	f1 1d       	adc	r31, r1
+ 570:	10 82       	st	Z, r1
+ 572:	08 c0       	rjmp	.+16     	; 0x584 <floatToASCII+0x27e>
+		i++;
+	}
+
+	for (i=12;i>9;i--)
+	{
+		if (digits[i]!=0)
+ 574:	2c e0       	ldi	r18, 0x0C	; 12
+		}
+	}
+	
+	if (i!=9)
+	{
+		for (unsigned char k=10; k<(i+1); k++,j++)
+ 576:	30 e0       	ldi	r19, 0x00	; 0
+ 578:	2f 5f       	subi	r18, 0xFF	; 255
+ 57a:	3f 4f       	sbci	r19, 0xFF	; 255
+ 57c:	2b 30       	cpi	r18, 0x0B	; 11
+ 57e:	31 05       	cpc	r19, r1
+ 580:	f4 f6       	brge	.-68     	; 0x53e <floatToASCII+0x238>
+ 582:	f3 cf       	rjmp	.-26     	; 0x56a <floatToASCII+0x264>
+		str++;
+	}
+	
+	str[j]=0;
+	
+ 584:	60 96       	adiw	r28, 0x10	; 16
+ 586:	0f b6       	in	r0, 0x3f	; 63
+ 588:	f8 94       	cli
+ 58a:	de bf       	out	0x3e, r29	; 62
+ 58c:	0f be       	out	0x3f, r0	; 63
+ 58e:	cd bf       	out	0x3d, r28	; 61
+ 590:	df 91       	pop	r29
+ 592:	cf 91       	pop	r28
+ 594:	1f 91       	pop	r17
+ 596:	0f 91       	pop	r16
+ 598:	ff 90       	pop	r15
+ 59a:	ef 90       	pop	r14
+ 59c:	df 90       	pop	r13
+ 59e:	cf 90       	pop	r12
+ 5a0:	bf 90       	pop	r11
+ 5a2:	af 90       	pop	r10
+ 5a4:	9f 90       	pop	r9
+ 5a6:	8f 90       	pop	r8
+ 5a8:	7f 90       	pop	r7
+ 5aa:	6f 90       	pop	r6
+ 5ac:	5f 90       	pop	r5
+ 5ae:	4f 90       	pop	r4
+ 5b0:	3f 90       	pop	r3
+ 5b2:	2f 90       	pop	r2
+ 5b4:	08 95       	ret
+
+000005b6 <main>:
+{
+	time += 0.1;							//Timer overflows every tenth of a second
+}
+
+int main(void)
+{
+ 5b6:	cf 93       	push	r28
+ 5b8:	df 93       	push	r29
+ 5ba:	cd b7       	in	r28, 0x3d	; 61
+ 5bc:	de b7       	in	r29, 0x3e	; 62
+ 5be:	2c 97       	sbiw	r28, 0x0c	; 12
+ 5c0:	0f b6       	in	r0, 0x3f	; 63
+ 5c2:	f8 94       	cli
+ 5c4:	de bf       	out	0x3e, r29	; 62
+ 5c6:	0f be       	out	0x3f, r0	; 63
+ 5c8:	cd bf       	out	0x3d, r28	; 61
+ 5ca:	2f ef       	ldi	r18, 0xFF	; 255
+ 5cc:	3f e3       	ldi	r19, 0x3F	; 63
+ 5ce:	88 e3       	ldi	r24, 0x38	; 56
+ 5d0:	21 50       	subi	r18, 0x01	; 1
+ 5d2:	30 40       	sbci	r19, 0x00	; 0
+ 5d4:	80 40       	sbci	r24, 0x00	; 0
+ 5d6:	e1 f7       	brne	.-8      	; 0x5d0 <main+0x1a>
+ 5d8:	00 c0       	rjmp	.+0      	; 0x5da <main+0x24>
+ 5da:	00 00       	nop
+	The 1st bit is set after the emergency cut-down system has been activated (relays were closed for some time)
+	The 2rd bit is set when conditions are met for the emergency cut-down to be executed
+	*/
+	
+	
+	timerInit();
+ 5dc:	0e 94 a8 00 	call	0x150	; 0x150 <timerInit>
+	ioInit();
+ 5e0:	0e 94 8f 00 	call	0x11e	; 0x11e <ioInit>
+	analogInit();
+ 5e4:	0e 94 97 00 	call	0x12e	; 0x12e <analogInit>
+	USARTInit(119);
+ 5e8:	87 e7       	ldi	r24, 0x77	; 119
+ 5ea:	90 e0       	ldi	r25, 0x00	; 0
+ 5ec:	0e 94 06 05 	call	0xa0c	; 0xa0c <USARTInit>
+	sei();									//Enable interrupts
+ 5f0:	78 94       	sei
+	
+	//RadioSetup();							//Uncomment to setup radio device
+	
+	USARTPrint("Falling, Athena-Time, AccelX(mg), AccelY(mg), AccelZ(mg), GyroX(dps),"
+ 5f2:	8d e3       	ldi	r24, 0x3D	; 61
+ 5f4:	91 e0       	ldi	r25, 0x01	; 1
+ 5f6:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+	" Baro(mbar), ExtBaro(mbar), TmpOut(C), TmpIn(C), Batt(V), UTC, Lat, Long, Fix, Sat, HDOP, Alt, Heading, Speed,"
+	" CPM, uSv/Hr, S/F, Athena-Status, Hermes-BatVolt(V), Hermes-Status\n\r");
+	
+	PORTB &= ~(1<<PORTB0);					//Turn-off green LED after initialization
+ 5fa:	28 98       	cbi	0x05, 0	; 5
+int main(void)
+{
+	char buffer[12];
+	char Radio_RX = 0;
+	float fvar = 0;
+	char Hermes_State = 0;
+ 5fc:	71 2c       	mov	r7, r1
+}
+
+int main(void)
+{
+	char buffer[12];
+	char Radio_RX = 0;
+ 5fe:	51 2c       	mov	r5, r1
+	
+	PORTB &= ~(1<<PORTB0);					//Turn-off green LED after initialization
+	
+	while(1)								//Main loop
+	{
+		if ((long)time%10==0)				//Blink RED LED every 10 seconds to show controller is functional
+ 600:	0f 2e       	mov	r0, r31
+ 602:	fa e0       	ldi	r31, 0x0A	; 10
+ 604:	8f 2e       	mov	r8, r31
+ 606:	91 2c       	mov	r9, r1
+ 608:	a1 2c       	mov	r10, r1
+ 60a:	b1 2c       	mov	r11, r1
+ 60c:	f0 2d       	mov	r31, r0
+		{
+			if (TWI_Busy==0) break;
+			_delay_us(10);
+		}
+		TWI_Busy = 0;
+		TWCR = (1<<TWEN);					 //Disable TWI to make sure we don't update TWI_TXBUFFER while the TWI is enabled and could transmit
+ 60e:	68 94       	set
+ 610:	44 24       	eor	r4, r4
+ 612:	42 f8       	bld	r4, 2
+		floatToASCII(buffer,time);
+		for (unsigned char i=0; buffer[i]!=0; i++, str_pos++)
+		{
+			TWI_TXBUFFER[str_pos] = buffer[i];
+		}
+		TWI_TXBUFFER[str_pos] = ',';
+ 614:	0f 2e       	mov	r0, r31
+ 616:	fc e2       	ldi	r31, 0x2C	; 44
+ 618:	6f 2e       	mov	r6, r31
+ 61a:	f0 2d       	mov	r31, r0
+		{
+			Hermes_State = RadioAnswerCMD(Radio_RX, Hermes_State);
+		}
+		
+		
+		if ((TWI_RXBUFFER[0]=='1') && (time - CUT_OFF_TIMER > 0))	//Set emergency-cut down to be executed if Athena is giving the go (not in free fall or landing) and CUT_OFF_TIMER seconds has elapsed
+ 61c:	0f 2e       	mov	r0, r31
+ 61e:	f9 e7       	ldi	r31, 0x79	; 121
+ 620:	2f 2e       	mov	r2, r31
+ 622:	f2 e0       	ldi	r31, 0x02	; 2
+ 624:	3f 2e       	mov	r3, r31
+ 626:	f0 2d       	mov	r31, r0
+		}
+		
+		Hermes_State = TWIGetState(Hermes_State);	//Update the first bit of Hermes_State to reflect status of last TWI operation
+		
+		/////////////////////////////////// Transmit data to ground when time is a multiple of 3
+		if ((long)time%3 == 0)
+ 628:	0f 2e       	mov	r0, r31
+ 62a:	f3 e0       	ldi	r31, 0x03	; 3
+ 62c:	cf 2e       	mov	r12, r31
+ 62e:	d1 2c       	mov	r13, r1
+ 630:	e1 2c       	mov	r14, r1
+ 632:	f1 2c       	mov	r15, r1
+ 634:	f0 2d       	mov	r31, r0
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 636:	17 2d       	mov	r17, r7
+	
+	PORTB &= ~(1<<PORTB0);					//Turn-off green LED after initialization
+	
+	while(1)								//Main loop
+	{
+		if ((long)time%10==0)				//Blink RED LED every 10 seconds to show controller is functional
+ 638:	60 91 54 02 	lds	r22, 0x0254
+ 63c:	70 91 55 02 	lds	r23, 0x0255
+ 640:	80 91 56 02 	lds	r24, 0x0256
+ 644:	90 91 57 02 	lds	r25, 0x0257
+ 648:	0e 94 22 06 	call	0xc44	; 0xc44 <__fixsfsi>
+ 64c:	a5 01       	movw	r20, r10
+ 64e:	94 01       	movw	r18, r8
+ 650:	0e 94 8e 07 	call	0xf1c	; 0xf1c <__divmodsi4>
+ 654:	67 2b       	or	r22, r23
+ 656:	68 2b       	or	r22, r24
+ 658:	69 2b       	or	r22, r25
+ 65a:	09 f0       	breq	.+2      	; 0x65e <main+0xa8>
+ 65c:	25 c1       	rjmp	.+586    	; 0x8a8 <main+0x2f2>
+		{
+			PORTB |= 1<<PORTB1;
+ 65e:	29 9a       	sbi	0x05, 1	; 5
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 660:	9f ef       	ldi	r25, 0xFF	; 255
+ 662:	ef e9       	ldi	r30, 0x9F	; 159
+ 664:	f5 e0       	ldi	r31, 0x05	; 5
+ 666:	91 50       	subi	r25, 0x01	; 1
+ 668:	e0 40       	sbci	r30, 0x00	; 0
+ 66a:	f0 40       	sbci	r31, 0x00	; 0
+ 66c:	e1 f7       	brne	.-8      	; 0x666 <main+0xb0>
+ 66e:	00 c0       	rjmp	.+0      	; 0x670 <main+0xba>
+ 670:	00 00       	nop
+			_delay_ms(100);
+			PORTB &= ~(1<<PORTB1);
+ 672:	29 98       	cbi	0x05, 1	; 5
+ 674:	19 c1       	rjmp	.+562    	; 0x8a8 <main+0x2f2>
+		}
+		
+		for (unsigned long i=0xFFFFFFFF; i!=0; i--) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+		{
+			if (TWI_Busy==0) break;
+ 676:	20 91 78 02 	lds	r18, 0x0278
+ 67a:	22 23       	and	r18, r18
+ 67c:	41 f0       	breq	.+16     	; 0x68e <main+0xd8>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 67e:	2d e3       	ldi	r18, 0x3D	; 61
+ 680:	2a 95       	dec	r18
+ 682:	f1 f7       	brne	.-4      	; 0x680 <main+0xca>
+ 684:	00 c0       	rjmp	.+0      	; 0x686 <main+0xd0>
+ 686:	01 97       	sbiw	r24, 0x01	; 1
+ 688:	a1 09       	sbc	r26, r1
+ 68a:	b1 09       	sbc	r27, r1
+			PORTB |= 1<<PORTB1;
+			_delay_ms(100);
+			PORTB &= ~(1<<PORTB1);
+		}
+		
+		for (unsigned long i=0xFFFFFFFF; i!=0; i--) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+ 68c:	a1 f7       	brne	.-24     	; 0x676 <main+0xc0>
+		{
+			if (TWI_Busy==0) break;
+			_delay_us(10);
+		}
+		TWI_Busy = 0;
+ 68e:	10 92 78 02 	sts	0x0278, r1
+		TWCR = (1<<TWEN);					 //Disable TWI to make sure we don't update TWI_TXBUFFER while the TWI is enabled and could transmit
+ 692:	ec eb       	ldi	r30, 0xBC	; 188
+ 694:	f0 e0       	ldi	r31, 0x00	; 0
+ 696:	40 82       	st	Z, r4
+		
+		////////////////////////////////////// UPDATE TWI_TXBUFFER
+		
+		unsigned char str_pos = 0;
+		
+		floatToASCII(buffer,time);
+ 698:	40 91 54 02 	lds	r20, 0x0254
+ 69c:	50 91 55 02 	lds	r21, 0x0255
+ 6a0:	60 91 56 02 	lds	r22, 0x0256
+ 6a4:	70 91 57 02 	lds	r23, 0x0257
+ 6a8:	ce 01       	movw	r24, r28
+ 6aa:	01 96       	adiw	r24, 0x01	; 1
+ 6ac:	0e 94 83 01 	call	0x306	; 0x306 <floatToASCII>
+		for (unsigned char i=0; buffer[i]!=0; i++, str_pos++)
+ 6b0:	89 81       	ldd	r24, Y+1	; 0x01
+ 6b2:	88 23       	and	r24, r24
+ 6b4:	89 f0       	breq	.+34     	; 0x6d8 <main+0x122>
+ 6b6:	71 2c       	mov	r7, r1
+		{
+			TWI_TXBUFFER[str_pos] = buffer[i];
+ 6b8:	e7 2d       	mov	r30, r7
+ 6ba:	f0 e0       	ldi	r31, 0x00	; 0
+ 6bc:	e6 5a       	subi	r30, 0xA6	; 166
+ 6be:	fd 4f       	sbci	r31, 0xFD	; 253
+ 6c0:	80 83       	st	Z, r24
+		////////////////////////////////////// UPDATE TWI_TXBUFFER
+		
+		unsigned char str_pos = 0;
+		
+		floatToASCII(buffer,time);
+		for (unsigned char i=0; buffer[i]!=0; i++, str_pos++)
+ 6c2:	73 94       	inc	r7
+ 6c4:	e1 e0       	ldi	r30, 0x01	; 1
+ 6c6:	f0 e0       	ldi	r31, 0x00	; 0
+ 6c8:	ec 0f       	add	r30, r28
+ 6ca:	fd 1f       	adc	r31, r29
+ 6cc:	e7 0d       	add	r30, r7
+ 6ce:	f1 1d       	adc	r31, r1
+ 6d0:	80 81       	ld	r24, Z
+ 6d2:	81 11       	cpse	r24, r1
+ 6d4:	f1 cf       	rjmp	.-30     	; 0x6b8 <main+0x102>
+ 6d6:	01 c0       	rjmp	.+2      	; 0x6da <main+0x124>
+		TWI_Busy = 0;
+		TWCR = (1<<TWEN);					 //Disable TWI to make sure we don't update TWI_TXBUFFER while the TWI is enabled and could transmit
+		
+		////////////////////////////////////// UPDATE TWI_TXBUFFER
+		
+		unsigned char str_pos = 0;
+ 6d8:	71 2c       	mov	r7, r1
+		floatToASCII(buffer,time);
+		for (unsigned char i=0; buffer[i]!=0; i++, str_pos++)
+		{
+			TWI_TXBUFFER[str_pos] = buffer[i];
+		}
+		TWI_TXBUFFER[str_pos] = ',';
+ 6da:	e7 2d       	mov	r30, r7
+ 6dc:	f0 e0       	ldi	r31, 0x00	; 0
+ 6de:	e6 5a       	subi	r30, 0xA6	; 166
+ 6e0:	fd 4f       	sbci	r31, 0xFD	; 253
+ 6e2:	60 82       	st	Z, r6
+		str_pos++;
+ 6e4:	07 2d       	mov	r16, r7
+ 6e6:	0f 5f       	subi	r16, 0xFF	; 255
+	
+		fvar = battery_voltRead();
+ 6e8:	0e 94 bc 00 	call	0x178	; 0x178 <battery_voltRead>
+ 6ec:	ab 01       	movw	r20, r22
+ 6ee:	bc 01       	movw	r22, r24
+		floatToASCII(buffer,fvar);
+ 6f0:	ce 01       	movw	r24, r28
+ 6f2:	01 96       	adiw	r24, 0x01	; 1
+ 6f4:	0e 94 83 01 	call	0x306	; 0x306 <floatToASCII>
+		for (unsigned char i=0;buffer[i]!=0;i++,str_pos++)
+ 6f8:	89 81       	ldd	r24, Y+1	; 0x01
+ 6fa:	88 23       	and	r24, r24
+ 6fc:	89 f0       	breq	.+34     	; 0x720 <main+0x16a>
+		{
+			TWI_TXBUFFER[str_pos] = buffer[i];
+ 6fe:	e0 2f       	mov	r30, r16
+ 700:	f0 e0       	ldi	r31, 0x00	; 0
+ 702:	e6 5a       	subi	r30, 0xA6	; 166
+ 704:	fd 4f       	sbci	r31, 0xFD	; 253
+ 706:	80 83       	st	Z, r24
+		TWI_TXBUFFER[str_pos] = ',';
+		str_pos++;
+	
+		fvar = battery_voltRead();
+		floatToASCII(buffer,fvar);
+		for (unsigned char i=0;buffer[i]!=0;i++,str_pos++)
+ 708:	80 2f       	mov	r24, r16
+ 70a:	87 19       	sub	r24, r7
+ 70c:	0f 5f       	subi	r16, 0xFF	; 255
+ 70e:	e1 e0       	ldi	r30, 0x01	; 1
+ 710:	f0 e0       	ldi	r31, 0x00	; 0
+ 712:	ec 0f       	add	r30, r28
+ 714:	fd 1f       	adc	r31, r29
+ 716:	e8 0f       	add	r30, r24
+ 718:	f1 1d       	adc	r31, r1
+ 71a:	80 81       	ld	r24, Z
+ 71c:	81 11       	cpse	r24, r1
+ 71e:	ef cf       	rjmp	.-34     	; 0x6fe <main+0x148>
+		{
+			TWI_TXBUFFER[str_pos] = buffer[i];
+		}
+		TWI_TXBUFFER[str_pos] = ',';
+ 720:	e0 2f       	mov	r30, r16
+ 722:	f0 e0       	ldi	r31, 0x00	; 0
+ 724:	e6 5a       	subi	r30, 0xA6	; 166
+ 726:	fd 4f       	sbci	r31, 0xFD	; 253
+ 728:	60 82       	st	Z, r6
+		str_pos++;
+ 72a:	e0 2f       	mov	r30, r16
+ 72c:	ef 5f       	subi	r30, 0xFF	; 255
+
+		TWI_TXBUFFER[str_pos] = Radio_RX;		
+ 72e:	f0 e0       	ldi	r31, 0x00	; 0
+ 730:	e6 5a       	subi	r30, 0xA6	; 166
+ 732:	fd 4f       	sbci	r31, 0xFD	; 253
+ 734:	50 82       	st	Z, r5
+		str_pos++;
+ 736:	e0 2f       	mov	r30, r16
+ 738:	ee 5f       	subi	r30, 0xFE	; 254
+		TWI_TXBUFFER[str_pos] = ',';
+ 73a:	f0 e0       	ldi	r31, 0x00	; 0
+ 73c:	e6 5a       	subi	r30, 0xA6	; 166
+ 73e:	fd 4f       	sbci	r31, 0xFD	; 253
+ 740:	60 82       	st	Z, r6
+		str_pos++;
+ 742:	e0 2f       	mov	r30, r16
+ 744:	ed 5f       	subi	r30, 0xFD	; 253
+		
+		TWI_TXBUFFER[str_pos] = Hermes_State + '0';
+ 746:	f0 e0       	ldi	r31, 0x00	; 0
+ 748:	81 2f       	mov	r24, r17
+ 74a:	80 5d       	subi	r24, 0xD0	; 208
+ 74c:	e6 5a       	subi	r30, 0xA6	; 166
+ 74e:	fd 4f       	sbci	r31, 0xFD	; 253
+ 750:	80 83       	st	Z, r24
+		str_pos++;
+ 752:	e0 2f       	mov	r30, r16
+ 754:	ec 5f       	subi	r30, 0xFC	; 252
+		TWI_TXBUFFER[str_pos] = ',';
+ 756:	f0 e0       	ldi	r31, 0x00	; 0
+ 758:	e6 5a       	subi	r30, 0xA6	; 166
+ 75a:	fd 4f       	sbci	r31, 0xFD	; 253
+ 75c:	60 82       	st	Z, r6
+		str_pos++;
+ 75e:	0b 5f       	subi	r16, 0xFB	; 251
+		TWI_TXBUFFER[str_pos] = 0;
+ 760:	e0 2f       	mov	r30, r16
+ 762:	f0 e0       	ldi	r31, 0x00	; 0
+ 764:	e6 5a       	subi	r30, 0xA6	; 166
+ 766:	fd 4f       	sbci	r31, 0xFD	; 253
+ 768:	10 82       	st	Z, r1
+		
+		/////////////////////////////////////
+		
+		TWIInit();							//We are ready to transmit again after TWI_TXBUFFER was updated
+ 76a:	0e 94 69 04 	call	0x8d2	; 0x8d2 <TWIInit>
+		
+		Radio_RX = 0;
+		if ((UCSR0A & (1<<RXC0)))			//Check for incoming RX from ground
+ 76e:	e0 ec       	ldi	r30, 0xC0	; 192
+ 770:	f0 e0       	ldi	r31, 0x00	; 0
+ 772:	80 81       	ld	r24, Z
+ 774:	88 23       	and	r24, r24
+ 776:	5c f4       	brge	.+22     	; 0x78e <main+0x1d8>
+		{
+			Radio_RX = RadioCheckRX(Radio_RX);
+ 778:	80 e0       	ldi	r24, 0x00	; 0
+ 77a:	0e 94 37 01 	call	0x26e	; 0x26e <RadioCheckRX>
+ 77e:	58 2e       	mov	r5, r24
+		}
+		
+		
+		if (Radio_RX!=0)			//Answer ground if HMS Command has been received
+ 780:	88 23       	and	r24, r24
+ 782:	31 f0       	breq	.+12     	; 0x790 <main+0x1da>
+		{
+			Hermes_State = RadioAnswerCMD(Radio_RX, Hermes_State);
+ 784:	61 2f       	mov	r22, r17
+ 786:	0e 94 e0 00 	call	0x1c0	; 0x1c0 <RadioAnswerCMD>
+ 78a:	18 2f       	mov	r17, r24
+ 78c:	01 c0       	rjmp	.+2      	; 0x790 <main+0x1da>
+		
+		/////////////////////////////////////
+		
+		TWIInit();							//We are ready to transmit again after TWI_TXBUFFER was updated
+		
+		Radio_RX = 0;
+ 78e:	51 2c       	mov	r5, r1
+		{
+			Hermes_State = RadioAnswerCMD(Radio_RX, Hermes_State);
+		}
+		
+		
+		if ((TWI_RXBUFFER[0]=='1') && (time - CUT_OFF_TIMER > 0))	//Set emergency-cut down to be executed if Athena is giving the go (not in free fall or landing) and CUT_OFF_TIMER seconds has elapsed
+ 790:	f1 01       	movw	r30, r2
+ 792:	80 81       	ld	r24, Z
+ 794:	81 33       	cpi	r24, 0x31	; 49
+ 796:	b1 f4       	brne	.+44     	; 0x7c4 <main+0x20e>
+ 798:	60 91 54 02 	lds	r22, 0x0254
+ 79c:	70 91 55 02 	lds	r23, 0x0255
+ 7a0:	80 91 56 02 	lds	r24, 0x0256
+ 7a4:	90 91 57 02 	lds	r25, 0x0257
+ 7a8:	20 e0       	ldi	r18, 0x00	; 0
+ 7aa:	30 ec       	ldi	r19, 0xC0	; 192
+ 7ac:	48 e2       	ldi	r20, 0x28	; 40
+ 7ae:	56 e4       	ldi	r21, 0x46	; 70
+ 7b0:	0e 94 51 05 	call	0xaa2	; 0xaa2 <__subsf3>
+ 7b4:	20 e0       	ldi	r18, 0x00	; 0
+ 7b6:	30 e0       	ldi	r19, 0x00	; 0
+ 7b8:	a9 01       	movw	r20, r18
+ 7ba:	0e 94 05 07 	call	0xe0a	; 0xe0a <__gesf2>
+ 7be:	18 16       	cp	r1, r24
+ 7c0:	0c f4       	brge	.+2      	; 0x7c4 <main+0x20e>
+		{
+			Hermes_State |= 1<<2;
+ 7c2:	14 60       	ori	r17, 0x04	; 4
+		}
+		
+		
+		if ((Hermes_State>>1) == 0x02)		//Turn on relays for CUT_DURATION seconds if Hermes_State is set to initiate emergency cut-down and if it hasn't previously been executed
+ 7c4:	81 2f       	mov	r24, r17
+ 7c6:	86 95       	lsr	r24
+ 7c8:	82 30       	cpi	r24, 0x02	; 2
+ 7ca:	b1 f4       	brne	.+44     	; 0x7f8 <main+0x242>
+		{
+			PORTD |= (1<<PORTD5)|(1<<PORTD6);
+ 7cc:	8b b1       	in	r24, 0x0b	; 11
+ 7ce:	80 66       	ori	r24, 0x60	; 96
+ 7d0:	8b b9       	out	0x0b, r24	; 11
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 7d2:	ff ef       	ldi	r31, 0xFF	; 255
+ 7d4:	2f e1       	ldi	r18, 0x1F	; 31
+ 7d6:	3f eb       	ldi	r19, 0xBF	; 191
+ 7d8:	82 e0       	ldi	r24, 0x02	; 2
+ 7da:	f1 50       	subi	r31, 0x01	; 1
+ 7dc:	20 40       	sbci	r18, 0x00	; 0
+ 7de:	30 40       	sbci	r19, 0x00	; 0
+ 7e0:	80 40       	sbci	r24, 0x00	; 0
+ 7e2:	d9 f7       	brne	.-10     	; 0x7da <main+0x224>
+ 7e4:	00 c0       	rjmp	.+0      	; 0x7e6 <main+0x230>
+ 7e6:	00 00       	nop
+			_delay_ms(CUT_DURATION);
+			PORTD &= ~((1<<PORTD5)|(1<<PORTD6));
+ 7e8:	8b b1       	in	r24, 0x0b	; 11
+ 7ea:	8f 79       	andi	r24, 0x9F	; 159
+ 7ec:	8b b9       	out	0x0b, r24	; 11
+			USARTPrint("Cut off successful!\r\n");
+ 7ee:	85 e3       	ldi	r24, 0x35	; 53
+ 7f0:	92 e0       	ldi	r25, 0x02	; 2
+ 7f2:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+			
+			Hermes_State |= 1<<1;
+ 7f6:	12 60       	ori	r17, 0x02	; 2
+		}
+		
+		Hermes_State = TWIGetState(Hermes_State);	//Update the first bit of Hermes_State to reflect status of last TWI operation
+ 7f8:	81 2f       	mov	r24, r17
+ 7fa:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <TWIGetState>
+ 7fe:	18 2f       	mov	r17, r24
+		
+		/////////////////////////////////// Transmit data to ground when time is a multiple of 3
+		if ((long)time%3 == 0)
+ 800:	60 91 54 02 	lds	r22, 0x0254
+ 804:	70 91 55 02 	lds	r23, 0x0255
+ 808:	80 91 56 02 	lds	r24, 0x0256
+ 80c:	90 91 57 02 	lds	r25, 0x0257
+ 810:	0e 94 22 06 	call	0xc44	; 0xc44 <__fixsfsi>
+ 814:	a7 01       	movw	r20, r14
+ 816:	96 01       	movw	r18, r12
+ 818:	0e 94 8e 07 	call	0xf1c	; 0xf1c <__divmodsi4>
+ 81c:	67 2b       	or	r22, r23
+ 81e:	68 2b       	or	r22, r24
+ 820:	69 2b       	or	r22, r25
+ 822:	c1 f5       	brne	.+112    	; 0x894 <main+0x2de>
+		{
+			
+			for (unsigned int i=0xFFFF; i!=0; i--)	//If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+			{
+				if (TWI_Busy==0) break;
+ 824:	80 91 78 02 	lds	r24, 0x0278
+ 828:	81 11       	cpse	r24, r1
+ 82a:	43 c0       	rjmp	.+134    	; 0x8b2 <main+0x2fc>
+ 82c:	0a c0       	rjmp	.+20     	; 0x842 <main+0x28c>
+ 82e:	20 91 78 02 	lds	r18, 0x0278
+ 832:	22 23       	and	r18, r18
+ 834:	31 f0       	breq	.+12     	; 0x842 <main+0x28c>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 836:	ed e3       	ldi	r30, 0x3D	; 61
+ 838:	ea 95       	dec	r30
+ 83a:	f1 f7       	brne	.-4      	; 0x838 <main+0x282>
+ 83c:	00 c0       	rjmp	.+0      	; 0x83e <main+0x288>
+ 83e:	01 97       	sbiw	r24, 0x01	; 1
+		
+		/////////////////////////////////// Transmit data to ground when time is a multiple of 3
+		if ((long)time%3 == 0)
+		{
+			
+			for (unsigned int i=0xFFFF; i!=0; i--)	//If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+ 840:	b1 f7       	brne	.-20     	; 0x82e <main+0x278>
+			{
+				if (TWI_Busy==0) break;
+				_delay_us(10);
+			}
+			TWI_Busy = 0;
+ 842:	10 92 78 02 	sts	0x0278, r1
+			TWCR = (1<<TWEN);						//Disable TWI to make sure we don't update TWI_TXBUFFER while the TWI is enabled and could transmit
+ 846:	24 e0       	ldi	r18, 0x04	; 4
+ 848:	ec eb       	ldi	r30, 0xBC	; 188
+ 84a:	f0 e0       	ldi	r31, 0x00	; 0
+ 84c:	20 83       	st	Z, r18
+					
+			USARTPrint("HMS-GND:");
+ 84e:	8b e4       	ldi	r24, 0x4B	; 75
+ 850:	92 e0       	ldi	r25, 0x02	; 2
+ 852:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+			USARTPrint((char*)TWI_RXBUFFER);		//Relay information received from Athena
+ 856:	c1 01       	movw	r24, r2
+ 858:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+			USARTWriteChar(',');
+ 85c:	86 2d       	mov	r24, r6
+ 85e:	0e 94 26 05 	call	0xa4c	; 0xa4c <USARTWriteChar>
+			fvar = battery_voltRead();
+ 862:	0e 94 bc 00 	call	0x178	; 0x178 <battery_voltRead>
+ 866:	ab 01       	movw	r20, r22
+ 868:	bc 01       	movw	r22, r24
+			floatToASCII(buffer,fvar);
+ 86a:	ce 01       	movw	r24, r28
+ 86c:	01 96       	adiw	r24, 0x01	; 1
+ 86e:	0e 94 83 01 	call	0x306	; 0x306 <floatToASCII>
+			USARTPrint(buffer);
+ 872:	ce 01       	movw	r24, r28
+ 874:	01 96       	adiw	r24, 0x01	; 1
+ 876:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+			USARTWriteChar(',');		
+ 87a:	86 2d       	mov	r24, r6
+ 87c:	0e 94 26 05 	call	0xa4c	; 0xa4c <USARTWriteChar>
+			USARTWriteChar(Hermes_State + '0');
+ 880:	81 2f       	mov	r24, r17
+ 882:	80 5d       	subi	r24, 0xD0	; 208
+ 884:	0e 94 26 05 	call	0xa4c	; 0xa4c <USARTWriteChar>
+			USARTPrint("\r\n");
+ 888:	88 e4       	ldi	r24, 0x48	; 72
+ 88a:	92 e0       	ldi	r25, 0x02	; 2
+ 88c:	0e 94 3b 05 	call	0xa76	; 0xa76 <USARTPrint>
+			
+			TWIInit();
+ 890:	0e 94 69 04 	call	0x8d2	; 0x8d2 <TWIInit>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 894:	3f ef       	ldi	r19, 0xFF	; 255
+ 896:	8f e9       	ldi	r24, 0x9F	; 159
+ 898:	95 e0       	ldi	r25, 0x05	; 5
+ 89a:	31 50       	subi	r19, 0x01	; 1
+ 89c:	80 40       	sbci	r24, 0x00	; 0
+ 89e:	90 40       	sbci	r25, 0x00	; 0
+ 8a0:	e1 f7       	brne	.-8      	; 0x89a <main+0x2e4>
+ 8a2:	00 c0       	rjmp	.+0      	; 0x8a4 <main+0x2ee>
+ 8a4:	00 00       	nop
+ 8a6:	c8 ce       	rjmp	.-624    	; 0x638 <main+0x82>
+			PORTB &= ~(1<<PORTB1);
+		}
+		
+		for (unsigned long i=0xFFFFFFFF; i!=0; i--) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+		{
+			if (TWI_Busy==0) break;
+ 8a8:	80 91 78 02 	lds	r24, 0x0278
+ 8ac:	81 11       	cpse	r24, r1
+ 8ae:	08 c0       	rjmp	.+16     	; 0x8c0 <main+0x30a>
+ 8b0:	ee ce       	rjmp	.-548    	; 0x68e <main+0xd8>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 8b2:	ed e3       	ldi	r30, 0x3D	; 61
+ 8b4:	ea 95       	dec	r30
+ 8b6:	f1 f7       	brne	.-4      	; 0x8b4 <main+0x2fe>
+ 8b8:	00 c0       	rjmp	.+0      	; 0x8ba <main+0x304>
+ 8ba:	8e ef       	ldi	r24, 0xFE	; 254
+ 8bc:	9f ef       	ldi	r25, 0xFF	; 255
+ 8be:	b7 cf       	rjmp	.-146    	; 0x82e <main+0x278>
+ 8c0:	fd e3       	ldi	r31, 0x3D	; 61
+ 8c2:	fa 95       	dec	r31
+ 8c4:	f1 f7       	brne	.-4      	; 0x8c2 <main+0x30c>
+ 8c6:	00 c0       	rjmp	.+0      	; 0x8c8 <main+0x312>
+ 8c8:	8e ef       	ldi	r24, 0xFE	; 254
+ 8ca:	9f ef       	ldi	r25, 0xFF	; 255
+ 8cc:	af ef       	ldi	r26, 0xFF	; 255
+ 8ce:	bf ef       	ldi	r27, 0xFF	; 255
+ 8d0:	d2 ce       	rjmp	.-604    	; 0x676 <main+0xc0>
+
+000008d2 <TWIInit>:
+volatile char TWI_RXBUFFER[164];
+volatile char TWI_TXBUFFER[30];
+
+void TWIInit(void) //Function to initialize the TWI and be ready to acknowledge call
+{
+	TWAR = 0xFE;
+ 8d2:	8e ef       	ldi	r24, 0xFE	; 254
+ 8d4:	80 93 ba 00 	sts	0x00BA, r24
+	TWCR = (1<<TWEN);						//TWI Interface enable
+ 8d8:	ec eb       	ldi	r30, 0xBC	; 188
+ 8da:	f0 e0       	ldi	r31, 0x00	; 0
+ 8dc:	84 e0       	ldi	r24, 0x04	; 4
+ 8de:	80 83       	st	Z, r24
+	TWCR |= (1<<TWIE)|(1<<TWINT);           //Enable TWI Interupt and clear the flag
+ 8e0:	80 81       	ld	r24, Z
+ 8e2:	81 68       	ori	r24, 0x81	; 129
+ 8e4:	80 83       	st	Z, r24
+	TWCR |= (1<<TWEA);						//Prepare to ACK next time Slave is addressed                          
+ 8e6:	80 81       	ld	r24, Z
+ 8e8:	80 64       	ori	r24, 0x40	; 64
+ 8ea:	80 83       	st	Z, r24
+	TWI_Busy = 0;
+ 8ec:	10 92 78 02 	sts	0x0278, r1
+ 8f0:	08 95       	ret
+
+000008f2 <__vector_24>:
+}
+
+ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every time the master device call Hermes' address
+ 8f2:	1f 92       	push	r1
+ 8f4:	0f 92       	push	r0
+ 8f6:	0f b6       	in	r0, 0x3f	; 63
+ 8f8:	0f 92       	push	r0
+ 8fa:	11 24       	eor	r1, r1
+ 8fc:	8f 93       	push	r24
+ 8fe:	9f 93       	push	r25
+ 900:	ef 93       	push	r30
+ 902:	ff 93       	push	r31
+	static unsigned char TWI_RX_Ptr;
+	static unsigned char TWI_TX_Ptr = 0;
+	
+	switch (TWSR)
+ 904:	80 91 b9 00 	lds	r24, 0x00B9
+ 908:	80 3a       	cpi	r24, 0xA0	; 160
+ 90a:	09 f4       	brne	.+2      	; 0x90e <__stack+0xf>
+ 90c:	61 c0       	rjmp	.+194    	; 0x9d0 <__stack+0xd1>
+ 90e:	68 f4       	brcc	.+26     	; 0x92a <__stack+0x2b>
+ 910:	80 36       	cpi	r24, 0x60	; 96
+ 912:	b1 f1       	breq	.+108    	; 0x980 <__stack+0x81>
+ 914:	20 f4       	brcc	.+8      	; 0x91e <__stack+0x1f>
+ 916:	88 23       	and	r24, r24
+ 918:	09 f4       	brne	.+2      	; 0x91c <__stack+0x1d>
+ 91a:	60 c0       	rjmp	.+192    	; 0x9dc <__stack+0xdd>
+ 91c:	67 c0       	rjmp	.+206    	; 0x9ec <__stack+0xed>
+ 91e:	80 38       	cpi	r24, 0x80	; 128
+ 920:	c1 f1       	breq	.+112    	; 0x992 <__stack+0x93>
+ 922:	88 38       	cpi	r24, 0x88	; 136
+ 924:	09 f0       	breq	.+2      	; 0x928 <__stack+0x29>
+ 926:	62 c0       	rjmp	.+196    	; 0x9ec <__stack+0xed>
+ 928:	59 c0       	rjmp	.+178    	; 0x9dc <__stack+0xdd>
+ 92a:	88 3b       	cpi	r24, 0xB8	; 184
+ 92c:	69 f0       	breq	.+26     	; 0x948 <__stack+0x49>
+ 92e:	20 f4       	brcc	.+8      	; 0x938 <__stack+0x39>
+ 930:	88 3a       	cpi	r24, 0xA8	; 168
+ 932:	09 f0       	breq	.+2      	; 0x936 <__stack+0x37>
+ 934:	5b c0       	rjmp	.+182    	; 0x9ec <__stack+0xed>
+ 936:	06 c0       	rjmp	.+12     	; 0x944 <__stack+0x45>
+ 938:	80 3c       	cpi	r24, 0xC0	; 192
+ 93a:	c9 f0       	breq	.+50     	; 0x96e <__stack+0x6f>
+ 93c:	88 3c       	cpi	r24, 0xC8	; 200
+ 93e:	09 f0       	breq	.+2      	; 0x942 <__stack+0x43>
+ 940:	55 c0       	rjmp	.+170    	; 0x9ec <__stack+0xed>
+ 942:	4c c0       	rjmp	.+152    	; 0x9dc <__stack+0xdd>
+	{
+		case TWI_STX_ADR_ACK:            //Own SLA+R has been received; ACK has been returned
+		
+		TWI_RX_Ptr  = 0;                 //Set buffer pointer to first data location
+ 944:	10 92 58 02 	sts	0x0258, r1
+		
+		case TWI_STX_DATA_ACK:           //Data byte in TWDR has been transmitted; ACK has been received
+
+		TWDR = TWI_TXBUFFER[TWI_TX_Ptr]; //Send byte to Athena
+ 948:	80 91 59 02 	lds	r24, 0x0259
+ 94c:	e8 2f       	mov	r30, r24
+ 94e:	f0 e0       	ldi	r31, 0x00	; 0
+ 950:	e6 5a       	subi	r30, 0xA6	; 166
+ 952:	fd 4f       	sbci	r31, 0xFD	; 253
+ 954:	90 81       	ld	r25, Z
+ 956:	90 93 bb 00 	sts	0x00BB, r25
+		TWI_TX_Ptr++;
+ 95a:	8f 5f       	subi	r24, 0xFF	; 255
+ 95c:	80 93 59 02 	sts	0x0259, r24
+		
+		TWCR = (1<<TWEN)|(1<<TWIE)|(1<<TWINT)|(1<<TWEA); //Ready TWI to receive again
+ 960:	85 ec       	ldi	r24, 0xC5	; 197
+ 962:	80 93 bc 00 	sts	0x00BC, r24
+		TWI_Busy = 1;
+ 966:	81 e0       	ldi	r24, 0x01	; 1
+ 968:	80 93 78 02 	sts	0x0278, r24
+		
+		break;
+ 96c:	46 c0       	rjmp	.+140    	; 0x9fa <__stack+0xfb>
+		
+		case TWI_STX_DATA_NACK:          //Data byte in TWDR has been transmitted. NACK has been received. This is usually how Athena responds, i.e. by not responding.
+		
+		TWI_Status = 1;					 //Set status for a sucessful transmission
+ 96e:	81 e0       	ldi	r24, 0x01	; 1
+ 970:	80 93 1d 03 	sts	0x031D, r24
+		TWCR = (1<<TWEN)|(1<<TWIE)|(1<<TWINT)|(1<<TWEA); //Ready TWI to receive again
+ 974:	95 ec       	ldi	r25, 0xC5	; 197
+ 976:	90 93 bc 00 	sts	0x00BC, r25
+
+		TWI_Busy = 1;					//Keep busy until stop condition
+ 97a:	80 93 78 02 	sts	0x0278, r24
+		break;
+ 97e:	3d c0       	rjmp	.+122    	; 0x9fa <__stack+0xfb>
+		
+		case TWI_SRX_ADR_ACK:            //Own SLA+W has been received ACK has been returned
+		TWI_RX_Ptr = 0;                                 //Set buffer pointer to first data location
+ 980:	10 92 58 02 	sts	0x0258, r1
+		
+		TWCR = (1<<TWEN)|(1<<TWIE)|(1<<TWINT)|(1<<TWEA); //Ready TWI to receive again
+ 984:	85 ec       	ldi	r24, 0xC5	; 197
+ 986:	80 93 bc 00 	sts	0x00BC, r24
+		
+		TWI_Busy = 1;
+ 98a:	81 e0       	ldi	r24, 0x01	; 1
+ 98c:	80 93 78 02 	sts	0x0278, r24
+		break;
+ 990:	34 c0       	rjmp	.+104    	; 0x9fa <__stack+0xfb>
+		
+		case TWI_SRX_ADR_DATA_ACK:       //Previously addressed with own SLA+W; data has been received; ACK has been returned
+		
+		TWI_RXBUFFER[TWI_RX_Ptr] = TWDR; //Save byte from Athena
+ 992:	80 91 58 02 	lds	r24, 0x0258
+ 996:	e8 2f       	mov	r30, r24
+ 998:	f0 e0       	ldi	r31, 0x00	; 0
+ 99a:	90 91 bb 00 	lds	r25, 0x00BB
+ 99e:	e7 58       	subi	r30, 0x87	; 135
+ 9a0:	fd 4f       	sbci	r31, 0xFD	; 253
+ 9a2:	90 83       	st	Z, r25
+		
+		if (TWI_RXBUFFER[TWI_RX_Ptr]==0xFF)	//If byte received is 0xFF, reset the ptr for the TX buffer as Athena wants the whole buffer from the beginning
+ 9a4:	90 81       	ld	r25, Z
+ 9a6:	9f 3f       	cpi	r25, 0xFF	; 255
+ 9a8:	11 f4       	brne	.+4      	; 0x9ae <__stack+0xaf>
+		{
+			TWI_TX_Ptr = 0;
+ 9aa:	10 92 59 02 	sts	0x0259, r1
+		}
+		
+		TWI_RX_Ptr++;
+ 9ae:	e8 2f       	mov	r30, r24
+ 9b0:	ef 5f       	subi	r30, 0xFF	; 255
+ 9b2:	e0 93 58 02 	sts	0x0258, r30
+		TWI_RXBUFFER[TWI_RX_Ptr] = 0;	//Make sure to end the string with a 0!
+ 9b6:	f0 e0       	ldi	r31, 0x00	; 0
+ 9b8:	e7 58       	subi	r30, 0x87	; 135
+ 9ba:	fd 4f       	sbci	r31, 0xFD	; 253
+ 9bc:	10 82       	st	Z, r1
+		
+		TWCR = (1<<TWEN)|(1<<TWIE)|(1<<TWINT)|(1<<TWEA); //Ready TWI to receive again 
+ 9be:	85 ec       	ldi	r24, 0xC5	; 197
+ 9c0:	80 93 bc 00 	sts	0x00BC, r24
+		
+		TWI_Busy = 1;
+ 9c4:	81 e0       	ldi	r24, 0x01	; 1
+ 9c6:	80 93 78 02 	sts	0x0278, r24
+		TWI_Status = 1;
+ 9ca:	80 93 1d 03 	sts	0x031D, r24
+		break;
+ 9ce:	15 c0       	rjmp	.+42     	; 0x9fa <__stack+0xfb>
+		
+		case TWI_SRX_STOP_RESTART:       //A STOP condition or repeated START condition has been received while still addressed as Slave
+		// Enter not addressed mode and listen to address match
+		TWCR = (1<<TWEN)|(1<<TWIE)|(1<<TWINT)|(1<<TWEA); //Ready TWI to receive again
+ 9d0:	85 ec       	ldi	r24, 0xC5	; 197
+ 9d2:	80 93 bc 00 	sts	0x00BC, r24
+		
+		TWI_Busy = 0;  //We are waiting for a new address match, so we are not busy
+ 9d6:	10 92 78 02 	sts	0x0278, r1
+		break;
+ 9da:	0f c0       	rjmp	.+30     	; 0x9fa <__stack+0xfb>
+		
+		case TWI_SRX_ADR_DATA_NACK:      //Previously addressed with own SLA+W; data has been received; NOT ACK has been returned
+		case TWI_STX_DATA_ACK_LAST_BYTE: //Last data byte in TWDR has been transmitted (TWEA = “0”); ACK has been received
+		case TWI_BUS_ERROR:         //Bus error due to an illegal START or STOP condition
+		TWI_Status = 0;				//Error
+ 9dc:	10 92 1d 03 	sts	0x031D, r1
+		TWI_Busy = 0;
+ 9e0:	10 92 78 02 	sts	0x0278, r1
+		TWCR = (1<<TWSTO)|(1<<TWINT);   //Recover from TWI_BUS_ERROR, this will release the SDA and SCL pins thus enabling other devices to use the bus
+ 9e4:	80 e9       	ldi	r24, 0x90	; 144
+ 9e6:	80 93 bc 00 	sts	0x00BC, r24
+		break;
+ 9ea:	07 c0       	rjmp	.+14     	; 0x9fa <__stack+0xfb>
+		
+		default:
+		TWCR = (1<<TWEN)|(1<<TWIE)|(1<<TWINT)|(1<<TWEA); //Ready TWI to receive again
+ 9ec:	85 ec       	ldi	r24, 0xC5	; 197
+ 9ee:	80 93 bc 00 	sts	0x00BC, r24
+		TWI_Status = 0;								//Error
+ 9f2:	10 92 1d 03 	sts	0x031D, r1
+		TWI_Busy = 0; //Unknown status, so we wait for a new address match
+ 9f6:	10 92 78 02 	sts	0x0278, r1
+	}
+ 9fa:	ff 91       	pop	r31
+ 9fc:	ef 91       	pop	r30
+ 9fe:	9f 91       	pop	r25
+ a00:	8f 91       	pop	r24
+ a02:	0f 90       	pop	r0
+ a04:	0f be       	out	0x3f, r0	; 63
+ a06:	0f 90       	pop	r0
+ a08:	1f 90       	pop	r1
+ a0a:	18 95       	reti
+
+00000a0c <USARTInit>:
+
+void USARTInit(unsigned int ubrr)
+{
+
+  
+	UBRR0L = ubrr;		//Set Baud Rate
+ a0c:	80 93 c4 00 	sts	0x00C4, r24
+	UBRR0H = (ubrr>>8);
+ a10:	90 93 c5 00 	sts	0x00C5, r25
+	>> 1 StopBit
+
+	>> char size 8
+	*/
+   
+	UCSR0C= (1<<UCSZ00)|(1<<UCSZ01); //8-bit frame
+ a14:	86 e0       	ldi	r24, 0x06	; 6
+ a16:	80 93 c2 00 	sts	0x00C2, r24
+
+
+	UCSR0B=(1<<RXEN0)|(1<<TXEN0); //Enable TX and RX
+ a1a:	88 e1       	ldi	r24, 0x18	; 24
+ a1c:	80 93 c1 00 	sts	0x00C1, r24
+ a20:	08 95       	ret
+
+00000a22 <USARTReadChar>:
+{
+   //Wait until data is available or bail out
+
+ 	char i = 255;
+
+ 	while(!(UCSR0A & (1<<RXC0))){
+ a22:	80 91 c0 00 	lds	r24, 0x00C0
+ a26:	88 23       	and	r24, r24
+ a28:	24 f4       	brge	.+8      	; 0xa32 <USARTReadChar+0x10>
+ a2a:	0d c0       	rjmp	.+26     	; 0xa46 <USARTReadChar+0x24>
+ a2c:	81 50       	subi	r24, 0x01	; 1
+	 	if(i==0)
+ a2e:	21 f4       	brne	.+8      	; 0xa38 <USARTReadChar+0x16>
+ a30:	0a c0       	rjmp	.+20     	; 0xa46 <USARTReadChar+0x24>
+{
+   //Wait until data is available or bail out
+
+ 	char i = 255;
+
+ 	while(!(UCSR0A & (1<<RXC0))){
+ a32:	8f ef       	ldi	r24, 0xFF	; 255
+ a34:	e0 ec       	ldi	r30, 0xC0	; 192
+ a36:	f0 e0       	ldi	r31, 0x00	; 0
+ a38:	9d e3       	ldi	r25, 0x3D	; 61
+ a3a:	9a 95       	dec	r25
+ a3c:	f1 f7       	brne	.-4      	; 0xa3a <USARTReadChar+0x18>
+ a3e:	00 c0       	rjmp	.+0      	; 0xa40 <USARTReadChar+0x1e>
+ a40:	90 81       	ld	r25, Z
+ a42:	99 23       	and	r25, r25
+ a44:	9c f7       	brge	.-26     	; 0xa2c <USARTReadChar+0xa>
+	 	_delay_us(10);
+ 	}
+
+   //USART has got data from device and is available inside the buffer
+
+   return UDR0;
+ a46:	80 91 c6 00 	lds	r24, 0x00C6
+}
+ a4a:	08 95       	ret
+
+00000a4c <USARTWriteChar>:
+{
+   //Wait until the transmitter is ready or bail out
+
+ 	char i = 255;
+
+ 	while(!(UCSR0A & (1<<UDRE0))){
+ a4c:	90 91 c0 00 	lds	r25, 0x00C0
+ a50:	95 ff       	sbrs	r25, 5
+ a52:	04 c0       	rjmp	.+8      	; 0xa5c <USARTWriteChar+0x10>
+ a54:	0d c0       	rjmp	.+26     	; 0xa70 <USARTWriteChar+0x24>
+ a56:	91 50       	subi	r25, 0x01	; 1
+	 	if(i==0)
+ a58:	21 f4       	brne	.+8      	; 0xa62 <USARTWriteChar+0x16>
+ a5a:	0a c0       	rjmp	.+20     	; 0xa70 <USARTWriteChar+0x24>
+{
+   //Wait until the transmitter is ready or bail out
+
+ 	char i = 255;
+
+ 	while(!(UCSR0A & (1<<UDRE0))){
+ a5c:	9f ef       	ldi	r25, 0xFF	; 255
+ a5e:	e0 ec       	ldi	r30, 0xC0	; 192
+ a60:	f0 e0       	ldi	r31, 0x00	; 0
+ a62:	2d e3       	ldi	r18, 0x3D	; 61
+ a64:	2a 95       	dec	r18
+ a66:	f1 f7       	brne	.-4      	; 0xa64 <USARTWriteChar+0x18>
+ a68:	00 c0       	rjmp	.+0      	; 0xa6a <USARTWriteChar+0x1e>
+ a6a:	20 81       	ld	r18, Z
+ a6c:	25 ff       	sbrs	r18, 5
+ a6e:	f3 cf       	rjmp	.-26     	; 0xa56 <USARTWriteChar+0xa>
+	 	_delay_us(10);
+ 	}
+
+   //Write the data to USART buffer
+
+   UDR0=data;
+ a70:	80 93 c6 00 	sts	0x00C6, r24
+ a74:	08 95       	ret
+
+00000a76 <USARTPrint>:
+}
+
+void USARTPrint(char *data)			//Sends a series of characters through the serial
+{
+ a76:	cf 93       	push	r28
+ a78:	df 93       	push	r29
+	for (unsigned int i=0;data[i]!=0;i++)
+ a7a:	fc 01       	movw	r30, r24
+ a7c:	20 81       	ld	r18, Z
+ a7e:	22 23       	and	r18, r18
+ a80:	69 f0       	breq	.+26     	; 0xa9c <USARTPrint+0x26>
+   //Write the data to USART buffer
+
+   UDR0=data;
+}
+
+void USARTPrint(char *data)			//Sends a series of characters through the serial
+ a82:	dc 01       	movw	r26, r24
+ a84:	11 96       	adiw	r26, 0x01	; 1
+{
+	for (unsigned int i=0;data[i]!=0;i++)
+	{
+		while(!(UCSR0A & (1<<UDRE0)));
+ a86:	e0 ec       	ldi	r30, 0xC0	; 192
+ a88:	f0 e0       	ldi	r31, 0x00	; 0
+		UDR0=data[i];
+ a8a:	c6 ec       	ldi	r28, 0xC6	; 198
+ a8c:	d0 e0       	ldi	r29, 0x00	; 0
+
+void USARTPrint(char *data)			//Sends a series of characters through the serial
+{
+	for (unsigned int i=0;data[i]!=0;i++)
+	{
+		while(!(UCSR0A & (1<<UDRE0)));
+ a8e:	80 81       	ld	r24, Z
+ a90:	85 ff       	sbrs	r24, 5
+ a92:	fd cf       	rjmp	.-6      	; 0xa8e <USARTPrint+0x18>
+		UDR0=data[i];
+ a94:	28 83       	st	Y, r18
+   UDR0=data;
+}
+
+void USARTPrint(char *data)			//Sends a series of characters through the serial
+{
+	for (unsigned int i=0;data[i]!=0;i++)
+ a96:	2d 91       	ld	r18, X+
+ a98:	21 11       	cpse	r18, r1
+ a9a:	f9 cf       	rjmp	.-14     	; 0xa8e <USARTPrint+0x18>
+	{
+		while(!(UCSR0A & (1<<UDRE0)));
+		UDR0=data[i];
+	}
+ a9c:	df 91       	pop	r29
+ a9e:	cf 91       	pop	r28
+ aa0:	08 95       	ret
+
+00000aa2 <__subsf3>:
+ aa2:	50 58       	subi	r21, 0x80	; 128
+
+00000aa4 <__addsf3>:
+ aa4:	bb 27       	eor	r27, r27
+ aa6:	aa 27       	eor	r26, r26
+ aa8:	0e d0       	rcall	.+28     	; 0xac6 <__addsf3x>
+ aaa:	75 c1       	rjmp	.+746    	; 0xd96 <__fp_round>
+ aac:	66 d1       	rcall	.+716    	; 0xd7a <__fp_pscA>
+ aae:	30 f0       	brcs	.+12     	; 0xabc <__addsf3+0x18>
+ ab0:	6b d1       	rcall	.+726    	; 0xd88 <__fp_pscB>
+ ab2:	20 f0       	brcs	.+8      	; 0xabc <__addsf3+0x18>
+ ab4:	31 f4       	brne	.+12     	; 0xac2 <__addsf3+0x1e>
+ ab6:	9f 3f       	cpi	r25, 0xFF	; 255
+ ab8:	11 f4       	brne	.+4      	; 0xabe <__addsf3+0x1a>
+ aba:	1e f4       	brtc	.+6      	; 0xac2 <__addsf3+0x1e>
+ abc:	5b c1       	rjmp	.+694    	; 0xd74 <__fp_nan>
+ abe:	0e f4       	brtc	.+2      	; 0xac2 <__addsf3+0x1e>
+ ac0:	e0 95       	com	r30
+ ac2:	e7 fb       	bst	r30, 7
+ ac4:	51 c1       	rjmp	.+674    	; 0xd68 <__fp_inf>
+
+00000ac6 <__addsf3x>:
+ ac6:	e9 2f       	mov	r30, r25
+ ac8:	77 d1       	rcall	.+750    	; 0xdb8 <__fp_split3>
+ aca:	80 f3       	brcs	.-32     	; 0xaac <__addsf3+0x8>
+ acc:	ba 17       	cp	r27, r26
+ ace:	62 07       	cpc	r22, r18
+ ad0:	73 07       	cpc	r23, r19
+ ad2:	84 07       	cpc	r24, r20
+ ad4:	95 07       	cpc	r25, r21
+ ad6:	18 f0       	brcs	.+6      	; 0xade <__addsf3x+0x18>
+ ad8:	71 f4       	brne	.+28     	; 0xaf6 <__addsf3x+0x30>
+ ada:	9e f5       	brtc	.+102    	; 0xb42 <__addsf3x+0x7c>
+ adc:	8f c1       	rjmp	.+798    	; 0xdfc <__fp_zero>
+ ade:	0e f4       	brtc	.+2      	; 0xae2 <__addsf3x+0x1c>
+ ae0:	e0 95       	com	r30
+ ae2:	0b 2e       	mov	r0, r27
+ ae4:	ba 2f       	mov	r27, r26
+ ae6:	a0 2d       	mov	r26, r0
+ ae8:	0b 01       	movw	r0, r22
+ aea:	b9 01       	movw	r22, r18
+ aec:	90 01       	movw	r18, r0
+ aee:	0c 01       	movw	r0, r24
+ af0:	ca 01       	movw	r24, r20
+ af2:	a0 01       	movw	r20, r0
+ af4:	11 24       	eor	r1, r1
+ af6:	ff 27       	eor	r31, r31
+ af8:	59 1b       	sub	r21, r25
+ afa:	99 f0       	breq	.+38     	; 0xb22 <__addsf3x+0x5c>
+ afc:	59 3f       	cpi	r21, 0xF9	; 249
+ afe:	50 f4       	brcc	.+20     	; 0xb14 <__addsf3x+0x4e>
+ b00:	50 3e       	cpi	r21, 0xE0	; 224
+ b02:	68 f1       	brcs	.+90     	; 0xb5e <__addsf3x+0x98>
+ b04:	1a 16       	cp	r1, r26
+ b06:	f0 40       	sbci	r31, 0x00	; 0
+ b08:	a2 2f       	mov	r26, r18
+ b0a:	23 2f       	mov	r18, r19
+ b0c:	34 2f       	mov	r19, r20
+ b0e:	44 27       	eor	r20, r20
+ b10:	58 5f       	subi	r21, 0xF8	; 248
+ b12:	f3 cf       	rjmp	.-26     	; 0xafa <__addsf3x+0x34>
+ b14:	46 95       	lsr	r20
+ b16:	37 95       	ror	r19
+ b18:	27 95       	ror	r18
+ b1a:	a7 95       	ror	r26
+ b1c:	f0 40       	sbci	r31, 0x00	; 0
+ b1e:	53 95       	inc	r21
+ b20:	c9 f7       	brne	.-14     	; 0xb14 <__addsf3x+0x4e>
+ b22:	7e f4       	brtc	.+30     	; 0xb42 <__addsf3x+0x7c>
+ b24:	1f 16       	cp	r1, r31
+ b26:	ba 0b       	sbc	r27, r26
+ b28:	62 0b       	sbc	r22, r18
+ b2a:	73 0b       	sbc	r23, r19
+ b2c:	84 0b       	sbc	r24, r20
+ b2e:	ba f0       	brmi	.+46     	; 0xb5e <__addsf3x+0x98>
+ b30:	91 50       	subi	r25, 0x01	; 1
+ b32:	a1 f0       	breq	.+40     	; 0xb5c <__addsf3x+0x96>
+ b34:	ff 0f       	add	r31, r31
+ b36:	bb 1f       	adc	r27, r27
+ b38:	66 1f       	adc	r22, r22
+ b3a:	77 1f       	adc	r23, r23
+ b3c:	88 1f       	adc	r24, r24
+ b3e:	c2 f7       	brpl	.-16     	; 0xb30 <__addsf3x+0x6a>
+ b40:	0e c0       	rjmp	.+28     	; 0xb5e <__addsf3x+0x98>
+ b42:	ba 0f       	add	r27, r26
+ b44:	62 1f       	adc	r22, r18
+ b46:	73 1f       	adc	r23, r19
+ b48:	84 1f       	adc	r24, r20
+ b4a:	48 f4       	brcc	.+18     	; 0xb5e <__addsf3x+0x98>
+ b4c:	87 95       	ror	r24
+ b4e:	77 95       	ror	r23
+ b50:	67 95       	ror	r22
+ b52:	b7 95       	ror	r27
+ b54:	f7 95       	ror	r31
+ b56:	9e 3f       	cpi	r25, 0xFE	; 254
+ b58:	08 f0       	brcs	.+2      	; 0xb5c <__addsf3x+0x96>
+ b5a:	b3 cf       	rjmp	.-154    	; 0xac2 <__addsf3+0x1e>
+ b5c:	93 95       	inc	r25
+ b5e:	88 0f       	add	r24, r24
+ b60:	08 f0       	brcs	.+2      	; 0xb64 <__addsf3x+0x9e>
+ b62:	99 27       	eor	r25, r25
+ b64:	ee 0f       	add	r30, r30
+ b66:	97 95       	ror	r25
+ b68:	87 95       	ror	r24
+ b6a:	08 95       	ret
+
+00000b6c <__cmpsf2>:
+ b6c:	d9 d0       	rcall	.+434    	; 0xd20 <__fp_cmp>
+ b6e:	08 f4       	brcc	.+2      	; 0xb72 <__cmpsf2+0x6>
+ b70:	81 e0       	ldi	r24, 0x01	; 1
+ b72:	08 95       	ret
+
+00000b74 <__divsf3>:
+ b74:	0c d0       	rcall	.+24     	; 0xb8e <__divsf3x>
+ b76:	0f c1       	rjmp	.+542    	; 0xd96 <__fp_round>
+ b78:	07 d1       	rcall	.+526    	; 0xd88 <__fp_pscB>
+ b7a:	40 f0       	brcs	.+16     	; 0xb8c <__divsf3+0x18>
+ b7c:	fe d0       	rcall	.+508    	; 0xd7a <__fp_pscA>
+ b7e:	30 f0       	brcs	.+12     	; 0xb8c <__divsf3+0x18>
+ b80:	21 f4       	brne	.+8      	; 0xb8a <__divsf3+0x16>
+ b82:	5f 3f       	cpi	r21, 0xFF	; 255
+ b84:	19 f0       	breq	.+6      	; 0xb8c <__divsf3+0x18>
+ b86:	f0 c0       	rjmp	.+480    	; 0xd68 <__fp_inf>
+ b88:	51 11       	cpse	r21, r1
+ b8a:	39 c1       	rjmp	.+626    	; 0xdfe <__fp_szero>
+ b8c:	f3 c0       	rjmp	.+486    	; 0xd74 <__fp_nan>
+
+00000b8e <__divsf3x>:
+ b8e:	14 d1       	rcall	.+552    	; 0xdb8 <__fp_split3>
+ b90:	98 f3       	brcs	.-26     	; 0xb78 <__divsf3+0x4>
+
+00000b92 <__divsf3_pse>:
+ b92:	99 23       	and	r25, r25
+ b94:	c9 f3       	breq	.-14     	; 0xb88 <__divsf3+0x14>
+ b96:	55 23       	and	r21, r21
+ b98:	b1 f3       	breq	.-20     	; 0xb86 <__divsf3+0x12>
+ b9a:	95 1b       	sub	r25, r21
+ b9c:	55 0b       	sbc	r21, r21
+ b9e:	bb 27       	eor	r27, r27
+ ba0:	aa 27       	eor	r26, r26
+ ba2:	62 17       	cp	r22, r18
+ ba4:	73 07       	cpc	r23, r19
+ ba6:	84 07       	cpc	r24, r20
+ ba8:	38 f0       	brcs	.+14     	; 0xbb8 <__divsf3_pse+0x26>
+ baa:	9f 5f       	subi	r25, 0xFF	; 255
+ bac:	5f 4f       	sbci	r21, 0xFF	; 255
+ bae:	22 0f       	add	r18, r18
+ bb0:	33 1f       	adc	r19, r19
+ bb2:	44 1f       	adc	r20, r20
+ bb4:	aa 1f       	adc	r26, r26
+ bb6:	a9 f3       	breq	.-22     	; 0xba2 <__divsf3_pse+0x10>
+ bb8:	33 d0       	rcall	.+102    	; 0xc20 <__divsf3_pse+0x8e>
+ bba:	0e 2e       	mov	r0, r30
+ bbc:	3a f0       	brmi	.+14     	; 0xbcc <__divsf3_pse+0x3a>
+ bbe:	e0 e8       	ldi	r30, 0x80	; 128
+ bc0:	30 d0       	rcall	.+96     	; 0xc22 <__divsf3_pse+0x90>
+ bc2:	91 50       	subi	r25, 0x01	; 1
+ bc4:	50 40       	sbci	r21, 0x00	; 0
+ bc6:	e6 95       	lsr	r30
+ bc8:	00 1c       	adc	r0, r0
+ bca:	ca f7       	brpl	.-14     	; 0xbbe <__divsf3_pse+0x2c>
+ bcc:	29 d0       	rcall	.+82     	; 0xc20 <__divsf3_pse+0x8e>
+ bce:	fe 2f       	mov	r31, r30
+ bd0:	27 d0       	rcall	.+78     	; 0xc20 <__divsf3_pse+0x8e>
+ bd2:	66 0f       	add	r22, r22
+ bd4:	77 1f       	adc	r23, r23
+ bd6:	88 1f       	adc	r24, r24
+ bd8:	bb 1f       	adc	r27, r27
+ bda:	26 17       	cp	r18, r22
+ bdc:	37 07       	cpc	r19, r23
+ bde:	48 07       	cpc	r20, r24
+ be0:	ab 07       	cpc	r26, r27
+ be2:	b0 e8       	ldi	r27, 0x80	; 128
+ be4:	09 f0       	breq	.+2      	; 0xbe8 <__divsf3_pse+0x56>
+ be6:	bb 0b       	sbc	r27, r27
+ be8:	80 2d       	mov	r24, r0
+ bea:	bf 01       	movw	r22, r30
+ bec:	ff 27       	eor	r31, r31
+ bee:	93 58       	subi	r25, 0x83	; 131
+ bf0:	5f 4f       	sbci	r21, 0xFF	; 255
+ bf2:	2a f0       	brmi	.+10     	; 0xbfe <__divsf3_pse+0x6c>
+ bf4:	9e 3f       	cpi	r25, 0xFE	; 254
+ bf6:	51 05       	cpc	r21, r1
+ bf8:	68 f0       	brcs	.+26     	; 0xc14 <__divsf3_pse+0x82>
+ bfa:	b6 c0       	rjmp	.+364    	; 0xd68 <__fp_inf>
+ bfc:	00 c1       	rjmp	.+512    	; 0xdfe <__fp_szero>
+ bfe:	5f 3f       	cpi	r21, 0xFF	; 255
+ c00:	ec f3       	brlt	.-6      	; 0xbfc <__divsf3_pse+0x6a>
+ c02:	98 3e       	cpi	r25, 0xE8	; 232
+ c04:	dc f3       	brlt	.-10     	; 0xbfc <__divsf3_pse+0x6a>
+ c06:	86 95       	lsr	r24
+ c08:	77 95       	ror	r23
+ c0a:	67 95       	ror	r22
+ c0c:	b7 95       	ror	r27
+ c0e:	f7 95       	ror	r31
+ c10:	9f 5f       	subi	r25, 0xFF	; 255
+ c12:	c9 f7       	brne	.-14     	; 0xc06 <__divsf3_pse+0x74>
+ c14:	88 0f       	add	r24, r24
+ c16:	91 1d       	adc	r25, r1
+ c18:	96 95       	lsr	r25
+ c1a:	87 95       	ror	r24
+ c1c:	97 f9       	bld	r25, 7
+ c1e:	08 95       	ret
+ c20:	e1 e0       	ldi	r30, 0x01	; 1
+ c22:	66 0f       	add	r22, r22
+ c24:	77 1f       	adc	r23, r23
+ c26:	88 1f       	adc	r24, r24
+ c28:	bb 1f       	adc	r27, r27
+ c2a:	62 17       	cp	r22, r18
+ c2c:	73 07       	cpc	r23, r19
+ c2e:	84 07       	cpc	r24, r20
+ c30:	ba 07       	cpc	r27, r26
+ c32:	20 f0       	brcs	.+8      	; 0xc3c <__divsf3_pse+0xaa>
+ c34:	62 1b       	sub	r22, r18
+ c36:	73 0b       	sbc	r23, r19
+ c38:	84 0b       	sbc	r24, r20
+ c3a:	ba 0b       	sbc	r27, r26
+ c3c:	ee 1f       	adc	r30, r30
+ c3e:	88 f7       	brcc	.-30     	; 0xc22 <__divsf3_pse+0x90>
+ c40:	e0 95       	com	r30
+ c42:	08 95       	ret
+
+00000c44 <__fixsfsi>:
+ c44:	04 d0       	rcall	.+8      	; 0xc4e <__fixunssfsi>
+ c46:	68 94       	set
+ c48:	b1 11       	cpse	r27, r1
+ c4a:	d9 c0       	rjmp	.+434    	; 0xdfe <__fp_szero>
+ c4c:	08 95       	ret
+
+00000c4e <__fixunssfsi>:
+ c4e:	bc d0       	rcall	.+376    	; 0xdc8 <__fp_splitA>
+ c50:	88 f0       	brcs	.+34     	; 0xc74 <__fixunssfsi+0x26>
+ c52:	9f 57       	subi	r25, 0x7F	; 127
+ c54:	90 f0       	brcs	.+36     	; 0xc7a <__fixunssfsi+0x2c>
+ c56:	b9 2f       	mov	r27, r25
+ c58:	99 27       	eor	r25, r25
+ c5a:	b7 51       	subi	r27, 0x17	; 23
+ c5c:	a0 f0       	brcs	.+40     	; 0xc86 <__fixunssfsi+0x38>
+ c5e:	d1 f0       	breq	.+52     	; 0xc94 <__fixunssfsi+0x46>
+ c60:	66 0f       	add	r22, r22
+ c62:	77 1f       	adc	r23, r23
+ c64:	88 1f       	adc	r24, r24
+ c66:	99 1f       	adc	r25, r25
+ c68:	1a f0       	brmi	.+6      	; 0xc70 <__fixunssfsi+0x22>
+ c6a:	ba 95       	dec	r27
+ c6c:	c9 f7       	brne	.-14     	; 0xc60 <__fixunssfsi+0x12>
+ c6e:	12 c0       	rjmp	.+36     	; 0xc94 <__fixunssfsi+0x46>
+ c70:	b1 30       	cpi	r27, 0x01	; 1
+ c72:	81 f0       	breq	.+32     	; 0xc94 <__fixunssfsi+0x46>
+ c74:	c3 d0       	rcall	.+390    	; 0xdfc <__fp_zero>
+ c76:	b1 e0       	ldi	r27, 0x01	; 1
+ c78:	08 95       	ret
+ c7a:	c0 c0       	rjmp	.+384    	; 0xdfc <__fp_zero>
+ c7c:	67 2f       	mov	r22, r23
+ c7e:	78 2f       	mov	r23, r24
+ c80:	88 27       	eor	r24, r24
+ c82:	b8 5f       	subi	r27, 0xF8	; 248
+ c84:	39 f0       	breq	.+14     	; 0xc94 <__fixunssfsi+0x46>
+ c86:	b9 3f       	cpi	r27, 0xF9	; 249
+ c88:	cc f3       	brlt	.-14     	; 0xc7c <__fixunssfsi+0x2e>
+ c8a:	86 95       	lsr	r24
+ c8c:	77 95       	ror	r23
+ c8e:	67 95       	ror	r22
+ c90:	b3 95       	inc	r27
+ c92:	d9 f7       	brne	.-10     	; 0xc8a <__fixunssfsi+0x3c>
+ c94:	3e f4       	brtc	.+14     	; 0xca4 <__fixunssfsi+0x56>
+ c96:	90 95       	com	r25
+ c98:	80 95       	com	r24
+ c9a:	70 95       	com	r23
+ c9c:	61 95       	neg	r22
+ c9e:	7f 4f       	sbci	r23, 0xFF	; 255
+ ca0:	8f 4f       	sbci	r24, 0xFF	; 255
+ ca2:	9f 4f       	sbci	r25, 0xFF	; 255
+ ca4:	08 95       	ret
+
+00000ca6 <__floatunsisf>:
+ ca6:	e8 94       	clt
+ ca8:	09 c0       	rjmp	.+18     	; 0xcbc <__floatsisf+0x12>
+
+00000caa <__floatsisf>:
+ caa:	97 fb       	bst	r25, 7
+ cac:	3e f4       	brtc	.+14     	; 0xcbc <__floatsisf+0x12>
+ cae:	90 95       	com	r25
+ cb0:	80 95       	com	r24
+ cb2:	70 95       	com	r23
+ cb4:	61 95       	neg	r22
+ cb6:	7f 4f       	sbci	r23, 0xFF	; 255
+ cb8:	8f 4f       	sbci	r24, 0xFF	; 255
+ cba:	9f 4f       	sbci	r25, 0xFF	; 255
+ cbc:	99 23       	and	r25, r25
+ cbe:	a9 f0       	breq	.+42     	; 0xcea <__floatsisf+0x40>
+ cc0:	f9 2f       	mov	r31, r25
+ cc2:	96 e9       	ldi	r25, 0x96	; 150
+ cc4:	bb 27       	eor	r27, r27
+ cc6:	93 95       	inc	r25
+ cc8:	f6 95       	lsr	r31
+ cca:	87 95       	ror	r24
+ ccc:	77 95       	ror	r23
+ cce:	67 95       	ror	r22
+ cd0:	b7 95       	ror	r27
+ cd2:	f1 11       	cpse	r31, r1
+ cd4:	f8 cf       	rjmp	.-16     	; 0xcc6 <__floatsisf+0x1c>
+ cd6:	fa f4       	brpl	.+62     	; 0xd16 <__floatsisf+0x6c>
+ cd8:	bb 0f       	add	r27, r27
+ cda:	11 f4       	brne	.+4      	; 0xce0 <__floatsisf+0x36>
+ cdc:	60 ff       	sbrs	r22, 0
+ cde:	1b c0       	rjmp	.+54     	; 0xd16 <__floatsisf+0x6c>
+ ce0:	6f 5f       	subi	r22, 0xFF	; 255
+ ce2:	7f 4f       	sbci	r23, 0xFF	; 255
+ ce4:	8f 4f       	sbci	r24, 0xFF	; 255
+ ce6:	9f 4f       	sbci	r25, 0xFF	; 255
+ ce8:	16 c0       	rjmp	.+44     	; 0xd16 <__floatsisf+0x6c>
+ cea:	88 23       	and	r24, r24
+ cec:	11 f0       	breq	.+4      	; 0xcf2 <__floatsisf+0x48>
+ cee:	96 e9       	ldi	r25, 0x96	; 150
+ cf0:	11 c0       	rjmp	.+34     	; 0xd14 <__floatsisf+0x6a>
+ cf2:	77 23       	and	r23, r23
+ cf4:	21 f0       	breq	.+8      	; 0xcfe <__floatsisf+0x54>
+ cf6:	9e e8       	ldi	r25, 0x8E	; 142
+ cf8:	87 2f       	mov	r24, r23
+ cfa:	76 2f       	mov	r23, r22
+ cfc:	05 c0       	rjmp	.+10     	; 0xd08 <__floatsisf+0x5e>
+ cfe:	66 23       	and	r22, r22
+ d00:	71 f0       	breq	.+28     	; 0xd1e <__floatsisf+0x74>
+ d02:	96 e8       	ldi	r25, 0x86	; 134
+ d04:	86 2f       	mov	r24, r22
+ d06:	70 e0       	ldi	r23, 0x00	; 0
+ d08:	60 e0       	ldi	r22, 0x00	; 0
+ d0a:	2a f0       	brmi	.+10     	; 0xd16 <__floatsisf+0x6c>
+ d0c:	9a 95       	dec	r25
+ d0e:	66 0f       	add	r22, r22
+ d10:	77 1f       	adc	r23, r23
+ d12:	88 1f       	adc	r24, r24
+ d14:	da f7       	brpl	.-10     	; 0xd0c <__floatsisf+0x62>
+ d16:	88 0f       	add	r24, r24
+ d18:	96 95       	lsr	r25
+ d1a:	87 95       	ror	r24
+ d1c:	97 f9       	bld	r25, 7
+ d1e:	08 95       	ret
+
+00000d20 <__fp_cmp>:
+ d20:	99 0f       	add	r25, r25
+ d22:	00 08       	sbc	r0, r0
+ d24:	55 0f       	add	r21, r21
+ d26:	aa 0b       	sbc	r26, r26
+ d28:	e0 e8       	ldi	r30, 0x80	; 128
+ d2a:	fe ef       	ldi	r31, 0xFE	; 254
+ d2c:	16 16       	cp	r1, r22
+ d2e:	17 06       	cpc	r1, r23
+ d30:	e8 07       	cpc	r30, r24
+ d32:	f9 07       	cpc	r31, r25
+ d34:	c0 f0       	brcs	.+48     	; 0xd66 <__fp_cmp+0x46>
+ d36:	12 16       	cp	r1, r18
+ d38:	13 06       	cpc	r1, r19
+ d3a:	e4 07       	cpc	r30, r20
+ d3c:	f5 07       	cpc	r31, r21
+ d3e:	98 f0       	brcs	.+38     	; 0xd66 <__fp_cmp+0x46>
+ d40:	62 1b       	sub	r22, r18
+ d42:	73 0b       	sbc	r23, r19
+ d44:	84 0b       	sbc	r24, r20
+ d46:	95 0b       	sbc	r25, r21
+ d48:	39 f4       	brne	.+14     	; 0xd58 <__fp_cmp+0x38>
+ d4a:	0a 26       	eor	r0, r26
+ d4c:	61 f0       	breq	.+24     	; 0xd66 <__fp_cmp+0x46>
+ d4e:	23 2b       	or	r18, r19
+ d50:	24 2b       	or	r18, r20
+ d52:	25 2b       	or	r18, r21
+ d54:	21 f4       	brne	.+8      	; 0xd5e <__fp_cmp+0x3e>
+ d56:	08 95       	ret
+ d58:	0a 26       	eor	r0, r26
+ d5a:	09 f4       	brne	.+2      	; 0xd5e <__fp_cmp+0x3e>
+ d5c:	a1 40       	sbci	r26, 0x01	; 1
+ d5e:	a6 95       	lsr	r26
+ d60:	8f ef       	ldi	r24, 0xFF	; 255
+ d62:	81 1d       	adc	r24, r1
+ d64:	81 1d       	adc	r24, r1
+ d66:	08 95       	ret
+
+00000d68 <__fp_inf>:
+ d68:	97 f9       	bld	r25, 7
+ d6a:	9f 67       	ori	r25, 0x7F	; 127
+ d6c:	80 e8       	ldi	r24, 0x80	; 128
+ d6e:	70 e0       	ldi	r23, 0x00	; 0
+ d70:	60 e0       	ldi	r22, 0x00	; 0
+ d72:	08 95       	ret
+
+00000d74 <__fp_nan>:
+ d74:	9f ef       	ldi	r25, 0xFF	; 255
+ d76:	80 ec       	ldi	r24, 0xC0	; 192
+ d78:	08 95       	ret
+
+00000d7a <__fp_pscA>:
+ d7a:	00 24       	eor	r0, r0
+ d7c:	0a 94       	dec	r0
+ d7e:	16 16       	cp	r1, r22
+ d80:	17 06       	cpc	r1, r23
+ d82:	18 06       	cpc	r1, r24
+ d84:	09 06       	cpc	r0, r25
+ d86:	08 95       	ret
+
+00000d88 <__fp_pscB>:
+ d88:	00 24       	eor	r0, r0
+ d8a:	0a 94       	dec	r0
+ d8c:	12 16       	cp	r1, r18
+ d8e:	13 06       	cpc	r1, r19
+ d90:	14 06       	cpc	r1, r20
+ d92:	05 06       	cpc	r0, r21
+ d94:	08 95       	ret
+
+00000d96 <__fp_round>:
+ d96:	09 2e       	mov	r0, r25
+ d98:	03 94       	inc	r0
+ d9a:	00 0c       	add	r0, r0
+ d9c:	11 f4       	brne	.+4      	; 0xda2 <__fp_round+0xc>
+ d9e:	88 23       	and	r24, r24
+ da0:	52 f0       	brmi	.+20     	; 0xdb6 <__fp_round+0x20>
+ da2:	bb 0f       	add	r27, r27
+ da4:	40 f4       	brcc	.+16     	; 0xdb6 <__fp_round+0x20>
+ da6:	bf 2b       	or	r27, r31
+ da8:	11 f4       	brne	.+4      	; 0xdae <__fp_round+0x18>
+ daa:	60 ff       	sbrs	r22, 0
+ dac:	04 c0       	rjmp	.+8      	; 0xdb6 <__fp_round+0x20>
+ dae:	6f 5f       	subi	r22, 0xFF	; 255
+ db0:	7f 4f       	sbci	r23, 0xFF	; 255
+ db2:	8f 4f       	sbci	r24, 0xFF	; 255
+ db4:	9f 4f       	sbci	r25, 0xFF	; 255
+ db6:	08 95       	ret
+
+00000db8 <__fp_split3>:
+ db8:	57 fd       	sbrc	r21, 7
+ dba:	90 58       	subi	r25, 0x80	; 128
+ dbc:	44 0f       	add	r20, r20
+ dbe:	55 1f       	adc	r21, r21
+ dc0:	59 f0       	breq	.+22     	; 0xdd8 <__fp_splitA+0x10>
+ dc2:	5f 3f       	cpi	r21, 0xFF	; 255
+ dc4:	71 f0       	breq	.+28     	; 0xde2 <__fp_splitA+0x1a>
+ dc6:	47 95       	ror	r20
+
+00000dc8 <__fp_splitA>:
+ dc8:	88 0f       	add	r24, r24
+ dca:	97 fb       	bst	r25, 7
+ dcc:	99 1f       	adc	r25, r25
+ dce:	61 f0       	breq	.+24     	; 0xde8 <__fp_splitA+0x20>
+ dd0:	9f 3f       	cpi	r25, 0xFF	; 255
+ dd2:	79 f0       	breq	.+30     	; 0xdf2 <__fp_splitA+0x2a>
+ dd4:	87 95       	ror	r24
+ dd6:	08 95       	ret
+ dd8:	12 16       	cp	r1, r18
+ dda:	13 06       	cpc	r1, r19
+ ddc:	14 06       	cpc	r1, r20
+ dde:	55 1f       	adc	r21, r21
+ de0:	f2 cf       	rjmp	.-28     	; 0xdc6 <__fp_split3+0xe>
+ de2:	46 95       	lsr	r20
+ de4:	f1 df       	rcall	.-30     	; 0xdc8 <__fp_splitA>
+ de6:	08 c0       	rjmp	.+16     	; 0xdf8 <__fp_splitA+0x30>
+ de8:	16 16       	cp	r1, r22
+ dea:	17 06       	cpc	r1, r23
+ dec:	18 06       	cpc	r1, r24
+ dee:	99 1f       	adc	r25, r25
+ df0:	f1 cf       	rjmp	.-30     	; 0xdd4 <__fp_splitA+0xc>
+ df2:	86 95       	lsr	r24
+ df4:	71 05       	cpc	r23, r1
+ df6:	61 05       	cpc	r22, r1
+ df8:	08 94       	sec
+ dfa:	08 95       	ret
+
+00000dfc <__fp_zero>:
+ dfc:	e8 94       	clt
+
+00000dfe <__fp_szero>:
+ dfe:	bb 27       	eor	r27, r27
+ e00:	66 27       	eor	r22, r22
+ e02:	77 27       	eor	r23, r23
+ e04:	cb 01       	movw	r24, r22
+ e06:	97 f9       	bld	r25, 7
+ e08:	08 95       	ret
+
+00000e0a <__gesf2>:
+ e0a:	8a df       	rcall	.-236    	; 0xd20 <__fp_cmp>
+ e0c:	08 f4       	brcc	.+2      	; 0xe10 <__gesf2+0x6>
+ e0e:	8f ef       	ldi	r24, 0xFF	; 255
+ e10:	08 95       	ret
+
+00000e12 <__mulsf3>:
+ e12:	0b d0       	rcall	.+22     	; 0xe2a <__mulsf3x>
+ e14:	c0 cf       	rjmp	.-128    	; 0xd96 <__fp_round>
+ e16:	b1 df       	rcall	.-158    	; 0xd7a <__fp_pscA>
+ e18:	28 f0       	brcs	.+10     	; 0xe24 <__mulsf3+0x12>
+ e1a:	b6 df       	rcall	.-148    	; 0xd88 <__fp_pscB>
+ e1c:	18 f0       	brcs	.+6      	; 0xe24 <__mulsf3+0x12>
+ e1e:	95 23       	and	r25, r21
+ e20:	09 f0       	breq	.+2      	; 0xe24 <__mulsf3+0x12>
+ e22:	a2 cf       	rjmp	.-188    	; 0xd68 <__fp_inf>
+ e24:	a7 cf       	rjmp	.-178    	; 0xd74 <__fp_nan>
+ e26:	11 24       	eor	r1, r1
+ e28:	ea cf       	rjmp	.-44     	; 0xdfe <__fp_szero>
+
+00000e2a <__mulsf3x>:
+ e2a:	c6 df       	rcall	.-116    	; 0xdb8 <__fp_split3>
+ e2c:	a0 f3       	brcs	.-24     	; 0xe16 <__mulsf3+0x4>
+
+00000e2e <__mulsf3_pse>:
+ e2e:	95 9f       	mul	r25, r21
+ e30:	d1 f3       	breq	.-12     	; 0xe26 <__mulsf3+0x14>
+ e32:	95 0f       	add	r25, r21
+ e34:	50 e0       	ldi	r21, 0x00	; 0
+ e36:	55 1f       	adc	r21, r21
+ e38:	62 9f       	mul	r22, r18
+ e3a:	f0 01       	movw	r30, r0
+ e3c:	72 9f       	mul	r23, r18
+ e3e:	bb 27       	eor	r27, r27
+ e40:	f0 0d       	add	r31, r0
+ e42:	b1 1d       	adc	r27, r1
+ e44:	63 9f       	mul	r22, r19
+ e46:	aa 27       	eor	r26, r26
+ e48:	f0 0d       	add	r31, r0
+ e4a:	b1 1d       	adc	r27, r1
+ e4c:	aa 1f       	adc	r26, r26
+ e4e:	64 9f       	mul	r22, r20
+ e50:	66 27       	eor	r22, r22
+ e52:	b0 0d       	add	r27, r0
+ e54:	a1 1d       	adc	r26, r1
+ e56:	66 1f       	adc	r22, r22
+ e58:	82 9f       	mul	r24, r18
+ e5a:	22 27       	eor	r18, r18
+ e5c:	b0 0d       	add	r27, r0
+ e5e:	a1 1d       	adc	r26, r1
+ e60:	62 1f       	adc	r22, r18
+ e62:	73 9f       	mul	r23, r19
+ e64:	b0 0d       	add	r27, r0
+ e66:	a1 1d       	adc	r26, r1
+ e68:	62 1f       	adc	r22, r18
+ e6a:	83 9f       	mul	r24, r19
+ e6c:	a0 0d       	add	r26, r0
+ e6e:	61 1d       	adc	r22, r1
+ e70:	22 1f       	adc	r18, r18
+ e72:	74 9f       	mul	r23, r20
+ e74:	33 27       	eor	r19, r19
+ e76:	a0 0d       	add	r26, r0
+ e78:	61 1d       	adc	r22, r1
+ e7a:	23 1f       	adc	r18, r19
+ e7c:	84 9f       	mul	r24, r20
+ e7e:	60 0d       	add	r22, r0
+ e80:	21 1d       	adc	r18, r1
+ e82:	82 2f       	mov	r24, r18
+ e84:	76 2f       	mov	r23, r22
+ e86:	6a 2f       	mov	r22, r26
+ e88:	11 24       	eor	r1, r1
+ e8a:	9f 57       	subi	r25, 0x7F	; 127
+ e8c:	50 40       	sbci	r21, 0x00	; 0
+ e8e:	8a f0       	brmi	.+34     	; 0xeb2 <__mulsf3_pse+0x84>
+ e90:	e1 f0       	breq	.+56     	; 0xeca <__mulsf3_pse+0x9c>
+ e92:	88 23       	and	r24, r24
+ e94:	4a f0       	brmi	.+18     	; 0xea8 <__mulsf3_pse+0x7a>
+ e96:	ee 0f       	add	r30, r30
+ e98:	ff 1f       	adc	r31, r31
+ e9a:	bb 1f       	adc	r27, r27
+ e9c:	66 1f       	adc	r22, r22
+ e9e:	77 1f       	adc	r23, r23
+ ea0:	88 1f       	adc	r24, r24
+ ea2:	91 50       	subi	r25, 0x01	; 1
+ ea4:	50 40       	sbci	r21, 0x00	; 0
+ ea6:	a9 f7       	brne	.-22     	; 0xe92 <__mulsf3_pse+0x64>
+ ea8:	9e 3f       	cpi	r25, 0xFE	; 254
+ eaa:	51 05       	cpc	r21, r1
+ eac:	70 f0       	brcs	.+28     	; 0xeca <__mulsf3_pse+0x9c>
+ eae:	5c cf       	rjmp	.-328    	; 0xd68 <__fp_inf>
+ eb0:	a6 cf       	rjmp	.-180    	; 0xdfe <__fp_szero>
+ eb2:	5f 3f       	cpi	r21, 0xFF	; 255
+ eb4:	ec f3       	brlt	.-6      	; 0xeb0 <__mulsf3_pse+0x82>
+ eb6:	98 3e       	cpi	r25, 0xE8	; 232
+ eb8:	dc f3       	brlt	.-10     	; 0xeb0 <__mulsf3_pse+0x82>
+ eba:	86 95       	lsr	r24
+ ebc:	77 95       	ror	r23
+ ebe:	67 95       	ror	r22
+ ec0:	b7 95       	ror	r27
+ ec2:	f7 95       	ror	r31
+ ec4:	e7 95       	ror	r30
+ ec6:	9f 5f       	subi	r25, 0xFF	; 255
+ ec8:	c1 f7       	brne	.-16     	; 0xeba <__mulsf3_pse+0x8c>
+ eca:	fe 2b       	or	r31, r30
+ ecc:	88 0f       	add	r24, r24
+ ece:	91 1d       	adc	r25, r1
+ ed0:	96 95       	lsr	r25
+ ed2:	87 95       	ror	r24
+ ed4:	97 f9       	bld	r25, 7
+ ed6:	08 95       	ret
+
+00000ed8 <__udivmodsi4>:
+ ed8:	a1 e2       	ldi	r26, 0x21	; 33
+ eda:	1a 2e       	mov	r1, r26
+ edc:	aa 1b       	sub	r26, r26
+ ede:	bb 1b       	sub	r27, r27
+ ee0:	fd 01       	movw	r30, r26
+ ee2:	0d c0       	rjmp	.+26     	; 0xefe <__udivmodsi4_ep>
+
+00000ee4 <__udivmodsi4_loop>:
+ ee4:	aa 1f       	adc	r26, r26
+ ee6:	bb 1f       	adc	r27, r27
+ ee8:	ee 1f       	adc	r30, r30
+ eea:	ff 1f       	adc	r31, r31
+ eec:	a2 17       	cp	r26, r18
+ eee:	b3 07       	cpc	r27, r19
+ ef0:	e4 07       	cpc	r30, r20
+ ef2:	f5 07       	cpc	r31, r21
+ ef4:	20 f0       	brcs	.+8      	; 0xefe <__udivmodsi4_ep>
+ ef6:	a2 1b       	sub	r26, r18
+ ef8:	b3 0b       	sbc	r27, r19
+ efa:	e4 0b       	sbc	r30, r20
+ efc:	f5 0b       	sbc	r31, r21
+
+00000efe <__udivmodsi4_ep>:
+ efe:	66 1f       	adc	r22, r22
+ f00:	77 1f       	adc	r23, r23
+ f02:	88 1f       	adc	r24, r24
+ f04:	99 1f       	adc	r25, r25
+ f06:	1a 94       	dec	r1
+ f08:	69 f7       	brne	.-38     	; 0xee4 <__udivmodsi4_loop>
+ f0a:	60 95       	com	r22
+ f0c:	70 95       	com	r23
+ f0e:	80 95       	com	r24
+ f10:	90 95       	com	r25
+ f12:	9b 01       	movw	r18, r22
+ f14:	ac 01       	movw	r20, r24
+ f16:	bd 01       	movw	r22, r26
+ f18:	cf 01       	movw	r24, r30
+ f1a:	08 95       	ret
+
+00000f1c <__divmodsi4>:
+ f1c:	05 2e       	mov	r0, r21
+ f1e:	97 fb       	bst	r25, 7
+ f20:	16 f4       	brtc	.+4      	; 0xf26 <__divmodsi4+0xa>
+ f22:	00 94       	com	r0
+ f24:	07 d0       	rcall	.+14     	; 0xf34 <__divmodsi4_neg1>
+ f26:	57 fd       	sbrc	r21, 7
+ f28:	0d d0       	rcall	.+26     	; 0xf44 <__divmodsi4_neg2>
+ f2a:	0e 94 6c 07 	call	0xed8	; 0xed8 <__udivmodsi4>
+ f2e:	07 fc       	sbrc	r0, 7
+ f30:	09 d0       	rcall	.+18     	; 0xf44 <__divmodsi4_neg2>
+ f32:	7e f4       	brtc	.+30     	; 0xf52 <__divmodsi4_exit>
+
+00000f34 <__divmodsi4_neg1>:
+ f34:	90 95       	com	r25
+ f36:	80 95       	com	r24
+ f38:	70 95       	com	r23
+ f3a:	61 95       	neg	r22
+ f3c:	7f 4f       	sbci	r23, 0xFF	; 255
+ f3e:	8f 4f       	sbci	r24, 0xFF	; 255
+ f40:	9f 4f       	sbci	r25, 0xFF	; 255
+ f42:	08 95       	ret
+
+00000f44 <__divmodsi4_neg2>:
+ f44:	50 95       	com	r21
+ f46:	40 95       	com	r20
+ f48:	30 95       	com	r19
+ f4a:	21 95       	neg	r18
+ f4c:	3f 4f       	sbci	r19, 0xFF	; 255
+ f4e:	4f 4f       	sbci	r20, 0xFF	; 255
+ f50:	5f 4f       	sbci	r21, 0xFF	; 255
+
+00000f52 <__divmodsi4_exit>:
+ f52:	08 95       	ret
+
+00000f54 <_exit>:
+ f54:	f8 94       	cli
+
+00000f56 <__stop_program>:
+ f56:	ff cf       	rjmp	.-2      	; 0xf56 <__stop_program>

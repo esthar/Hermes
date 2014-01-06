@@ -13,8 +13,8 @@
 
 #include "Hermes.h"
 
-extern volatile char TWI_Busy;				//This byte is set to 1 while the TWI is in the middle of transmitting/receiving, otherwise it's 0 (Check TWI.c for more information)
-extern volatile char TWI_Status;			//This byte is set to 1 every time a TWI operation is successful
+extern volatile uint8_t TWI_Busy;			//This byte is set to 1 while the TWI is in the middle of transmitting/receiving, otherwise it's 0 (Check TWI.c for more information)
+extern volatile uint8_t TWI_Status;			//This byte is set to 1 every time a TWI operation is successful
 extern volatile char TWI_RXBUFFER[164];
 extern volatile char TWI_TXBUFFER[30];
 volatile float time = 0;					//Time elapsed since initialization
@@ -26,10 +26,10 @@ ISR(TIMER1_COMPA_vect)
 
 int main(void)
 {
-	char buffer[12];
+	char buffer[16];
 	char Radio_RX = 0;
 	float fvar = 0;
-	char Hermes_State = 0;
+	uint8_t Hermes_State = 0;
 	_delay_ms(1000);
 	/*
 	Only the 3 LSB of Hermes_State are used
@@ -37,7 +37,6 @@ int main(void)
 	The 1st bit is set after the emergency cut-down system has been activated (relays were closed for some time)
 	The 2rd bit is set when conditions are met for the emergency cut-down to be executed
 	*/
-	
 	
 	timerInit();
 	ioInit();
@@ -55,14 +54,14 @@ int main(void)
 	
 	while(1)								//Main loop
 	{
-		if ((long)time%10==0)				//Blink RED LED every 10 seconds to show controller is functional
+		if ((uint32_t)time%10UL==0)				//Blink RED LED every 10 seconds to show controller is functional
 		{
 			PORTB |= 1<<PORTB1;
 			_delay_ms(100);
 			PORTB &= ~(1<<PORTB1);
 		}
 		
-		for (unsigned long i=0xFFFFFFFF; i!=0; i--) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+		for (uint32_t i=0xFFFFFFFFUL; i!=0; --i) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
 		{
 			if (TWI_Busy==0) break;
 			_delay_us(10);
@@ -72,34 +71,34 @@ int main(void)
 		
 		////////////////////////////////////// UPDATE TWI_TXBUFFER
 		
-		unsigned char str_pos = 0;
+		uint8_t str_pos = 0;
 		
 		floatToASCII(buffer,time);
-		for (unsigned char i=0; buffer[i]!=0; i++, str_pos++)
+		for (uint8_t i=0; buffer[i]!=0; ++i, ++str_pos)
 		{
 			TWI_TXBUFFER[str_pos] = buffer[i];
 		}
 		TWI_TXBUFFER[str_pos] = ',';
-		str_pos++;
+		++str_pos;
 	
 		fvar = battery_voltRead();
 		floatToASCII(buffer,fvar);
-		for (unsigned char i=0;buffer[i]!=0;i++,str_pos++)
+		for (uint8_t i=0; buffer[i]!=0; ++i, ++str_pos)
 		{
 			TWI_TXBUFFER[str_pos] = buffer[i];
 		}
 		TWI_TXBUFFER[str_pos] = ',';
-		str_pos++;
+		++str_pos;
 
 		TWI_TXBUFFER[str_pos] = Radio_RX;		
-		str_pos++;
+		++str_pos;
 		TWI_TXBUFFER[str_pos] = ',';
-		str_pos++;
+		++str_pos;
 		
 		TWI_TXBUFFER[str_pos] = Hermes_State + '0';
-		str_pos++;
+		++str_pos;
 		TWI_TXBUFFER[str_pos] = ',';
-		str_pos++;
+		++str_pos;
 		TWI_TXBUFFER[str_pos] = 0;
 		
 		/////////////////////////////////////
@@ -138,10 +137,10 @@ int main(void)
 		Hermes_State = TWIGetState(Hermes_State);	//Update the first bit of Hermes_State to reflect status of last TWI operation
 		
 		/////////////////////////////////// Transmit data to ground when time is a multiple of 3
-		if ((long)time%3 == 0)
+		if ((uint32_t)time%3UL == 0)
 		{
 			
-			for (unsigned int i=0xFFFF; i!=0; i--)	//If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+			for (uint16_t i=0xFFFFU; i!=0; --i)	//If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
 			{
 				if (TWI_Busy==0) break;
 				_delay_us(10);
@@ -304,29 +303,29 @@ char TWIGetState(char Hermes_State)
 	return Hermes_State;
 }
 
-void numberToASCII(char *str, unsigned long number)	//Prints the value of a variable number into a a string of ASCII characters (My own version of the printf function)
+void numberToASCII(char * str, int32_t number) //Prints the value of a variable number into a a string of ASCII characters (My own simplified version of the same feature in the printf function)
 {
-	unsigned long tens = 1000000000;
-	unsigned char digits[10];
-	unsigned char i = 0;
-	unsigned char j = 0;
+	uint32_t tens = 1000000000UL;
+	uint8_t digits[10];
+	uint8_t i = 0;
+	uint8_t j = 0;
 
-	if ((number>>31)!=0)
+	if (number < 0)
 	{
 		number *= -1;
 		str[j]='-';
-		j++;
+		++j;
 	}
 	
-	while (i<10)
+	while (i<10U)
 	{
 		digits[i] = number/tens;
 		number = number%tens;
-		tens /= 10;
-		i++;
+		tens /= 10U;
+		++i;
 	}
 
-	for (i=0;i<10;i++)
+	for (i=0; i<10U; ++i)
 	{
 		if (digits[i]!=0)
 		{
@@ -334,9 +333,9 @@ void numberToASCII(char *str, unsigned long number)	//Prints the value of a vari
 		}
 	}
 	
-	if (i!=10)
+	if (i!=10U)
 	{
-		for (;i<10;i++,j++)
+		for (; i<10U; ++i, ++j)
 		{
 			str[j] = digits[i] + '0';
 		}
@@ -344,7 +343,7 @@ void numberToASCII(char *str, unsigned long number)	//Prints the value of a vari
 	else
 	{
 		str[j]='0';
-		str++;
+		++str;
 	}
 	
 	str[j]=0;
@@ -356,32 +355,33 @@ Same as above but for float numbers
 Up to 3 decimal place
 Be careful with numbers larger than 100000
 */
-void floatToASCII(char *str, float number)
+
+void floatToASCII(char * str, float number) //This function can be greatly optimized for speed. Using an array for the tens variable would greatly improve it at the cost of some memory.
 {
-	float tens = 1000000000;
-	float rational = 0;
-	unsigned char digits[13];
-	unsigned char i = 0;
-	unsigned char j = 0;
+	float tens = 1000000000.0;
+	float rational = 0.0;
+	uint8_t digits[13];
+	uint8_t i = 0;
+	uint8_t j = 0;
 	
 	if (number < 0.0)
 	{
 		number *= -1.0;
 		str[j]='-';
-		j++;
+		++j;
 	}
 	
-	rational = number - (long)number;
+	rational = number - (int32_t)number;
 	
-	while (i<10)
+	while (i<10U)
 	{
 		digits[i] = number/tens;
-		number = (long)number%(long)tens;
-		tens /= 10;
-		i++;
+		number = (int32_t)number%(int32_t)tens;
+		tens /= 10.0;
+		++i;
 	}
 
-	for (i=0;i<10;i++)
+	for (i=0; i<10U; ++i)
 	{
 		if (digits[i]!=0)
 		{
@@ -389,9 +389,9 @@ void floatToASCII(char *str, float number)
 		}
 	}
 	
-	if (i!=10)
+	if (i!=10U)
 	{
-		for (;i<10;i++,j++)
+		for (; i<10U; ++i, ++j)
 		{
 			str[j] = digits[i] + '0';
 		}
@@ -399,26 +399,26 @@ void floatToASCII(char *str, float number)
 	else
 	{
 		str[j]='0';
-		str++;
+		++str;
 	}
 	//////////// Up to here the result was the same as the function above but below we also take care of digits to the right of the decimal point
 	
 	str[j] = '.';
-	str++;
+	++str;
 	
-	i=10;
+	i = 10U;
 	
-	while (i<13)
+	while (i<13U)
 	{
-		tens = 10;
+		tens = 10.0;
 		rational *= tens;
 		digits[i] = rational;
 		rational -= digits[i];
-		tens *= 10;
-		i++;
+		tens *= 10.0;
+		++i;
 	}
 
-	for (i=12;i>9;i--)
+	for (i=12U; i>9U; --i)
 	{
 		if (digits[i]!=0)
 		{
@@ -426,9 +426,9 @@ void floatToASCII(char *str, float number)
 		}
 	}
 	
-	if (i!=9)
+	if (i!=9U)
 	{
-		for (unsigned char k=10; k<(i+1); k++,j++)
+		for (uint8_t k=10U; k<(i+1); ++k,++j)
 		{
 			str[j] = digits[k] + '0';
 		}
@@ -436,7 +436,7 @@ void floatToASCII(char *str, float number)
 	else
 	{
 		str[j]='0';
-		str++;
+		++str;
 	}
 	
 	str[j]=0;

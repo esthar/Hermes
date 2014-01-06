@@ -13,10 +13,11 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <inttypes.h>
 
-void USARTInit(unsigned int ubrr);
+void USARTInit(const uint16_t ubrr);
 char USARTReadChar(void);
-void USARTWriteChar(char data);
-void USARTPrint(char *data);
+void USARTWriteChar(const char data);
+void USARTPrint(const char *data);
 
 #endif /* USART_H_ */

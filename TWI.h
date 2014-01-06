@@ -16,12 +16,9 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <util/twi.h>
+#include <inttypes.h>
 
 void TWIInit(void);
-void TWIStart(void);
-void TWIWrite(char data);
-char TWIRead(void);
-void TWIStop(void);
 
 // TWI Slave Transmitter staus codes
 #define TWI_STX_ADR_ACK            0xA8  // Own SLA+R has been received; ACK has been returned

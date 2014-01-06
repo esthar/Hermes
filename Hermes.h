@@ -17,6 +17,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <inttypes.h>
 #include "Radio.h"
 #include "USART.h"
 #include "TWI.h"
@@ -29,8 +30,8 @@ float battery_voltRead(void);
 char RadioAnswerCMD(char RadioRX, char Hermes_State);
 char RadioCheckRX(char Radio_RX);
 char TWIGetState(char Hermes_State);
-void numberToASCII(char *str, unsigned long number);
-void floatToASCII(char *str, float number); //Up to 3 decimal places and be careful with numbers larger than 100000
+void numberToASCII(char * str, int32_t number);
+void floatToASCII(char * str, float number); //Up to 3 decimal places. Careful with numbers larger than 100000
 
 /*Pin Definitions
 

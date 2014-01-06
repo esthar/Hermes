@@ -3,19 +3,19 @@
  *
  * Amherst College Electronics Club - Nov 2013
  *  Author: André Lucas Antunes de Sá
-	Part of the code was modified from Atmel's application notes for the TWI
+	Part of the code was modified from Atmel's application notes for the TWI Slave
  */ 
 
 #include "TWI.h"
 
-volatile char TWI_Busy;
-volatile char TWI_Status;
-volatile char TWI_RXBUFFER[164];
-volatile char TWI_TXBUFFER[30];
+volatile uint8_t TWI_Busy;
+volatile uint8_t TWI_Status;
+volatile char TWI_RXBUFFER[256];
+volatile char TWI_TXBUFFER[32];
 
 void TWIInit(void) //Function to initialize the TWI and be ready to acknowledge call
 {
-	TWAR = 0xFE;
+	TWAR = 0xFE;							//TWI Address
 	TWCR = (1<<TWEN);						//TWI Interface enable
 	TWCR |= (1<<TWIE)|(1<<TWINT);           //Enable TWI Interupt and clear the flag
 	TWCR |= (1<<TWEA);						//Prepare to ACK next time Slave is addressed                          
@@ -23,8 +23,8 @@ void TWIInit(void) //Function to initialize the TWI and be ready to acknowledge 
 }
 
 ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every time the master device call Hermes' address
-	static unsigned char TWI_RX_Ptr;
-	static unsigned char TWI_TX_Ptr = 0;
+	static uint8_t TWI_RX_Ptr;
+	static uint8_t TWI_TX_Ptr = 0;
 	
 	switch (TWSR)
 	{

@@ -52,9 +52,9 @@ c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu
 Allocating common symbols
 Common symbol       size              file
 
-TWI_TXBUFFER        0x1e              TWI.o
+TWI_TXBUFFER        0x20              TWI.o
 TWI_Busy            0x1               TWI.o
-TWI_RXBUFFER        0xa4              TWI.o
+TWI_RXBUFFER        0x100             TWI.o
 TWI_Status          0x1               TWI.o
 
 Discarded input sections
@@ -568,32 +568,32 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
                 0x00800254                _edata = .
                 0x00800254                PROVIDE (__data_end, .)
 
-.bss            0x00800254       0xca
+.bss            0x00800254      0x128
                 0x00800254                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.time      0x00800254        0x4 Hermes.o
                 0x00800254                time
- .bss.TWI_RX_Ptr.1502
+ .bss.TWI_RX_Ptr.1494
                 0x00800258        0x1 TWI.o
- .bss.TWI_TX_Ptr.1503
+ .bss.TWI_TX_Ptr.1495
                 0x00800259        0x1 TWI.o
  *(COMMON)
- COMMON         0x0080025a       0xc4 TWI.o
+ COMMON         0x0080025a      0x122 TWI.o
                 0x0080025a                TWI_TXBUFFER
-                0x00800278                TWI_Busy
-                0x00800279                TWI_RXBUFFER
-                0x0080031d                TWI_Status
-                0x0080031e                PROVIDE (__bss_end, .)
+                0x0080027a                TWI_Busy
+                0x0080027b                TWI_RXBUFFER
+                0x0080037b                TWI_Status
+                0x0080037c                PROVIDE (__bss_end, .)
                 0x00000f58                __data_load_start = LOADADDR (.data)
                 0x000010ac                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080031e        0x0
-                0x0080031e                PROVIDE (__noinit_start, .)
+.noinit         0x0080037c        0x0
+                0x0080037c                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0080031e                PROVIDE (__noinit_end, .)
-                0x0080031e                _end = .
-                0x0080031e                PROVIDE (__heap_start, .)
+                0x0080037c                PROVIDE (__noinit_end, .)
+                0x0080037c                _end = .
+                0x0080037c                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -706,27 +706,27 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x114a
+.debug_info     0x00000000     0x1192
  *(.debug_info)
- .debug_info    0x00000000      0xaaf Hermes.o
- .debug_info    0x00000aaf      0x340 Radio.o
- .debug_info    0x00000def      0x145 TWI.o
- .debug_info    0x00000f34      0x216 USART.o
+ .debug_info    0x00000000      0xacd Hermes.o
+ .debug_info    0x00000acd      0x355 Radio.o
+ .debug_info    0x00000e22      0x145 TWI.o
+ .debug_info    0x00000f67      0x22b USART.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000      0x5cf
+.debug_abbrev   0x00000000      0x5f1
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x322 Hermes.o
- .debug_abbrev  0x00000322       0xd6 Radio.o
- .debug_abbrev  0x000003f8       0xa4 TWI.o
- .debug_abbrev  0x0000049c      0x133 USART.o
+ .debug_abbrev  0x00000000      0x329 Hermes.o
+ .debug_abbrev  0x00000329       0xea Radio.o
+ .debug_abbrev  0x00000413       0xa4 TWI.o
+ .debug_abbrev  0x000004b7      0x13a USART.o
 
-.debug_line     0x00000000      0x788
+.debug_line     0x00000000      0x820
  *(.debug_line)
  .debug_line    0x00000000      0x425 Hermes.o
- .debug_line    0x00000425       0x8a Radio.o
- .debug_line    0x000004af      0x107 TWI.o
- .debug_line    0x000005b6      0x1d2 USART.o
+ .debug_line    0x00000425      0x122 Radio.o
+ .debug_line    0x00000547      0x107 TWI.o
+ .debug_line    0x0000064e      0x1d2 USART.o
 
 .debug_frame    0x00000000      0x314
  *(.debug_frame)
@@ -738,13 +738,13 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .debug_str      0x00000000      0x2e8
  *(.debug_str)
  .debug_str     0x00000000      0x268 Hermes.o
-                                0x2a1 (size before relaxing)
+                                0x2a9 (size before relaxing)
  .debug_str     0x00000268       0x41 Radio.o
-                                0x11a (size before relaxing)
+                                0x122 (size before relaxing)
  .debug_str     0x000002a9       0x2d TWI.o
                                 0x12e (size before relaxing)
  .debug_str     0x000002d6       0x12 USART.o
-                                0x15e (size before relaxing)
+                                0x167 (size before relaxing)
 
 .debug_loc      0x00000000     0x11de
  *(.debug_loc)

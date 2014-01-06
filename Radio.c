@@ -22,7 +22,7 @@ void RadioSetup(void)
 			
 }
 
-void RadioSendCmd(char *data)	// Sends an AT command with its parameters
+void RadioSendCmd(const char *data)	// Sends an AT command with its parameters
 {			
 	
 	USARTPrint("+++");
@@ -33,7 +33,7 @@ void RadioSendCmd(char *data)	// Sends an AT command with its parameters
 
 }
 
-void RadioSetPower(char p)		// Change power (0-4 where 4 corresponds to 1W)
+void RadioSetPower(const uint8_t p)		// Change power (0-4 where 4 corresponds to 1W)
 {		
 		
 	USARTPrint("+++");				// Enter command mode
@@ -46,7 +46,7 @@ void RadioSetPower(char p)		// Change power (0-4 where 4 corresponds to 1W)
 	USARTWriteChar(0x0d);		// Return
 }
 
-void RadioTransmit(char *data)	// Generic transmission command.
+void RadioTransmit(const char *data)	// Generic transmission command.
 { 
 	USARTPrint(data);				// Sends data via USART.
 }

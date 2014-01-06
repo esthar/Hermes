@@ -7,7 +7,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   1 .text         00000f58  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          000000ca  00800254  00800254  00001140  2**0
+  2 .bss          00000128  00800254  00800254  00001140  2**0
                   ALLOC
   3 .stab         00002448  00000000  00000000  00001140  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -17,19 +17,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   6 .debug_aranges 00000108  00000000  00000000  00003ee9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   0000114a  00000000  00000000  00003ff1  2**0
+  7 .debug_info   00001192  00000000  00000000  00003ff1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000005cf  00000000  00000000  0000513b  2**0
+  8 .debug_abbrev 000005f1  00000000  00000000  00005183  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00000788  00000000  00000000  0000570a  2**0
+  9 .debug_line   00000820  00000000  00000000  00005774  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  00000314  00000000  00000000  00005e94  2**2
+ 10 .debug_frame  00000314  00000000  00000000  00005f94  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    000002e8  00000000  00000000  000061a8  2**0
+ 11 .debug_str    000002e8  00000000  00000000  000062a8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    000011de  00000000  00000000  00006490  2**0
+ 12 .debug_loc    000011de  00000000  00000000  00006590  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000220  00000000  00000000  0000766e  2**0
+ 13 .debug_ranges 00000220  00000000  00000000  0000776e  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -39,7 +39,7 @@ Disassembly of section .text:
 
 }
 
-void RadioSetPower(char p)		// Change power (0-4 where 4 corresponds to 1W)
+void RadioSetPower(const uint8_t p)		// Change power (0-4 where 4 corresponds to 1W)
 {		
    0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
 		
@@ -109,7 +109,7 @@ void RadioSetPower(char p)		// Change power (0-4 where 4 corresponds to 1W)
   92:	1d 92       	st	X+, r1
 
 00000094 <.do_clear_bss_start>:
-  94:	ae 31       	cpi	r26, 0x1E	; 30
+  94:	ac 37       	cpi	r26, 0x7C	; 124
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
   9a:	0e 94 db 02 	call	0x5b6	; 0x5b6 <main>
@@ -120,25 +120,25 @@ void RadioSetPower(char p)		// Change power (0-4 where 4 corresponds to 1W)
 
 000000a6 <__vector_11>:
 	
-	while (i<10)
+	while (i<10U)
 	{
 		digits[i] = number/tens;
 		number = number%tens;
-		tens /= 10;
+		tens /= 10U;
   a6:	1f 92       	push	r1
 		number *= -1;
 		str[j]='-';
-		j++;
+		++j;
 	}
 	
-	while (i<10)
+	while (i<10U)
   a8:	0f 92       	push	r0
   aa:	0f b6       	in	r0, 0x3f	; 63
   ac:	0f 92       	push	r0
-		i++;
+		++i;
 	}
 
-	for (i=0;i<10;i++)
+	for (i=0; i<10U; ++i)
 	{
 		if (digits[i]!=0)
   ae:	11 24       	eor	r1, r1
@@ -147,11 +147,11 @@ void RadioSetPower(char p)		// Change power (0-4 where 4 corresponds to 1W)
   b4:	4f 93       	push	r20
   b6:	5f 93       	push	r21
 		number = number%tens;
-		tens /= 10;
-		i++;
+		tens /= 10U;
+		++i;
 	}
 
-	for (i=0;i<10;i++)
+	for (i=0; i<10U; ++i)
   b8:	6f 93       	push	r22
 	{
 		if (digits[i]!=0)
@@ -159,11 +159,11 @@ void RadioSetPower(char p)		// Change power (0-4 where 4 corresponds to 1W)
   bc:	8f 93       	push	r24
   be:	9f 93       	push	r25
 		number = number%tens;
-		tens /= 10;
-		i++;
+		tens /= 10U;
+		++i;
 	}
 
-	for (i=0;i<10;i++)
+	for (i=0; i<10U; ++i)
   c0:	af 93       	push	r26
   c2:	bf 93       	push	r27
   c4:	ef 93       	push	r30
@@ -173,16 +173,16 @@ void RadioSetPower(char p)		// Change power (0-4 where 4 corresponds to 1W)
 		}
 	}
 	
-	if (i!=10)
+	if (i!=10U)
   c8:	60 91 54 02 	lds	r22, 0x0254
 	{
-		for (;i<10;i++,j++)
+		for (; i<10U; ++i, ++j)
   cc:	70 91 55 02 	lds	r23, 0x0255
   d0:	80 91 56 02 	lds	r24, 0x0256
-		i++;
+		++i;
 	}
 
-	for (i=0;i<10;i++)
+	for (i=0; i<10U; ++i)
 	{
 		if (digits[i]!=0)
   d4:	90 91 57 02 	lds	r25, 0x0257
@@ -191,15 +191,15 @@ void RadioSetPower(char p)		// Change power (0-4 where 4 corresponds to 1W)
 	return Hermes_State;
 }
 
-void numberToASCII(char *str, unsigned long number)	//Prints the value of a variable number into a a string of ASCII characters (My own version of the printf function)
+void numberToASCII(char * str, int32_t number) //Prints the value of a variable number into a a string of ASCII characters (My own simplified version of the same feature in the printf function)
   d8:	2d ec       	ldi	r18, 0xCD	; 205
   da:	3c ec       	ldi	r19, 0xCC	; 204
   dc:	4c ec       	ldi	r20, 0xCC	; 204
   de:	5d e3       	ldi	r21, 0x3D	; 61
 	
-	if (i!=10)
+	if (i!=10U)
 	{
-		for (;i<10;i++,j++)
+		for (; i<10U; ++i, ++j)
 		{
 			str[j] = digits[i] + '0';
   e0:	0e 94 52 05 	call	0xaa4	; 0xaa4 <__addsf3>
@@ -213,9 +213,9 @@ void numberToASCII(char *str, unsigned long number)	//Prints the value of a vari
 		}
 	}
 	
-	if (i!=10)
+	if (i!=10U)
 	{
-		for (;i<10;i++,j++)
+		for (; i<10U; ++i, ++j)
   f8:	70 93 57 02 	sts	0x0257, r23
   fc:	ff 91       	pop	r31
 	}
@@ -223,7 +223,7 @@ void numberToASCII(char *str, unsigned long number)	//Prints the value of a vari
 	return Hermes_State;
 }
 
-void numberToASCII(char *str, unsigned long number)	//Prints the value of a variable number into a a string of ASCII characters (My own version of the printf function)
+void numberToASCII(char * str, int32_t number) //Prints the value of a variable number into a a string of ASCII characters (My own simplified version of the same feature in the printf function)
   fe:	ef 91       	pop	r30
  100:	bf 91       	pop	r27
  102:	af 91       	pop	r26
@@ -243,7 +243,7 @@ void numberToASCII(char *str, unsigned long number)	//Prints the value of a vari
  112:	2f 91       	pop	r18
  114:	0f 90       	pop	r0
  116:	0f be       	out	0x3f, r0	; 63
-		str++;
+		++str;
  118:	0f 90       	pop	r0
  11a:	1f 90       	pop	r1
  11c:	18 95       	reti
@@ -610,19 +610,19 @@ char TWIGetState(char Hermes_State)
  2d4:	cf 93       	push	r28
  2d6:	c8 2f       	mov	r28, r24
 	if (TWI_Busy == 0)
- 2d8:	80 91 78 02 	lds	r24, 0x0278
+ 2d8:	80 91 7a 02 	lds	r24, 0x027A
  2dc:	81 11       	cpse	r24, r1
  2de:	10 c0       	rjmp	.+32     	; 0x300 <TWIGetState+0x2c>
 	{
 		if (TWI_Status)		//Check if last TWI operation was successful
- 2e0:	80 91 1d 03 	lds	r24, 0x031D
+ 2e0:	80 91 7b 03 	lds	r24, 0x037B
  2e4:	88 23       	and	r24, r24
  2e6:	21 f0       	breq	.+8      	; 0x2f0 <TWIGetState+0x1c>
 		{
 			Hermes_State |= 1<<0;
  2e8:	c1 60       	ori	r28, 0x01	; 1
 			TWI_Status = 0;
- 2ea:	10 92 1d 03 	sts	0x031D, r1
+ 2ea:	10 92 7b 03 	sts	0x037B, r1
  2ee:	08 c0       	rjmp	.+16     	; 0x300 <TWIGetState+0x2c>
 		}
 		else
@@ -630,7 +630,7 @@ char TWIGetState(char Hermes_State)
 			Hermes_State &= ~(1<<0);
  2f0:	ce 7f       	andi	r28, 0xFE	; 254
 			TWI_Status = 0;
- 2f2:	10 92 1d 03 	sts	0x031D, r1
+ 2f2:	10 92 7b 03 	sts	0x037B, r1
 			TWCR =   (1<<TWSTO)|(1<<TWINT);   //Recover from error by releasing SDA and SCL pins and thus enabling other devices to use the bus
  2f6:	80 e9       	ldi	r24, 0x90	; 144
  2f8:	80 93 bc 00 	sts	0x00BC, r24
@@ -646,11 +646,11 @@ char TWIGetState(char Hermes_State)
  304:	08 95       	ret
 
 00000306 <floatToASCII>:
-Same as above but for float numbers
 Up to 3 decimal place
 Be careful with numbers larger than 100000
 */
-void floatToASCII(char *str, float number)
+
+void floatToASCII(char * str, float number) //This function can be greatly optimized for speed. Using an array for the tens variable would greatly improve it at the cost of some memory.
 {
  306:	2f 92       	push	r2
  308:	3f 92       	push	r3
@@ -681,10 +681,10 @@ void floatToASCII(char *str, float number)
  33a:	5c 01       	movw	r10, r24
  33c:	6a 01       	movw	r12, r20
  33e:	7b 01       	movw	r14, r22
-	float rational = 0;
-	unsigned char digits[13];
-	unsigned char i = 0;
-	unsigned char j = 0;
+	float rational = 0.0;
+	uint8_t digits[13];
+	uint8_t i = 0;
+	uint8_t j = 0;
 	
 	if (number < 0.0)
  340:	20 e0       	ldi	r18, 0x00	; 0
@@ -705,23 +705,23 @@ void floatToASCII(char *str, float number)
  35a:	8d e2       	ldi	r24, 0x2D	; 45
  35c:	f5 01       	movw	r30, r10
  35e:	80 83       	st	Z, r24
-		j++;
+		++j;
  360:	33 24       	eor	r3, r3
  362:	33 94       	inc	r3
  364:	01 c0       	rjmp	.+2      	; 0x368 <floatToASCII+0x62>
 {
-	float tens = 1000000000;
-	float rational = 0;
-	unsigned char digits[13];
-	unsigned char i = 0;
-	unsigned char j = 0;
+	float tens = 1000000000.0;
+	float rational = 0.0;
+	uint8_t digits[13];
+	uint8_t i = 0;
+	uint8_t j = 0;
  366:	31 2c       	mov	r3, r1
 		number *= -1.0;
 		str[j]='-';
-		j++;
+		++j;
 	}
 	
-	rational = number - (long)number;
+	rational = number - (int32_t)number;
  368:	c7 01       	movw	r24, r14
  36a:	b6 01       	movw	r22, r12
  36c:	0e 94 22 06 	call	0xc44	; 0xc44 <__fixsfsi>
@@ -738,18 +738,18 @@ void floatToASCII(char *str, float number)
  388:	8e 01       	movw	r16, r28
  38a:	0f 5f       	subi	r16, 0xFF	; 255
  38c:	1f 4f       	sbci	r17, 0xFF	; 255
-/*
 Same as above but for float numbers
 Up to 3 decimal place
 Be careful with numbers larger than 100000
 */
-void floatToASCII(char *str, float number)
+
+void floatToASCII(char * str, float number) //This function can be greatly optimized for speed. Using an array for the tens variable would greatly improve it at the cost of some memory.
  38e:	4e 01       	movw	r8, r28
  390:	fb e0       	ldi	r31, 0x0B	; 11
  392:	8f 0e       	add	r8, r31
  394:	91 1c       	adc	r9, r1
 {
-	float tens = 1000000000;
+	float tens = 1000000000.0;
  396:	0f 2e       	mov	r0, r31
  398:	f8 e2       	ldi	r31, 0x28	; 40
  39a:	4f 2e       	mov	r4, r31
@@ -767,9 +767,9 @@ void floatToASCII(char *str, float number)
  3b2:	7f 2e       	mov	r7, r31
  3b4:	f0 2d       	mov	r31, r0
 	
-	rational = number - (long)number;
+	rational = number - (int32_t)number;
 	
-	while (i<10)
+	while (i<10U)
 	{
 		digits[i] = number/tens;
  3b6:	24 2d       	mov	r18, r4
@@ -783,7 +783,7 @@ void floatToASCII(char *str, float number)
  3ca:	f8 01       	movw	r30, r16
  3cc:	61 93       	st	Z+, r22
  3ce:	8f 01       	movw	r16, r30
-		number = (long)number%(long)tens;
+		number = (int32_t)number%(int32_t)tens;
  3d0:	c7 01       	movw	r24, r14
  3d2:	b6 01       	movw	r22, r12
  3d4:	0e 94 22 06 	call	0xc44	; 0xc44 <__fixsfsi>
@@ -804,7 +804,7 @@ void floatToASCII(char *str, float number)
  3fa:	d7 2e       	mov	r13, r23
  3fc:	e8 2e       	mov	r14, r24
  3fe:	f9 2e       	mov	r15, r25
-		tens /= 10;
+		tens /= 10.0;
  400:	20 e0       	ldi	r18, 0x00	; 0
  402:	30 e0       	ldi	r19, 0x00	; 0
  404:	40 e2       	ldi	r20, 0x20	; 32
@@ -818,19 +818,19 @@ void floatToASCII(char *str, float number)
  416:	57 2e       	mov	r5, r23
  418:	68 2e       	mov	r6, r24
  41a:	79 2e       	mov	r7, r25
-		j++;
+		++j;
 	}
 	
-	rational = number - (long)number;
+	rational = number - (int32_t)number;
 	
-	while (i<10)
+	while (i<10U)
  41c:	08 15       	cp	r16, r8
  41e:	19 05       	cpc	r17, r9
  420:	51 f6       	brne	.-108    	; 0x3b6 <floatToASCII+0xb0>
-		i++;
+		++i;
 	}
 
-	for (i=0;i<10;i++)
+	for (i=0; i<10U; ++i)
 	{
 		if (digits[i]!=0)
  422:	89 81       	ldd	r24, Y+1	; 0x01
@@ -838,24 +838,24 @@ void floatToASCII(char *str, float number)
  426:	10 c0       	rjmp	.+32     	; 0x448 <floatToASCII+0x142>
  428:	fe 01       	movw	r30, r28
  42a:	32 96       	adiw	r30, 0x02	; 2
-		number = (long)number%(long)tens;
-		tens /= 10;
-		i++;
+		number = (int32_t)number%(int32_t)tens;
+		tens /= 10.0;
+		++i;
 	}
 
-	for (i=0;i<10;i++)
+	for (i=0; i<10U; ++i)
  42c:	91 e0       	ldi	r25, 0x01	; 1
 	{
 		if (digits[i]!=0)
  42e:	81 91       	ld	r24, Z+
  430:	81 11       	cpse	r24, r1
  432:	04 c0       	rjmp	.+8      	; 0x43c <floatToASCII+0x136>
-		number = (long)number%(long)tens;
-		tens /= 10;
-		i++;
+		number = (int32_t)number%(int32_t)tens;
+		tens /= 10.0;
+		++i;
 	}
 
-	for (i=0;i<10;i++)
+	for (i=0; i<10U; ++i)
  434:	9f 5f       	subi	r25, 0xFF	; 255
  436:	9a 30       	cpi	r25, 0x0A	; 10
  438:	d1 f7       	brne	.-12     	; 0x42e <floatToASCII+0x128>
@@ -865,37 +865,37 @@ void floatToASCII(char *str, float number)
 		}
 	}
 	
-	if (i!=10)
+	if (i!=10U)
  43c:	9a 30       	cpi	r25, 0x0A	; 10
  43e:	09 f1       	breq	.+66     	; 0x482 <floatToASCII+0x17c>
 	{
-		for (;i<10;i++,j++)
+		for (; i<10U; ++i, ++j)
  440:	9a 30       	cpi	r25, 0x0A	; 10
  442:	38 f5       	brcc	.+78     	; 0x492 <floatToASCII+0x18c>
  444:	89 2f       	mov	r24, r25
  446:	02 c0       	rjmp	.+4      	; 0x44c <floatToASCII+0x146>
-		i++;
+		++i;
 	}
 
-	for (i=0;i<10;i++)
+	for (i=0; i<10U; ++i)
 	{
 		if (digits[i]!=0)
  448:	90 e0       	ldi	r25, 0x00	; 0
  44a:	80 e0       	ldi	r24, 0x00	; 0
-/*
 Same as above but for float numbers
 Up to 3 decimal place
 Be careful with numbers larger than 100000
 */
-void floatToASCII(char *str, float number)
+
+void floatToASCII(char * str, float number) //This function can be greatly optimized for speed. Using an array for the tens variable would greatly improve it at the cost of some memory.
  44c:	33 2d       	mov	r19, r3
  44e:	39 1b       	sub	r19, r25
  450:	23 2f       	mov	r18, r19
  452:	28 0f       	add	r18, r24
 	
-	if (i!=10)
+	if (i!=10U)
 	{
-		for (;i<10;i++,j++)
+		for (; i<10U; ++i, ++j)
 		{
 			str[j] = digits[i] + '0';
  454:	f5 01       	movw	r30, r10
@@ -913,18 +913,18 @@ void floatToASCII(char *str, float number)
 		}
 	}
 	
-	if (i!=10)
+	if (i!=10U)
 	{
-		for (;i<10;i++,j++)
+		for (; i<10U; ++i, ++j)
  46c:	8f 5f       	subi	r24, 0xFF	; 255
  46e:	8a 30       	cpi	r24, 0x0A	; 10
  470:	79 f7       	brne	.-34     	; 0x450 <floatToASCII+0x14a>
-/*
 Same as above but for float numbers
 Up to 3 decimal place
 Be careful with numbers larger than 100000
 */
-void floatToASCII(char *str, float number)
+
+void floatToASCII(char * str, float number) //This function can be greatly optimized for speed. Using an array for the tens variable would greatly improve it at the cost of some memory.
  472:	83 2d       	mov	r24, r3
  474:	89 1b       	sub	r24, r25
  476:	0f 2e       	mov	r0, r31
@@ -944,7 +944,7 @@ void floatToASCII(char *str, float number)
  486:	f1 1d       	adc	r31, r1
  488:	80 e3       	ldi	r24, 0x30	; 48
  48a:	80 83       	st	Z, r24
-		str++;
+		++str;
  48c:	ff ef       	ldi	r31, 0xFF	; 255
  48e:	af 1a       	sub	r10, r31
  490:	bf 0a       	sbc	r11, r31
@@ -959,7 +959,7 @@ void floatToASCII(char *str, float number)
  49a:	f9 1d       	adc	r31, r9
  49c:	8e e2       	ldi	r24, 0x2E	; 46
  49e:	80 83       	st	Z, r24
-	str++;
+	++str;
  4a0:	85 01       	movw	r16, r10
  4a2:	0f 5f       	subi	r16, 0xFF	; 255
  4a4:	1f 4f       	sbci	r17, 0xFF	; 255
@@ -967,12 +967,12 @@ void floatToASCII(char *str, float number)
  4a8:	8b e0       	ldi	r24, 0x0B	; 11
  4aa:	e8 0e       	add	r14, r24
  4ac:	f1 1c       	adc	r15, r1
-/*
 Same as above but for float numbers
 Up to 3 decimal place
 Be careful with numbers larger than 100000
 */
-void floatToASCII(char *str, float number)
+
+void floatToASCII(char * str, float number) //This function can be greatly optimized for speed. Using an array for the tens variable would greatly improve it at the cost of some memory.
  4ae:	cc 24       	eor	r12, r12
  4b0:	c3 94       	inc	r12
  4b2:	d1 2c       	mov	r13, r1
@@ -981,11 +981,11 @@ void floatToASCII(char *str, float number)
  4b8:	ed e0       	ldi	r30, 0x0D	; 13
  4ba:	ce 0e       	add	r12, r30
  4bc:	d1 1c       	adc	r13, r1
-	i=10;
+	i = 10U;
 	
-	while (i<13)
+	while (i<13U)
 	{
-		tens = 10;
+		tens = 10.0;
 		rational *= tens;
  4be:	20 e0       	ldi	r18, 0x00	; 0
  4c0:	30 e0       	ldi	r19, 0x00	; 0
@@ -1025,18 +1025,18 @@ void floatToASCII(char *str, float number)
  508:	88 8b       	std	Y+16, r24	; 0x10
  50a:	29 2e       	mov	r2, r25
 	str[j] = '.';
-	str++;
+	++str;
 	
-	i=10;
+	i = 10U;
 	
-	while (i<13)
+	while (i<13U)
  50c:	ec 14       	cp	r14, r12
  50e:	fd 04       	cpc	r15, r13
  510:	b1 f6       	brne	.-84     	; 0x4be <floatToASCII+0x1b8>
-		i++;
+		++i;
 	}
 
-	for (i=12;i>9;i--)
+	for (i=12U; i>9U; --i)
 	{
 		if (digits[i]!=0)
  512:	8d 85       	ldd	r24, Y+13	; 0x0d
@@ -1051,11 +1051,11 @@ void floatToASCII(char *str, float number)
  524:	2a e0       	ldi	r18, 0x0A	; 10
  526:	27 c0       	rjmp	.+78     	; 0x576 <floatToASCII+0x270>
 		rational -= digits[i];
-		tens *= 10;
-		i++;
+		tens *= 10.0;
+		++i;
 	}
 
-	for (i=12;i>9;i--)
+	for (i=12U; i>9U; --i)
  528:	2b e0       	ldi	r18, 0x0B	; 11
  52a:	25 c0       	rjmp	.+74     	; 0x576 <floatToASCII+0x270>
 			str[j] = digits[k] + '0';
@@ -1069,7 +1069,7 @@ void floatToASCII(char *str, float number)
  530:	f9 1d       	adc	r31, r9
  532:	80 e3       	ldi	r24, 0x30	; 48
  534:	80 83       	st	Z, r24
-		str++;
+		++str;
  536:	85 01       	movw	r16, r10
  538:	0e 5f       	subi	r16, 0xFE	; 254
  53a:	1f 4f       	sbci	r17, 0xFF	; 255
@@ -1077,9 +1077,9 @@ void floatToASCII(char *str, float number)
 		}
 	}
 	
-	if (i!=9)
+	if (i!=9U)
 	{
-		for (unsigned char k=10; k<(i+1); k++,j++)
+		for (uint8_t k=10U; k<(i+1); ++k,++j)
  53e:	8a e0       	ldi	r24, 0x0A	; 10
  540:	90 e0       	ldi	r25, 0x00	; 0
  542:	4a e0       	ldi	r20, 0x0A	; 10
@@ -1100,9 +1100,9 @@ void floatToASCII(char *str, float number)
 		}
 	}
 	
-	if (i!=9)
+	if (i!=9U)
 	{
-		for (unsigned char k=10; k<(i+1); k++,j++)
+		for (uint8_t k=10U; k<(i+1); ++k,++j)
  55c:	4f 5f       	subi	r20, 0xFF	; 255
  55e:	33 94       	inc	r3
  560:	84 2f       	mov	r24, r20
@@ -1112,7 +1112,7 @@ void floatToASCII(char *str, float number)
  568:	6c f3       	brlt	.-38     	; 0x544 <floatToASCII+0x23e>
 	{
 		str[j]='0';
-		str++;
+		++str;
 	}
 	
 	str[j]=0;
@@ -1121,19 +1121,19 @@ void floatToASCII(char *str, float number)
  56e:	f1 1d       	adc	r31, r1
  570:	10 82       	st	Z, r1
  572:	08 c0       	rjmp	.+16     	; 0x584 <floatToASCII+0x27e>
-		i++;
+		++i;
 	}
 
-	for (i=12;i>9;i--)
+	for (i=12U; i>9U; --i)
 	{
 		if (digits[i]!=0)
  574:	2c e0       	ldi	r18, 0x0C	; 12
 		}
 	}
 	
-	if (i!=9)
+	if (i!=9U)
 	{
-		for (unsigned char k=10; k<(i+1); k++,j++)
+		for (uint8_t k=10U; k<(i+1); ++k,++j)
  576:	30 e0       	ldi	r19, 0x00	; 0
  578:	2f 5f       	subi	r18, 0xFF	; 255
  57a:	3f 4f       	sbci	r19, 0xFF	; 255
@@ -1141,7 +1141,7 @@ void floatToASCII(char *str, float number)
  57e:	31 05       	cpc	r19, r1
  580:	f4 f6       	brge	.-68     	; 0x53e <floatToASCII+0x238>
  582:	f3 cf       	rjmp	.-26     	; 0x56a <floatToASCII+0x264>
-		str++;
+		++str;
 	}
 	
 	str[j]=0;
@@ -1183,7 +1183,7 @@ int main(void)
  5b8:	df 93       	push	r29
  5ba:	cd b7       	in	r28, 0x3d	; 61
  5bc:	de b7       	in	r29, 0x3e	; 62
- 5be:	2c 97       	sbiw	r28, 0x0c	; 12
+ 5be:	60 97       	sbiw	r28, 0x10	; 16
  5c0:	0f b6       	in	r0, 0x3f	; 63
  5c2:	f8 94       	cli
  5c4:	de bf       	out	0x3e, r29	; 62
@@ -1198,10 +1198,10 @@ int main(void)
  5d6:	e1 f7       	brne	.-8      	; 0x5d0 <main+0x1a>
  5d8:	00 c0       	rjmp	.+0      	; 0x5da <main+0x24>
  5da:	00 00       	nop
+	The 0th bit is assigned the same value as TWI_Status in every iteration of the main loop
 	The 1st bit is set after the emergency cut-down system has been activated (relays were closed for some time)
 	The 2rd bit is set when conditions are met for the emergency cut-down to be executed
 	*/
-	
 	
 	timerInit();
  5dc:	0e 94 a8 00 	call	0x150	; 0x150 <timerInit>
@@ -1229,16 +1229,16 @@ int main(void)
  5fa:	28 98       	cbi	0x05, 0	; 5
 int main(void)
 {
-	char buffer[12];
+	char buffer[16];
 	char Radio_RX = 0;
 	float fvar = 0;
-	char Hermes_State = 0;
+	uint8_t Hermes_State = 0;
  5fc:	71 2c       	mov	r7, r1
 }
 
 int main(void)
 {
-	char buffer[12];
+	char buffer[16];
 	char Radio_RX = 0;
  5fe:	51 2c       	mov	r5, r1
 	
@@ -1246,7 +1246,7 @@ int main(void)
 	
 	while(1)								//Main loop
 	{
-		if ((long)time%10==0)				//Blink RED LED every 10 seconds to show controller is functional
+		if ((uint32_t)time%10UL==0)				//Blink RED LED every 10 seconds to show controller is functional
  600:	0f 2e       	mov	r0, r31
  602:	fa e0       	ldi	r31, 0x0A	; 10
  604:	8f 2e       	mov	r8, r31
@@ -1264,7 +1264,7 @@ int main(void)
  610:	44 24       	eor	r4, r4
  612:	42 f8       	bld	r4, 2
 		floatToASCII(buffer,time);
-		for (unsigned char i=0; buffer[i]!=0; i++, str_pos++)
+		for (uint8_t i=0; buffer[i]!=0; ++i, ++str_pos)
 		{
 			TWI_TXBUFFER[str_pos] = buffer[i];
 		}
@@ -1280,7 +1280,7 @@ int main(void)
 		
 		if ((TWI_RXBUFFER[0]=='1') && (time - CUT_OFF_TIMER > 0))	//Set emergency-cut down to be executed if Athena is giving the go (not in free fall or landing) and CUT_OFF_TIMER seconds has elapsed
  61c:	0f 2e       	mov	r0, r31
- 61e:	f9 e7       	ldi	r31, 0x79	; 121
+ 61e:	fb e7       	ldi	r31, 0x7B	; 123
  620:	2f 2e       	mov	r2, r31
  622:	f2 e0       	ldi	r31, 0x02	; 2
  624:	3f 2e       	mov	r3, r31
@@ -1290,7 +1290,7 @@ int main(void)
 		Hermes_State = TWIGetState(Hermes_State);	//Update the first bit of Hermes_State to reflect status of last TWI operation
 		
 		/////////////////////////////////// Transmit data to ground when time is a multiple of 3
-		if ((long)time%3 == 0)
+		if ((uint32_t)time%3UL == 0)
  628:	0f 2e       	mov	r0, r31
  62a:	f3 e0       	ldi	r31, 0x03	; 3
  62c:	cf 2e       	mov	r12, r31
@@ -1310,15 +1310,15 @@ int main(void)
 	
 	while(1)								//Main loop
 	{
-		if ((long)time%10==0)				//Blink RED LED every 10 seconds to show controller is functional
+		if ((uint32_t)time%10UL==0)				//Blink RED LED every 10 seconds to show controller is functional
  638:	60 91 54 02 	lds	r22, 0x0254
  63c:	70 91 55 02 	lds	r23, 0x0255
  640:	80 91 56 02 	lds	r24, 0x0256
  644:	90 91 57 02 	lds	r25, 0x0257
- 648:	0e 94 22 06 	call	0xc44	; 0xc44 <__fixsfsi>
+ 648:	0e 94 27 06 	call	0xc4e	; 0xc4e <__fixunssfsi>
  64c:	a5 01       	movw	r20, r10
  64e:	94 01       	movw	r18, r8
- 650:	0e 94 8e 07 	call	0xf1c	; 0xf1c <__divmodsi4>
+ 650:	0e 94 6c 07 	call	0xed8	; 0xed8 <__udivmodsi4>
  654:	67 2b       	or	r22, r23
  656:	68 2b       	or	r22, r24
  658:	69 2b       	or	r22, r25
@@ -1348,10 +1348,10 @@ int main(void)
  674:	19 c1       	rjmp	.+562    	; 0x8a8 <main+0x2f2>
 		}
 		
-		for (unsigned long i=0xFFFFFFFF; i!=0; i--) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+		for (uint32_t i=0xFFFFFFFFUL; i!=0; --i) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
 		{
 			if (TWI_Busy==0) break;
- 676:	20 91 78 02 	lds	r18, 0x0278
+ 676:	20 91 7a 02 	lds	r18, 0x027A
  67a:	22 23       	and	r18, r18
  67c:	41 f0       	breq	.+16     	; 0x68e <main+0xd8>
 	#else
@@ -1372,14 +1372,14 @@ int main(void)
 			PORTB &= ~(1<<PORTB1);
 		}
 		
-		for (unsigned long i=0xFFFFFFFF; i!=0; i--) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+		for (uint32_t i=0xFFFFFFFFUL; i!=0; --i) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
  68c:	a1 f7       	brne	.-24     	; 0x676 <main+0xc0>
 		{
 			if (TWI_Busy==0) break;
 			_delay_us(10);
 		}
 		TWI_Busy = 0;
- 68e:	10 92 78 02 	sts	0x0278, r1
+ 68e:	10 92 7a 02 	sts	0x027A, r1
 		TWCR = (1<<TWEN);					 //Disable TWI to make sure we don't update TWI_TXBUFFER while the TWI is enabled and could transmit
  692:	ec eb       	ldi	r30, 0xBC	; 188
  694:	f0 e0       	ldi	r31, 0x00	; 0
@@ -1387,7 +1387,7 @@ int main(void)
 		
 		////////////////////////////////////// UPDATE TWI_TXBUFFER
 		
-		unsigned char str_pos = 0;
+		uint8_t str_pos = 0;
 		
 		floatToASCII(buffer,time);
  698:	40 91 54 02 	lds	r20, 0x0254
@@ -1397,7 +1397,7 @@ int main(void)
  6a8:	ce 01       	movw	r24, r28
  6aa:	01 96       	adiw	r24, 0x01	; 1
  6ac:	0e 94 83 01 	call	0x306	; 0x306 <floatToASCII>
-		for (unsigned char i=0; buffer[i]!=0; i++, str_pos++)
+		for (uint8_t i=0; buffer[i]!=0; ++i, ++str_pos)
  6b0:	89 81       	ldd	r24, Y+1	; 0x01
  6b2:	88 23       	and	r24, r24
  6b4:	89 f0       	breq	.+34     	; 0x6d8 <main+0x122>
@@ -1411,10 +1411,10 @@ int main(void)
  6c0:	80 83       	st	Z, r24
 		////////////////////////////////////// UPDATE TWI_TXBUFFER
 		
-		unsigned char str_pos = 0;
+		uint8_t str_pos = 0;
 		
 		floatToASCII(buffer,time);
-		for (unsigned char i=0; buffer[i]!=0; i++, str_pos++)
+		for (uint8_t i=0; buffer[i]!=0; ++i, ++str_pos)
  6c2:	73 94       	inc	r7
  6c4:	e1 e0       	ldi	r30, 0x01	; 1
  6c6:	f0 e0       	ldi	r31, 0x00	; 0
@@ -1431,10 +1431,10 @@ int main(void)
 		
 		////////////////////////////////////// UPDATE TWI_TXBUFFER
 		
-		unsigned char str_pos = 0;
+		uint8_t str_pos = 0;
  6d8:	71 2c       	mov	r7, r1
 		floatToASCII(buffer,time);
-		for (unsigned char i=0; buffer[i]!=0; i++, str_pos++)
+		for (uint8_t i=0; buffer[i]!=0; ++i, ++str_pos)
 		{
 			TWI_TXBUFFER[str_pos] = buffer[i];
 		}
@@ -1444,7 +1444,7 @@ int main(void)
  6de:	e6 5a       	subi	r30, 0xA6	; 166
  6e0:	fd 4f       	sbci	r31, 0xFD	; 253
  6e2:	60 82       	st	Z, r6
-		str_pos++;
+		++str_pos;
  6e4:	07 2d       	mov	r16, r7
  6e6:	0f 5f       	subi	r16, 0xFF	; 255
 	
@@ -1456,7 +1456,7 @@ int main(void)
  6f0:	ce 01       	movw	r24, r28
  6f2:	01 96       	adiw	r24, 0x01	; 1
  6f4:	0e 94 83 01 	call	0x306	; 0x306 <floatToASCII>
-		for (unsigned char i=0;buffer[i]!=0;i++,str_pos++)
+		for (uint8_t i=0; buffer[i]!=0; ++i, ++str_pos)
  6f8:	89 81       	ldd	r24, Y+1	; 0x01
  6fa:	88 23       	and	r24, r24
  6fc:	89 f0       	breq	.+34     	; 0x720 <main+0x16a>
@@ -1468,11 +1468,11 @@ int main(void)
  704:	fd 4f       	sbci	r31, 0xFD	; 253
  706:	80 83       	st	Z, r24
 		TWI_TXBUFFER[str_pos] = ',';
-		str_pos++;
+		++str_pos;
 	
 		fvar = battery_voltRead();
 		floatToASCII(buffer,fvar);
-		for (unsigned char i=0;buffer[i]!=0;i++,str_pos++)
+		for (uint8_t i=0; buffer[i]!=0; ++i, ++str_pos)
  708:	80 2f       	mov	r24, r16
  70a:	87 19       	sub	r24, r7
  70c:	0f 5f       	subi	r16, 0xFF	; 255
@@ -1494,7 +1494,7 @@ int main(void)
  724:	e6 5a       	subi	r30, 0xA6	; 166
  726:	fd 4f       	sbci	r31, 0xFD	; 253
  728:	60 82       	st	Z, r6
-		str_pos++;
+		++str_pos;
  72a:	e0 2f       	mov	r30, r16
  72c:	ef 5f       	subi	r30, 0xFF	; 255
 
@@ -1503,7 +1503,7 @@ int main(void)
  730:	e6 5a       	subi	r30, 0xA6	; 166
  732:	fd 4f       	sbci	r31, 0xFD	; 253
  734:	50 82       	st	Z, r5
-		str_pos++;
+		++str_pos;
  736:	e0 2f       	mov	r30, r16
  738:	ee 5f       	subi	r30, 0xFE	; 254
 		TWI_TXBUFFER[str_pos] = ',';
@@ -1511,7 +1511,7 @@ int main(void)
  73c:	e6 5a       	subi	r30, 0xA6	; 166
  73e:	fd 4f       	sbci	r31, 0xFD	; 253
  740:	60 82       	st	Z, r6
-		str_pos++;
+		++str_pos;
  742:	e0 2f       	mov	r30, r16
  744:	ed 5f       	subi	r30, 0xFD	; 253
 		
@@ -1522,7 +1522,7 @@ int main(void)
  74c:	e6 5a       	subi	r30, 0xA6	; 166
  74e:	fd 4f       	sbci	r31, 0xFD	; 253
  750:	80 83       	st	Z, r24
-		str_pos++;
+		++str_pos;
  752:	e0 2f       	mov	r30, r16
  754:	ec 5f       	subi	r30, 0xFC	; 252
 		TWI_TXBUFFER[str_pos] = ',';
@@ -1530,7 +1530,7 @@ int main(void)
  758:	e6 5a       	subi	r30, 0xA6	; 166
  75a:	fd 4f       	sbci	r31, 0xFD	; 253
  75c:	60 82       	st	Z, r6
-		str_pos++;
+		++str_pos;
  75e:	0b 5f       	subi	r16, 0xFB	; 251
 		TWI_TXBUFFER[str_pos] = 0;
  760:	e0 2f       	mov	r30, r16
@@ -1653,29 +1653,29 @@ int main(void)
  7fe:	18 2f       	mov	r17, r24
 		
 		/////////////////////////////////// Transmit data to ground when time is a multiple of 3
-		if ((long)time%3 == 0)
+		if ((uint32_t)time%3UL == 0)
  800:	60 91 54 02 	lds	r22, 0x0254
  804:	70 91 55 02 	lds	r23, 0x0255
  808:	80 91 56 02 	lds	r24, 0x0256
  80c:	90 91 57 02 	lds	r25, 0x0257
- 810:	0e 94 22 06 	call	0xc44	; 0xc44 <__fixsfsi>
+ 810:	0e 94 27 06 	call	0xc4e	; 0xc4e <__fixunssfsi>
  814:	a7 01       	movw	r20, r14
  816:	96 01       	movw	r18, r12
- 818:	0e 94 8e 07 	call	0xf1c	; 0xf1c <__divmodsi4>
+ 818:	0e 94 6c 07 	call	0xed8	; 0xed8 <__udivmodsi4>
  81c:	67 2b       	or	r22, r23
  81e:	68 2b       	or	r22, r24
  820:	69 2b       	or	r22, r25
  822:	c1 f5       	brne	.+112    	; 0x894 <main+0x2de>
 		{
 			
-			for (unsigned int i=0xFFFF; i!=0; i--)	//If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+			for (uint16_t i=0xFFFFU; i!=0; --i)	//If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
 			{
 				if (TWI_Busy==0) break;
- 824:	80 91 78 02 	lds	r24, 0x0278
+ 824:	80 91 7a 02 	lds	r24, 0x027A
  828:	81 11       	cpse	r24, r1
  82a:	43 c0       	rjmp	.+134    	; 0x8b2 <main+0x2fc>
  82c:	0a c0       	rjmp	.+20     	; 0x842 <main+0x28c>
- 82e:	20 91 78 02 	lds	r18, 0x0278
+ 82e:	20 91 7a 02 	lds	r18, 0x027A
  832:	22 23       	and	r18, r18
  834:	31 f0       	breq	.+12     	; 0x842 <main+0x28c>
 	#else
@@ -1691,17 +1691,17 @@ int main(void)
  83e:	01 97       	sbiw	r24, 0x01	; 1
 		
 		/////////////////////////////////// Transmit data to ground when time is a multiple of 3
-		if ((long)time%3 == 0)
+		if ((uint32_t)time%3UL == 0)
 		{
 			
-			for (unsigned int i=0xFFFF; i!=0; i--)	//If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+			for (uint16_t i=0xFFFFU; i!=0; --i)	//If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
  840:	b1 f7       	brne	.-20     	; 0x82e <main+0x278>
 			{
 				if (TWI_Busy==0) break;
 				_delay_us(10);
 			}
 			TWI_Busy = 0;
- 842:	10 92 78 02 	sts	0x0278, r1
+ 842:	10 92 7a 02 	sts	0x027A, r1
 			TWCR = (1<<TWEN);						//Disable TWI to make sure we don't update TWI_TXBUFFER while the TWI is enabled and could transmit
  846:	24 e0       	ldi	r18, 0x04	; 4
  848:	ec eb       	ldi	r30, 0xBC	; 188
@@ -1763,10 +1763,10 @@ int main(void)
 			PORTB &= ~(1<<PORTB1);
 		}
 		
-		for (unsigned long i=0xFFFFFFFF; i!=0; i--) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
+		for (uint32_t i=0xFFFFFFFFUL; i!=0; --i) //If TWI is busy, wait until operation finishes in order to disable TWI soon or bail out after a while
 		{
 			if (TWI_Busy==0) break;
- 8a8:	80 91 78 02 	lds	r24, 0x0278
+ 8a8:	80 91 7a 02 	lds	r24, 0x027A
  8ac:	81 11       	cpse	r24, r1
  8ae:	08 c0       	rjmp	.+16     	; 0x8c0 <main+0x30a>
  8b0:	ee ce       	rjmp	.-548    	; 0x68e <main+0xd8>
@@ -1794,12 +1794,12 @@ int main(void)
  8d0:	d2 ce       	rjmp	.-604    	; 0x676 <main+0xc0>
 
 000008d2 <TWIInit>:
-volatile char TWI_RXBUFFER[164];
-volatile char TWI_TXBUFFER[30];
+volatile char TWI_RXBUFFER[256];
+volatile char TWI_TXBUFFER[32];
 
 void TWIInit(void) //Function to initialize the TWI and be ready to acknowledge call
 {
-	TWAR = 0xFE;
+	TWAR = 0xFE;							//TWI Address
  8d2:	8e ef       	ldi	r24, 0xFE	; 254
  8d4:	80 93 ba 00 	sts	0x00BA, r24
 	TWCR = (1<<TWEN);						//TWI Interface enable
@@ -1816,7 +1816,7 @@ void TWIInit(void) //Function to initialize the TWI and be ready to acknowledge 
  8e8:	80 64       	ori	r24, 0x40	; 64
  8ea:	80 83       	st	Z, r24
 	TWI_Busy = 0;
- 8ec:	10 92 78 02 	sts	0x0278, r1
+ 8ec:	10 92 7a 02 	sts	0x027A, r1
  8f0:	08 95       	ret
 
 000008f2 <__vector_24>:
@@ -1832,8 +1832,8 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
  8fe:	9f 93       	push	r25
  900:	ef 93       	push	r30
  902:	ff 93       	push	r31
-	static unsigned char TWI_RX_Ptr;
-	static unsigned char TWI_TX_Ptr = 0;
+	static uint8_t TWI_RX_Ptr;
+	static uint8_t TWI_TX_Ptr = 0;
 	
 	switch (TWSR)
  904:	80 91 b9 00 	lds	r24, 0x00B9
@@ -1892,7 +1892,7 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
  962:	80 93 bc 00 	sts	0x00BC, r24
 		TWI_Busy = 1;
  966:	81 e0       	ldi	r24, 0x01	; 1
- 968:	80 93 78 02 	sts	0x0278, r24
+ 968:	80 93 7a 02 	sts	0x027A, r24
 		
 		break;
  96c:	46 c0       	rjmp	.+140    	; 0x9fa <__stack+0xfb>
@@ -1901,13 +1901,13 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
 		
 		TWI_Status = 1;					 //Set status for a sucessful transmission
  96e:	81 e0       	ldi	r24, 0x01	; 1
- 970:	80 93 1d 03 	sts	0x031D, r24
+ 970:	80 93 7b 03 	sts	0x037B, r24
 		TWCR = (1<<TWEN)|(1<<TWIE)|(1<<TWINT)|(1<<TWEA); //Ready TWI to receive again
  974:	95 ec       	ldi	r25, 0xC5	; 197
  976:	90 93 bc 00 	sts	0x00BC, r25
 
 		TWI_Busy = 1;					//Keep busy until stop condition
- 97a:	80 93 78 02 	sts	0x0278, r24
+ 97a:	80 93 7a 02 	sts	0x027A, r24
 		break;
  97e:	3d c0       	rjmp	.+122    	; 0x9fa <__stack+0xfb>
 		
@@ -1921,7 +1921,7 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
 		
 		TWI_Busy = 1;
  98a:	81 e0       	ldi	r24, 0x01	; 1
- 98c:	80 93 78 02 	sts	0x0278, r24
+ 98c:	80 93 7a 02 	sts	0x027A, r24
 		break;
  990:	34 c0       	rjmp	.+104    	; 0x9fa <__stack+0xfb>
 		
@@ -1932,7 +1932,7 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
  996:	e8 2f       	mov	r30, r24
  998:	f0 e0       	ldi	r31, 0x00	; 0
  99a:	90 91 bb 00 	lds	r25, 0x00BB
- 99e:	e7 58       	subi	r30, 0x87	; 135
+ 99e:	e5 58       	subi	r30, 0x85	; 133
  9a0:	fd 4f       	sbci	r31, 0xFD	; 253
  9a2:	90 83       	st	Z, r25
 		
@@ -1951,7 +1951,7 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
  9b2:	e0 93 58 02 	sts	0x0258, r30
 		TWI_RXBUFFER[TWI_RX_Ptr] = 0;	//Make sure to end the string with a 0!
  9b6:	f0 e0       	ldi	r31, 0x00	; 0
- 9b8:	e7 58       	subi	r30, 0x87	; 135
+ 9b8:	e5 58       	subi	r30, 0x85	; 133
  9ba:	fd 4f       	sbci	r31, 0xFD	; 253
  9bc:	10 82       	st	Z, r1
 		
@@ -1961,9 +1961,9 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
 		
 		TWI_Busy = 1;
  9c4:	81 e0       	ldi	r24, 0x01	; 1
- 9c6:	80 93 78 02 	sts	0x0278, r24
+ 9c6:	80 93 7a 02 	sts	0x027A, r24
 		TWI_Status = 1;
- 9ca:	80 93 1d 03 	sts	0x031D, r24
+ 9ca:	80 93 7b 03 	sts	0x037B, r24
 		break;
  9ce:	15 c0       	rjmp	.+42     	; 0x9fa <__stack+0xfb>
 		
@@ -1974,7 +1974,7 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
  9d2:	80 93 bc 00 	sts	0x00BC, r24
 		
 		TWI_Busy = 0;  //We are waiting for a new address match, so we are not busy
- 9d6:	10 92 78 02 	sts	0x0278, r1
+ 9d6:	10 92 7a 02 	sts	0x027A, r1
 		break;
  9da:	0f c0       	rjmp	.+30     	; 0x9fa <__stack+0xfb>
 		
@@ -1982,9 +1982,9 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
 		case TWI_STX_DATA_ACK_LAST_BYTE: //Last data byte in TWDR has been transmitted (TWEA = “0”); ACK has been received
 		case TWI_BUS_ERROR:         //Bus error due to an illegal START or STOP condition
 		TWI_Status = 0;				//Error
- 9dc:	10 92 1d 03 	sts	0x031D, r1
+ 9dc:	10 92 7b 03 	sts	0x037B, r1
 		TWI_Busy = 0;
- 9e0:	10 92 78 02 	sts	0x0278, r1
+ 9e0:	10 92 7a 02 	sts	0x027A, r1
 		TWCR = (1<<TWSTO)|(1<<TWINT);   //Recover from TWI_BUS_ERROR, this will release the SDA and SCL pins thus enabling other devices to use the bus
  9e4:	80 e9       	ldi	r24, 0x90	; 144
  9e6:	80 93 bc 00 	sts	0x00BC, r24
@@ -1996,9 +1996,9 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
  9ec:	85 ec       	ldi	r24, 0xC5	; 197
  9ee:	80 93 bc 00 	sts	0x00BC, r24
 		TWI_Status = 0;								//Error
- 9f2:	10 92 1d 03 	sts	0x031D, r1
+ 9f2:	10 92 7b 03 	sts	0x037B, r1
 		TWI_Busy = 0; //Unknown status, so we wait for a new address match
- 9f6:	10 92 78 02 	sts	0x0278, r1
+ 9f6:	10 92 7a 02 	sts	0x027A, r1
 	}
  9fa:	ff 91       	pop	r31
  9fc:	ef 91       	pop	r30
@@ -2012,10 +2012,10 @@ ISR(TWI_vect){								//Interrupt handler for the TWI which is triggered every t
 
 00000a0c <USARTInit>:
 
-void USARTInit(unsigned int ubrr)
-{
+#include "USART.h"
 
-  
+void USARTInit(const uint16_t ubrr)
+{
 	UBRR0L = ubrr;		//Set Baud Rate
  a0c:	80 93 c4 00 	sts	0x00C4, r24
 	UBRR0H = (ubrr>>8);
@@ -2025,12 +2025,11 @@ void USARTInit(unsigned int ubrr)
 	>> char size 8
 	*/
    
-	UCSR0C= (1<<UCSZ00)|(1<<UCSZ01); //8-bit frame
+	UCSR0C = (1<<UCSZ00)|(1<<UCSZ01); //8-bit frame
  a14:	86 e0       	ldi	r24, 0x06	; 6
  a16:	80 93 c2 00 	sts	0x00C2, r24
 
-
-	UCSR0B=(1<<RXEN0)|(1<<TXEN0); //Enable TX and RX
+	UCSR0B = (1<<RXEN0)|(1<<TXEN0); //Enable TX and RX
  a1a:	88 e1       	ldi	r24, 0x18	; 24
  a1c:	80 93 c1 00 	sts	0x00C1, r24
  a20:	08 95       	ret
@@ -2039,7 +2038,7 @@ void USARTInit(unsigned int ubrr)
 {
    //Wait until data is available or bail out
 
- 	char i = 255;
+ 	uint8_t i = 255U;
 
  	while(!(UCSR0A & (1<<RXC0))){
  a22:	80 91 c0 00 	lds	r24, 0x00C0
@@ -2053,7 +2052,7 @@ void USARTInit(unsigned int ubrr)
 {
    //Wait until data is available or bail out
 
- 	char i = 255;
+ 	uint8_t i = 255U;
 
  	while(!(UCSR0A & (1<<RXC0))){
  a32:	8f ef       	ldi	r24, 0xFF	; 255
@@ -2069,7 +2068,7 @@ void USARTInit(unsigned int ubrr)
 	 	_delay_us(10);
  	}
 
-   //USART has got data from device and is available inside the buffer
+   //USART has gotten data from device and is available on the buffer
 
    return UDR0;
  a46:	80 91 c6 00 	lds	r24, 0x00C6
@@ -2080,7 +2079,7 @@ void USARTInit(unsigned int ubrr)
 {
    //Wait until the transmitter is ready or bail out
 
- 	char i = 255;
+ 	uint8_t i = 255U;
 
  	while(!(UCSR0A & (1<<UDRE0))){
  a4c:	90 91 c0 00 	lds	r25, 0x00C0
@@ -2094,7 +2093,7 @@ void USARTInit(unsigned int ubrr)
 {
    //Wait until the transmitter is ready or bail out
 
- 	char i = 255;
+ 	uint8_t i = 255U;
 
  	while(!(UCSR0A & (1<<UDRE0))){
  a5c:	9f ef       	ldi	r25, 0xFF	; 255
@@ -2112,62 +2111,62 @@ void USARTInit(unsigned int ubrr)
 
    //Write the data to USART buffer
 
-   UDR0=data;
+   UDR0 = data;
  a70:	80 93 c6 00 	sts	0x00C6, r24
  a74:	08 95       	ret
 
 00000a76 <USARTPrint>:
 }
 
-void USARTPrint(char *data)			//Sends a series of characters through the serial
+void USARTPrint(const char *data)			//Sends a series of characters through the serial until the string ends with a termination character, i.e. a 0
 {
  a76:	cf 93       	push	r28
  a78:	df 93       	push	r29
-	for (unsigned int i=0;data[i]!=0;i++)
+	for (uint16_t i=0; data[i]!=0; ++i)
  a7a:	fc 01       	movw	r30, r24
  a7c:	20 81       	ld	r18, Z
  a7e:	22 23       	and	r18, r18
  a80:	69 f0       	breq	.+26     	; 0xa9c <USARTPrint+0x26>
    //Write the data to USART buffer
 
-   UDR0=data;
+   UDR0 = data;
 }
 
-void USARTPrint(char *data)			//Sends a series of characters through the serial
+void USARTPrint(const char *data)			//Sends a series of characters through the serial until the string ends with a termination character, i.e. a 0
  a82:	dc 01       	movw	r26, r24
  a84:	11 96       	adiw	r26, 0x01	; 1
 {
-	for (unsigned int i=0;data[i]!=0;i++)
+	for (uint16_t i=0; data[i]!=0; ++i)
 	{
 		while(!(UCSR0A & (1<<UDRE0)));
  a86:	e0 ec       	ldi	r30, 0xC0	; 192
  a88:	f0 e0       	ldi	r31, 0x00	; 0
-		UDR0=data[i];
+		UDR0 = data[i];
  a8a:	c6 ec       	ldi	r28, 0xC6	; 198
  a8c:	d0 e0       	ldi	r29, 0x00	; 0
 
-void USARTPrint(char *data)			//Sends a series of characters through the serial
+void USARTPrint(const char *data)			//Sends a series of characters through the serial until the string ends with a termination character, i.e. a 0
 {
-	for (unsigned int i=0;data[i]!=0;i++)
+	for (uint16_t i=0; data[i]!=0; ++i)
 	{
 		while(!(UCSR0A & (1<<UDRE0)));
  a8e:	80 81       	ld	r24, Z
  a90:	85 ff       	sbrs	r24, 5
  a92:	fd cf       	rjmp	.-6      	; 0xa8e <USARTPrint+0x18>
-		UDR0=data[i];
+		UDR0 = data[i];
  a94:	28 83       	st	Y, r18
-   UDR0=data;
+   UDR0 = data;
 }
 
-void USARTPrint(char *data)			//Sends a series of characters through the serial
+void USARTPrint(const char *data)			//Sends a series of characters through the serial until the string ends with a termination character, i.e. a 0
 {
-	for (unsigned int i=0;data[i]!=0;i++)
+	for (uint16_t i=0; data[i]!=0; ++i)
  a96:	2d 91       	ld	r18, X+
  a98:	21 11       	cpse	r18, r1
  a9a:	f9 cf       	rjmp	.-14     	; 0xa8e <USARTPrint+0x18>
 	{
 		while(!(UCSR0A & (1<<UDRE0)));
-		UDR0=data[i];
+		UDR0 = data[i];
 	}
  a9c:	df 91       	pop	r29
  a9e:	cf 91       	pop	r28
